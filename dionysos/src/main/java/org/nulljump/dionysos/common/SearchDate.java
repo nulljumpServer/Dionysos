@@ -4,7 +4,6 @@ import java.sql.Date;
 
 import org.springframework.stereotype.Component;
 
-//@Component("searchDate")   //�ڵ� ��� : DI ��� ����
 public class SearchDate implements java.io.Serializable{
 
 	private static final long serialVersionUID = -793570371163009025L;
