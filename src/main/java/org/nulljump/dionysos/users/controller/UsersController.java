@@ -43,14 +43,14 @@ public class UsersController {
 		return "users/loginPage";
 	}
 
-	// È¸¿ø°¡ÀÔ ÆäÀÌÁö ³»º¸³»±â
-	@RequestMapping("enrollPage.do")
+	// È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	@RequestMapping(value = "enrollPage.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String moveEnrollPage() {
 		return "users/enrollPage";
 	}
 
-	// È¸¿øÁ¤º¸ ¼öÁ¤ÆäÀÌÁö ³»º¸³»±â
-	@RequestMapping("moveup.do")
+	// È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	@RequestMapping(value = "moveup.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String moveUpdatePage(@RequestParam("user_id") String user_id, Model model) {
 		Users users = usersService.selectUsers(user_id);
 
@@ -58,31 +58,36 @@ public class UsersController {
 			model.addAttribute("users", users);
 			return "users/updatePage";
 		} else {
-			model.addAttribute("message", user_id + " : È¸¿ø Á¶È¸ ½ÇÆÐ!");
+			model.addAttribute("message", user_id + " : È¸ï¿½ï¿½ ï¿½ï¿½È¸ ï¿½ï¿½ï¿½ï¿½!");
 			return "common/error";
 		}
 	}
 
-	// ·Î±×ÀÎ Ã³¸®¿ë
-	@RequestMapping(value = "login.do", method = RequestMethod.POST)
+	// ï¿½Î±ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½
+	@RequestMapping(value = "login.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String loginMethod(Users users, HttpSession session, SessionStatus status, Model model) {
 		logger.info("login.do : " + users);
 
 		Users loginUsers = usersService.selectUsers(users.getUser_id());
 		if (loginUsers == null) {
-			// ¿¹¿Ü Ã³¸®
-			model.addAttribute("message", "·Î±×ÀÎ ½ÇÆÐ : Á¸ÀçÇÏÁö ¾Ê´Â »ç¿ëÀÚÀÔ´Ï´Ù.");
+			// ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
+			model.addAttribute("message", "ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.");
 			return "common/error";
 		} else if (loginUsers.getEmail() == null) {
-			// ¿¹¿Ü Ã³¸®
-			model.addAttribute("message", "·Î±×ÀÎ ½ÇÆÐ : ÀÌ¸ÞÀÏ Á¤º¸°¡ ¾ø½À´Ï´Ù.");
+			// ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
+			model.addAttribute("message", "ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 			return "common/error";
 		} else if (this.bcryptPasswordEncoder.matches(users.getPassword(), loginUsers.getPassword())) {
 			session.setAttribute("loginUsers", loginUsers);
 			status.setComplete();
-			return "common/main";
+			if(loginUsers.getAdmin().equals("Y")) {
+				return "admin/admin";
+			} else {
+				return "common/main";
+			}
+			
 		} else {
-			model.addAttribute("message", "·Î±×ÀÎ ½ÇÆÐ : ¾ÆÀÌµð³ª ¾ÏÈ£ È®ÀÎÇÏ¼¼¿ä.");
+			model.addAttribute("message", "ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½È£ È®ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.");
 			return "common/error";
 		}
 	}
@@ -95,14 +100,14 @@ public class UsersController {
 
 		if (session != null) {
 			session.invalidate();
-			return "common/main";
+			return "redirect:main.do";
 		} else {
-			model.addAttribute("message", "·Î±×ÀÎ ¼¼¼ÇÀÌ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù");
+			model.addAttribute("message", "ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½");
 			return "common/error";
 		}
 	}
 
-	// ajax Åë½ÅÀ¸·Î ¾ÆÀÌµð Áßº¹È®ÀÎ ¿äÃ»
+	// ajax ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ßºï¿½È®ï¿½ï¿½ ï¿½ï¿½Ã»
 	@RequestMapping(value = "idchk.do", method = RequestMethod.POST)
 	public void dupCheckIdMethod(@RequestParam("user_id") String user_id, HttpServletResponse response)
 			throws IOException {
@@ -122,22 +127,22 @@ public class UsersController {
 		out.close();
 	}
 
-	// È¸¿ø°¡ÀÔ ¿äÃ»
+	// È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»
 	@RequestMapping(value = "enroll.do", method = RequestMethod.POST)
 	public String usersInsertMethod(Users users, Model model) {
 		logger.info("enroll.do : " + users);
 
-		// ÆÐ½º¿öµå ¾ÏÈ£È­ Ã³¸®
+		// ï¿½Ð½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£È­ Ã³ï¿½ï¿½
 		users.setPassword(bcryptPasswordEncoder.encode(users.getPassword()));
 		logger.info("after encode : " + users.getPassword());
 		logger.info("length : " + users.getPassword().length());
 
 		if (usersService.insertUsers(users) > 0) {
-			// È¸¿ø °¡ÀÔ ¼º°ø
-			return "common/main";
+			// È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			return "redirect:main:do";
 		} else {
-			// È¸¿ø °¡ÀÔ ½ÇÆÐ
-			model.addAttribute("message", "È¸¿ø °¡ÀÔ ½ÇÆÐ!");
+			// È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			model.addAttribute("message", "È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½!");
 			return "common/error";
 		}
 	}
@@ -150,14 +155,14 @@ public class UsersController {
 			mv.addObject("users", users);
 			mv.setViewName("users/myinfoPage");
 		} else {
-			mv.addObject("message", user_id + " : È¸¿ø Á¤º¸ Á¶È¸ ½ÇÆÐ!");
+			mv.addObject("message", user_id + " : È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ ï¿½ï¿½ï¿½ï¿½!");
 			mv.setViewName("common/error");
 		}
 
 		return mv;
 	}
 
-	// È¸¿ø Å»Åð(»èÁ¦) ¿äÃ»
+	// È¸ï¿½ï¿½ Å»ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½Ã»
 	@RequestMapping("mdel.do")
 	public String usersDeleteMethod(@RequestParam("user_id") String user_id, Model model) {
 		logger.info("mdel.do : " + user_id);
@@ -165,23 +170,23 @@ public class UsersController {
 		if (usersService.deleteUsers(user_id) > 0) {
 			return "redirect:logout.do";
 		} else {
-			model.addAttribute("message", user_id + " : È¸¿ø »èÁ¦ ½ÇÆÐ!");
+			model.addAttribute("message", user_id + " : È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½!");
 			return "common/error";
 		}
 	}
 
-	// È¸¿ø °­Á¦ Å»Åð
+	// È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å»ï¿½ï¿½
 	@RequestMapping("eviction.do")
 	public String EvictionMethod(@RequestParam("user_id") String user_id, Model model) {
 		if (usersService.evictionUsers(user_id)>0) {
 			return "redirect:mlist.do";
 		} else {
-			model.addAttribute("message", user_id + " : È¸¿ø »èÁ¦ ½ÇÆÐ!");
+			model.addAttribute("message", user_id + " : È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½!");
 			return "common/error";
 		}
 	}
 
-	// È¸¿øÁ¤º¸ ¼öÁ¤ Ã³¸®
+	// È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 	@RequestMapping(value = "mupdate.do", method = RequestMethod.POST)
 	public String usersUpdateMethod(Users users, Model model, @RequestParam("origin_password") String originUserpwd) {
 		logger.info("mupdate.do : " + users);
@@ -199,12 +204,12 @@ public class UsersController {
 
 			return "redirect:myinfo.do?user_id=" + users.getUser_id();
 		} else {
-			model.addAttribute("message", users.getUser_id() + " : È¸¿ø Á¤º¸ ¼öÁ¤ ½ÇÆÐ!");
+			model.addAttribute("message", users.getUser_id() + " : È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½!");
 			return "common/error";
 		}
 	}
 
-	// È¸¿ø°ü¸®¿ë È¸¿øÀüÃ¼¸ñ·Ï Á¶È¸ Ã³¸®
+	// È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ Ã³ï¿½ï¿½
 	@RequestMapping("mlist.do")
 	public String usersListViewMethod(Model model) {
 		ArrayList<Users> list = usersService.selectList();
@@ -213,15 +218,15 @@ public class UsersController {
 			model.addAttribute("list", list);
 			return "users/userListView";
 		} else {
-			model.addAttribute("message", "È¸¿ø Á¤º¸°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+			model.addAttribute("message", "È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.");
 			return "common/error";
 		}
 	}
 
-	// È¸¿ø °Ë»ö Ã³¸®¿ë
+	// È¸ï¿½ï¿½ ï¿½Ë»ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value = "msearch.do", method = RequestMethod.POST)
 	public String usersSearchMethod(HttpServletRequest request, Model model) {
-		// Àü¼Û¿Â °ª ²¨³»±â
+		// ï¿½ï¿½ï¿½Û¿ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		String action = request.getParameter("action");
 		String keyword = null, beginDate = null, endDate = null;
 
@@ -253,24 +258,24 @@ public class UsersController {
 			model.addAttribute("list", list);
 			return "users/userListView";
 		} else {
-			model.addAttribute("message", action + " °Ë»ö¿¡ ´ëÇÑ °á°ú°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+			model.addAttribute("message", action + " ï¿½Ë»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.");
 			return "common/error";
 		}
 	}
 
-	// ¾ÆÀÌµð Ã£±â(ÆäÀÌÁö·Î)
+	// ï¿½ï¿½ï¿½Ìµï¿½ Ã£ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
 	@RequestMapping(value = "findid_form.do")
 	public String findid() throws Exception {
 		return "users/findIdPage";
 	}
 
-	// ¾ÆÀÌµð Ã£±â
+	// ï¿½ï¿½ï¿½Ìµï¿½ Ã£ï¿½ï¿½
 	@RequestMapping(value = "find_id.do", method = RequestMethod.POST)
 	public String findid(@RequestParam("email") String email, Model model) throws Exception {
 		String user_id = usersService.find_id(email);
 
 		if (user_id == null) {
-			model.addAttribute("message", "ÀÌ¸ÞÀÏÀÌ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù");
+			model.addAttribute("message", "ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½");
 			return "common/error";
 		} else {
 			model.addAttribute("user_id", user_id);
@@ -278,25 +283,25 @@ public class UsersController {
 		}
 	}
 
-	// ºñ¹Ð¹øÈ£ Ã£±â(ÆäÀÌÁö·Î)
+	// ï¿½ï¿½Ð¹ï¿½È£ Ã£ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
 	@RequestMapping(value = "findpw_form.do")
 	public String findpw() throws Exception {
 		return "users/findPwPage";
 	}
 
 	public void send_mail(Users users) {
-		// ¼­¹ö ¼³Á¤
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		String charSet = "utf-8";
 		String hostSMTP = "smtp.naver.com";
-		String hostSMTPid = "wlstjr2234@naver.com"; // ÀÌ¸ÞÀÏ ÀÔ·Â
-		String hostSMTPpwd = ""; // ºñ¹Ð¹øÈ£ ÀÔ·Â
-		// º¸³»´Â »ç¶÷ Á¤º¸
-		String fromEmail = "wlstjr2234@naver.com"; // ÀÌ¸ÞÀÏ ÀÔ·Â
+		String hostSMTPid = "wlstjr2234@naver.com"; // ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½
+		String hostSMTPpwd = ""; // ï¿½ï¿½Ð¹ï¿½È£ ï¿½Ô·ï¿½
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		String fromEmail = "wlstjr2234@naver.com"; // ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½
 		String fromName = "Dionysos";
-		String subject = "ÀÓ½Ã ºñ¹Ð¹øÈ£ ÀÔ´Ï´Ù";
-		String msg = users.getPassword() + "ÀÔ´Ï´Ù";
+		String subject = "ï¿½Ó½ï¿½ ï¿½ï¿½Ð¹ï¿½È£ ï¿½Ô´Ï´ï¿½";
+		String msg = users.getPassword() + "ï¿½Ô´Ï´ï¿½";
 
-		// ¹Þ´Â »ç¶÷ E-Mail ÁÖ¼Ò
+		// ï¿½Þ´ï¿½ ï¿½ï¿½ï¿½ E-Mail ï¿½Ö¼ï¿½
 		String mail = users.getEmail();
 		try {
 			HtmlEmail email = new HtmlEmail();
@@ -318,7 +323,7 @@ public class UsersController {
 		}
 	}
 
-	// ºñ¹Ð¹øÈ£ Ã£±â
+	// ï¿½ï¿½Ð¹ï¿½È£ Ã£ï¿½ï¿½
 	@RequestMapping(value = "find_pw.do", method = RequestMethod.POST)
 	public String find_pw(Users user, HttpServletResponse response, Model model) {
 		response.setContentType("text/html;charset=utf-8");
@@ -333,12 +338,17 @@ public class UsersController {
 			user.setPassword(bcryptPasswordEncoder.encode(pw));
 			usersService.update_pw(user);
 
-			return "common/main";
+			return "redirect:main.do";
 		} else {
-			model.addAttribute("message", "¾ÆÀÌµð¿Í ÀÌ¸ÞÀÏÀ» Àß ¸ø ÀÔ·ÂÇÏ¼Ì½À´Ï´Ù");
+			model.addAttribute("message", "ï¿½ï¿½ï¿½Ìµï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼Ì½ï¿½ï¿½Ï´ï¿½");
 			return "common/error";
 		}
 
+	}
+	
+	@RequestMapping(value = "admin.do", method = { RequestMethod.GET, RequestMethod.POST })
+	public String moveAdmin() {
+		return "admin/admin";
 	}
 
 }

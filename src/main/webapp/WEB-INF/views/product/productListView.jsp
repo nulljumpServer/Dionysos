@@ -13,21 +13,21 @@
 	href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,700;0,800;1,200;1,300;1,400;1,500;1,700&display=swap"
 	rel="stylesheet">
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/resources/css/font-awesome.min.css">
+	href="${pageContext.servletContext.contextPath}/resources/css/users/font-awesome.min.css">
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/resources/css/animate.css">
+	href="${pageContext.servletContext.contextPath}/resources/css/users/animate.css">
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/resources/css/owl.carousel.min.css">
+	href="${pageContext.servletContext.contextPath}/resources/css/users/owl.carousel.min.css">
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/resources/css/owl.theme.default.min.css">
+	href="${pageContext.servletContext.contextPath}/resources/css/users/owl.theme.default.min.css">
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/resources/css/magnific-popup.css">
+	href="${pageContext.servletContext.contextPath}/resources/css/users/magnific-popup.css">
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/resources/css/bootstrap-select.min.css">
+	href="${pageContext.servletContext.contextPath}/resources/css/users/bootstrap-select.min.css">
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/resources/css/flaticon.css">
+	href="${pageContext.servletContext.contextPath}/resources/css/users/flaticon.css">
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/resources/css/style.css">
+	href="${pageContext.servletContext.contextPath}/resources/css/users/style.css">
 </head>
 <body>
 	<c:import url="/WEB-INF/views/common/menubar.jsp" />
@@ -100,38 +100,39 @@
 					<div class="sidebar-box ftco-animate">
 						<div class="categories">
 							<h3>Product Types</h3>
+							<form action="${pageContext.servletContext.contextPath}/psearch.do">
+							<input type="hidden" name="action" value="wine_type">
 							<ul class="p-0">
-								<c:url var="psearchType" value="/psearch.do">
-									<c:param name="wine_type" value="레드" />
-								</c:url>
-								<li><a href="${psearchType}">레드와인 <span
+								
+								<li><a href="${psearch}">레드와인 <span
 										class="fa fa-chevron-right"></span></a></li>
 								<c:url var="psearchType" value="/psearch.do">
-									<c:param name="wine_type" value="화이트" />
+									<c:param name="keyword" value="화이트" />
 								</c:url>
-								<li><a href="${psearchType}">화이트와인 <span
+								<li><a href="${psearch}">화이트와인 <span
 										class="fa fa-chevron-right"></span></a></li>
-								<c:url var="psearchType" value="/psearch.do">
-									<c:param name="wine_type" value="스파클링" />
+								<c:url var="psearch" value="/psearch.do">
+									<c:param name="keyword" value="스파클링" />
 								</c:url>
-								<li><a href="${psearchType}">스파클링 <span
+								<li><a href="${psearch}">스파클링 <span
 										class="fa fa-chevron-right"></span></a></li>
-								<c:url var="psearchType" value="/psearch.do">
-									<c:param name="wine_type" value="로제" />
+								<c:url var="psearch" value="/psearch.do">
+									<c:param name="keyword" value="로제" />
 								</c:url>
-								<li><a href="${psearchType}">로제 <span
+								<li><a href="${psearch}">로제 <span
 										class="fa fa-chevron-right"></span></a></li>
-								<c:url var="psearchType" value="/psearch.do">
-									<c:param name="wine_type" value="주정강화" />
+								<c:url var="psearch" value="/psearch.do">
+									<c:param name="keyword" value="주정강화" />
 								</c:url>
-								<li><a href="${psearchType}">주정강화 <span
+								<li><a href="${psearch}">주정강화 <span
 										class="fa fa-chevron-right"></span></a></li>
-								<c:url var="psearchType" value="/psearch.do">
-									<c:param name="wine_type" value="기타" />
+								<c:url var="psearch" value="/psearch.do">
+									<c:param name="keyword" value="기타" />
 								</c:url>
-								<li><a href="${psearchType}">기타 <span
+								<li><a href="${psearch}">기타 <span
 										class="fa fa-chevron-right"></span></a></li>
 							</ul>
+							</form>
 						</div>
 					</div>
 
@@ -155,28 +156,28 @@
 
 
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery-migrate-3.0.1.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery-migrate-3.0.1.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/popper.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/popper.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/bootstrap.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/bootstrap.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery.easing.1.3.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.easing.1.3.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery.waypoints.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.waypoints.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery.stellar.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.stellar.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/owl.carousel.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/owl.carousel.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery.magnific-popup.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.magnific-popup.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery.animateNumber.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.animateNumber.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/scrollax.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/scrollax.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/main.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/main.js"></script>
 </body>
 </html>

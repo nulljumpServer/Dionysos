@@ -230,28 +230,28 @@
 
 
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery-migrate-3.0.1.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery-migrate-3.0.1.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/popper.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/popper.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/bootstrap.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/bootstrap.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery.easing.1.3.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.easing.1.3.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery.waypoints.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.waypoints.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery.stellar.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.stellar.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/owl.carousel.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/owl.carousel.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery.magnific-popup.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.magnific-popup.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery.animateNumber.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.animateNumber.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/scrollax.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/scrollax.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/main.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/main.js"></script>
 </body>
 </html>

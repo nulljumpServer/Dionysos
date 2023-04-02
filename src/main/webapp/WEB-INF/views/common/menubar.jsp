@@ -41,19 +41,19 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/resources/css/font-awesome.min.css">
+	href="${pageContext.servletContext.contextPath}/resources/css/users/font-awesome.min.css">
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/resources/css/animate.css">
+	href="${pageContext.servletContext.contextPath}/resources/css/users/animate.css">
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/resources/css/owl.carousel.min.css">
+	href="${pageContext.servletContext.contextPath}/resources/css/users/owl.carousel.min.css">
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/resources/css/owl.theme.default.min.css">
+	href="${pageContext.servletContext.contextPath}/resources/css/users/owl.theme.default.min.css">
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/resources/css/magnific-popup.css">
+	href="${pageContext.servletContext.contextPath}/resources/css/users/magnific-popup.css">
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/resources/css/flaticon.css">
+	href="${pageContext.servletContext.contextPath}/resources/css/users/flaticon.css">
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/resources/css/style.css">
+	href="${pageContext.servletContext.contextPath}/resources/css/users/style.css">
 </head>
 <body>
 	<div class="wrap">
@@ -61,8 +61,9 @@
 			<div class="row">
 				<div class="col-md-6 d-flex align-items-center">
 					<div align="center" class="top-total-sch main-sch-section">
-						<form action="psearchName.do" class="input-box">
-							<input type="text" size="20" id="Search" name="product_name"
+						<form action="${pageContext.servletContext.contextPath}/psearch.do" class="input-box">
+						<input type="hidden" name="action" value="product_name">
+							<input type="search" size="20" name="keyword"
 								placeholder="상품검색">
 							<!-- <p class="input-box"><input type="text" id="wingSearch" placeholder="통합검색" onkeydown="onInputSearchKeyDown(event);" value=""> -->
 							<input type='submit' class='btn-search' value="검색">
@@ -244,7 +245,7 @@
 	</c:if>
 
 	<div class="hero-wrap"
-		style="background-image: url('resources/images/bg_5.jpg');">
+		style="background-image: url('resources/images/users/bg_5.jpg');">
 		<div class="overlay"></div>
 		<div class="container">
 			<div
@@ -260,32 +261,32 @@
 		</div>
 	</div>
 	<img id="topBtn"
-		src="${pageContext.servletContext.contextPath}/resources/images/top.png"
+		src="${pageContext.servletContext.contextPath}/resources/images/users/top.png"
 		align="right">
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery-migrate-3.0.1.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery-migrate-3.0.1.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/popper.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/popper.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/bootstrap.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/bootstrap.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery.easing.1.3.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.easing.1.3.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery.waypoints.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.waypoints.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery.stellar.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.stellar.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/owl.carousel.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/owl.carousel.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery.magnific-popup.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.magnific-popup.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery.animateNumber.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.animateNumber.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/scrollax.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/scrollax.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/main.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/main.js"></script>
 
 </body>
 

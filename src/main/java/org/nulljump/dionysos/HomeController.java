@@ -7,6 +7,8 @@ import java.util.Locale;
 
 import org.nulljump.dionysos.product.model.service.ProductService;
 import org.nulljump.dionysos.product.model.vo.Product;
+import org.nulljump.dionysos.users.model.service.UsersService;
+import org.nulljump.dionysos.users.model.vo.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class HomeController {
 	
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private UsersService usersService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
@@ -44,22 +49,19 @@ public class HomeController {
 		return "home";
 	}
 
-	//index.jsp °¡ À£ÄÄµÉ ¶§ Æ÷¿öµùµÈ ¿äÃ»À» ¹Þ¾Æ¼­ main.jsp
-	//common/main.jsp ¸¦ ³»º¸³»±â À§ÇØ ¸®ÅÏÇÏ´Â ¸Þ¼Òµå
-	@RequestMapping("main.do")
+	//index.jsp ï¿½ï¿½ ï¿½ï¿½ï¿½Äµï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½Þ¾Æ¼ï¿½ main.jsp
+	//common/main.jsp ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Þ¼Òµï¿½
+	@RequestMapping(value = "main.do")
 	public ModelAndView forwardMainView(ModelAndView mv) {
 		ArrayList<Product> list1 = productService.selectNew4();
 		ArrayList<Product> list2 = productService.selectTop4();
-
-		if (list1 != null) {
 			mv.addObject("list1", list1);
-			mv.setViewName("common/main");
-		}
-		
-		if (list2 != null) {
 			mv.addObject("list2", list2);
-			mv.setViewName("common/main");
-		}
+			
+				mv.setViewName("common/main");
+
+				
+		
 		
 		return mv;
 	}
