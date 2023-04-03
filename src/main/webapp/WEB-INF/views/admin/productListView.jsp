@@ -29,8 +29,8 @@
 												<i class="icon nalika-home"></i>
 											</div>
 											<div class="breadcomb-ctn">
-												<h2>Product List</h2>
-												<p>Dionysos <span class="bread-ntd">Admin Page</span></p>
+												<h2>상품통합관리</h2>
+												<p><span class="bread-ntd">상품목록</span></p>
 											</div>
 										</div>
                                     </div>
@@ -53,37 +53,38 @@
                         <div class="product-status-wrap">
                             <h4>상품 관리</h4>
                             <div class="add-product">
-                                <a href="location.href='addproduct.do'">상품 추가하기</a>
+                                <a href="pinsertForm.do">상품 추가하기</a>
                             </div>
                             <table>
                                 <tr>
-                                    <th>Image</th>
-                                    <th>Product Id</th>
-                                    <th>Product Name</th>
-                                    <th>Sales Amount</th>
-                                    <th>Product sales</th>
-                                    <th>Stock</th>
-                                    <th>Product Price</th>
-                                    <th>Setting</th>
+                                    <th>이미지</th>
+                                    <th>상품 번호</th>
+                                    <th>상품명</th>
+                                    <th>상품 영문명</th>
+                                    <th>가격</th>
+                                    <th>설정</th>
                                 </tr>
                                 <c:forEach items="${list}" var="product">
                                 <tr>
-                                    <td><img src="${pageContext.servletContext.contextPath}${product.product_image}.png" alt="" /></td>
+                                    <td><img src="${pageContext.servletContext.contextPath}${product.product_image}" alt="" /></td>
                                     <td>${product.product_id }</td>
                                     <td>
                                         ${product.product_name}
                                     </td>
-                                    <td>50</td>
-                                    <td>$750</td>
-                                    <td>Out Of Stock</td>
-                                    <td>${product.product_price}</td>
+                                    <td>${product.product_ename}</td>
+                                    
+                                    <td>${product.product_price}원</td>
                                     <td>
                                     <c:url var="pupdate" value="/pupdateForm.do">
 						<c:param name="product_id" value="${product.product_id}" />
 						<c:param name="page" value="${currentPage}" />
 						</c:url>										
 									    <button onclick="location.href='${pupdate}'" data-toggle="tooltip" title="수정" class="pd-setting-ed">수정</button>
-										<button onclick="if(confirm('정말로 삭제 하시겠습니까? 삭제 후에는 복구가 불가능합니다.')) {location.href='delProduct.do?product_Id=${product.product_id}'; }" data-toggle="tooltip" title="삭제" class="pd-setting-ed">삭제</button>
+									    <c:url var="pdelete" value="/pdelete.do">
+						<c:param name="product_id" value="${product.product_id}" />
+						<c:param name="page" value="${currentPage}" />
+						</c:url>	
+										<button onclick="if(confirm('정말로 삭제 하시겠습니까? 삭제 후에는 복구가 불가능합니다.')) {location.href='${pdelete}'; }" data-toggle="tooltip" title="삭제" class="pd-setting-ed">삭제</button>
 
                                     </td>
                                 </tr>

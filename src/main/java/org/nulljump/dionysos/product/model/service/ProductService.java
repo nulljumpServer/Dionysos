@@ -7,14 +7,15 @@ import org.nulljump.dionysos.product.model.vo.Product;
 
 public interface ProductService {
 
-	int selectListCount();               				 //»óÇ° ¸ñ·ÏÀÇ ÃÑ °¹¼ö Á¶È¸   
-	ArrayList<Product> selectProductList(Paging page);  //»óÇ° ¸ñ·Ï Á¶È¸  
-	ArrayList<Product> selectTop4();				// °¡Àå ¸¹ÀÌ ÆÈ¸° 4°³ Á¶È¸
-	ArrayList<Product> selectNew4();                 //½Å»óÇ° 4°³ Á¶È¸
-	Product selectProduct(int product_id);           //Æ¯Á¤ »óÇ° id¿¡ ÇØ´çÇÏ´Â »óÇ° Á¶È¸     
-	ArrayList<Product> selectFilterProductList();    //Æ¯Á¤ ¹üÀ§¿¡ ÇØ´çÇÏ´Â »óÇ° ¸ñ·Ï Á¶È¸
+	int selectListCount();               				 //ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸   
+	ArrayList<Product> selectProductList(Paging page);  //ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ ï¿½ï¿½È¸  
+	ArrayList<Product> selectTop4();				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½È¸ï¿½ 4ï¿½ï¿½ ï¿½ï¿½È¸
+	ArrayList<Product> selectNew4();                 //ï¿½Å»ï¿½Ç° 4ï¿½ï¿½ ï¿½ï¿½È¸
+	Product selectProduct(int product_id);//Æ¯ï¿½ï¿½ ï¿½ï¿½Ç° idï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½È¸     
+	int selectLastProductId();
+	ArrayList<Product> selectFilterProductList();    //Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ ï¿½ï¿½È¸
 	
-	//°Ë»öÀ» À§ÇÑ ¸Þ¼Òµå
+	//ï¿½Ë»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½
 	ArrayList<Product> selectSearchProductId(int keyword);
 	ArrayList<Product> selectSearchProductName(String keyword);
 	ArrayList<Product> selectSearchProductEname(String keyword);
@@ -27,10 +28,10 @@ public interface ProductService {
 	ArrayList<Product> selectSearchProductOrigin(String keyword);
 	ArrayList<Product> selectSearchProductType(String keyword);
 	
-	//°ü¸®ÀÚ
-	int insertProduct(Product product);           //»óÇ° Ãß°¡
-	int updateProduct(Product product);           //»óÇ° ¼öÁ¤
-	int deleteProduct(Product product);           //»óÇ° »èÁ¦
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	int insertProduct(Product product);           //ï¿½ï¿½Ç° ï¿½ß°ï¿½
+	int updateProduct(Product product);           //ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½
+	int deleteProduct(Product product);           //ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½
 
 	ArrayList<Product> selectSearchWineType(String wine_type);
 

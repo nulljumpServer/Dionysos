@@ -9,11 +9,11 @@ import org.nulljump.dionysos.product.model.vo.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-@Repository("productDao")  //xml¿¡ ÀÚµ¿ µî·ÏµÊ
+@Repository("productDao")  //xmlï¿½ï¿½ ï¿½Úµï¿½ ï¿½ï¿½Ïµï¿½
 public class ProductDao {
 
 	@Autowired
-	private SqlSessionTemplate session;   //ÀÇÁ¸¼º ÁÖÀÔ
+	private SqlSessionTemplate session;   //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	
 	public ArrayList<Product> selectProductList(Paging page) {
 		List<Product> list = session.selectList("productMapper.selectProductList", page);
@@ -30,7 +30,7 @@ public class ProductDao {
 		return (ArrayList<Product>)list;
 	}
 	
-	//»óÇ° ¸ñ·ÏÀÇ ÃÑ °¹¼ö Á¶È¸
+	//ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸
 	public int selectListCount() {
 		return session.selectOne("productMapper.selectListCount");
 	}
@@ -39,13 +39,13 @@ public class ProductDao {
 		return session.selectOne("productMapper.selectProduct", product_id);
 	}
 
-	//Æ¯Á¤ ¹üÀ§¿¡ ÇØ´çÇÏ´Â »óÇ° ¸ñ·Ï Á¶È¸
+	//Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ ï¿½ï¿½È¸
 	public ArrayList<Product> selectFilterProductList() {
 		List<Product> list = session.selectList("productMapper.selectFilterProductList");
 		return (ArrayList<Product>) list;
 	}
 
-	//°Ë»ö Ã³¸®¿ë
+	//ï¿½Ë»ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½
 	public ArrayList<Product> selectSearchProductId(int keyword) {
 		List<Product> list = session.selectList("productMapper.selectSearchProduct", keyword);
 		return (ArrayList<Product>)list;
@@ -101,9 +101,9 @@ public class ProductDao {
 		return (ArrayList<Product>)list;
 	}
 
-	//°ü¸®ÀÚ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public int insertProduct(Product product) {
-		return session.selectOne("productMapper.insertProduct", product);
+		return session.insert("productMapper.insertProduct", product);
 	}
 
 	public int updateProduct(Product product) {
@@ -111,13 +111,17 @@ public class ProductDao {
 	}
 
 	public int deleteProduct(Product product) {
-		return session.selectOne("productMapper.deleteProduct", product);
+		return session.delete("productMapper.deleteProduct", product);
 	}
 
 	public ArrayList<Product> selectSearchWineType(String wine_type) {
 		List<Product> list = session.selectList("productMapper.selectSearchProduct", wine_type);
 		return (ArrayList<Product>)list;
 	}
+
+	public int selectLastProductId() {
+		return session.selectOne("productMapper.selectLastProductId");
+		}
 
 
 }

@@ -27,9 +27,6 @@ public class HomeController {
 	@Autowired
 	private ProductService productService;
 
-	@Autowired
-	private UsersService usersService;
-
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
 	/**

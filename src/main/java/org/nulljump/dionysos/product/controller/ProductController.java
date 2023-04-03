@@ -362,45 +362,74 @@ public class ProductController {
 		return "product/productInsertForm";
 	}
 
-	// ��ǰ ��� ó��
-	@RequestMapping(value = "pinsert.do", method= {RequestMethod.GET, RequestMethod.POST})
+	// 상품 등록 처리
+	@RequestMapping(value = "pinsert.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String productInsertMethod(Product product, Model model, HttpServletRequest request,
-			@RequestParam(name = "upfile", required = false) MultipartFile mfile) {
-		
-		//��ǰ ÷������ ���� ���� ��� ����
-		String savePath = request.getSession().getServletContext().getRealPath("resources/product_upfiles");
-		
-		//÷������
-		String fileName = mfile.getOriginalFilename();
-		
-		if(fileName != null && fileName.length() > 0) {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-			//������ ���ϸ� �����
-		    String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis()));
-			
-		    renameFileName += "." + fileName.substring(fileName.lastIndexOf(".") + 1);
-		    logger.info("÷�� ���ϸ� Ȯ�� : " + fileName + ", " + renameFileName);
-		    
-		    File renameFile = new File(savePath +"\\" + renameFileName);
-		    
-		    try {
-		    	mfile.transferTo(renameFile);
-		    }catch(Exception e){
-		    	e.printStackTrace();
-		    	model.addAttribute("message", "÷������ ���� ����!");
-		    	return "common/error";
-		    }
-		}
-		if(productService.insertProduct(product) > 0) {
-			//��ǰ ��� ������ ��� ���� �������� �̵�
-			return "redirect:plistView.do";
-		}else {
-			model.addAttribute("message", product.getProduct_id() + "�� ��ǰ ��� ����!");
-			return "common/error";
-		}
+	        @RequestParam(value="upfile1", required= false) MultipartFile mfile1,
+	        @RequestParam(value="upfile2", required= false) MultipartFile mfile2) {
+
+	    // 상품 첨부파일 저장 폴더 경로 지정
+	    String savePath1 = request.getSession().getServletContext().getRealPath("resources/images/product_single");
+	    String savePath2 = request.getSession().getServletContext().getRealPath("resources/images/product_detail");
+
+	    // 첨부파일1
+	    String fileName1 = mfile1.getOriginalFilename();
+
+	    if (fileName1 != null && fileName1.length() > 0) {
+//	        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+	        // 변경할 파일명 만들기
+	        String renameFileName1 = "wine_single_" + (productService.selectLastProductId() + 1) ;
+
+	        renameFileName1 += "." + fileName1.substring(fileName1.lastIndexOf(".") + 1);
+	        logger.info("첨부 파일명 확인 : " + fileName1 + ", " + renameFileName1);
+
+	        File renameFile1 = new File(savePath1 + "\\" + renameFileName1);
+
+	        try {
+	            mfile1.transferTo(renameFile1);
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            model.addAttribute("message", "첨부파일1 저장 실패!");
+	            return "common/error";
+	        }
+	        product.setProduct_image("/resources/images/product_single/" + renameFileName1);
+	    }
+	    
+	    
+	    // 첨부파일2
+	    String fileName2 = mfile2.getOriginalFilename();
+
+	    if (fileName2 != null && fileName2.length() > 0) {
+//	        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+	        // 변경할 파일명 만들기
+	        String renameFileName2 = "wine_detail_" + (productService.selectLastProductId() + 1) ;
+
+	        renameFileName2 += "." + fileName2.substring(fileName2.lastIndexOf(".") + 1);
+	        logger.info("첨부 파일명 확인 : " + fileName2 + ", " + renameFileName2);
+
+	        File renameFile2 = new File(savePath2 + "\\" + renameFileName2);
+
+	        try {
+	            mfile2.transferTo(renameFile2);
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            model.addAttribute("message", "첨부파일2 저장 실패!");
+	            return "common/error";
+	        }
+	        product.setWine_detail("/resources/images/product_detail/" +  renameFileName2);
+	    }
+	   
+	    
+	    if (productService.insertProduct(product) > 0) {
+	        // 상품 등록 성공시 목록 보기 페이지로 이동
+	        return "redirect:adminplistView.do";
+	    } else {
+	        model.addAttribute("message", product.getProduct_id() + "새 상품 등록 실패!");
+	        return "common/error";
+	    }
 	}
 	
-	// ��ǰ ���� ������ ��û
+		// 상품 수정 페이지 요청
 	@RequestMapping(value="pupdateForm.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String moveProductUpdateView(@RequestParam("product_id") int product_id, @RequestParam("page") int currentPage, Model model) {
 		//������������ ���� product ��ü ���� ��ȸ��
@@ -418,51 +447,77 @@ public class ProductController {
 		}
 	}
 
-	// ��ǰ ���� ó��
+	// 상품 삭제 처리
 	@RequestMapping(value = "pupdate.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String productUpdateMethod(Product product, Model model, HttpServletRequest request,
-			@RequestParam(name = "delflag", required = false) String delFlag,
-			@RequestParam(name = "upfile", required = false) MultipartFile mfile,
+			@RequestParam(name = "upfile1", required = false) MultipartFile mfile1,
+			@RequestParam(name = "upfile2", required = false) MultipartFile mfile2,
 			@RequestParam("page") int page) {
 		
-		//��ǰ ÷������ ���� ���� ��� ����
-		String savePath = request.getSession().getServletContext().getRealPath("resources/product_upfiles");
+		// 원본 첨부파일 저장 폴더 경로 지정
+		String savePath1 = request.getSession().getServletContext().getRealPath("resources/images/product_single");
+		String savePath2 = request.getSession().getServletContext().getRealPath("resources/images/product_detail");
+
 		
-		//÷�������� ���� ó���� ��� ------------------------------------------
-		if(product.getProduct_image() != null && delFlag != null && delFlag.equals("yes")) {
-			//���� ������ �ִ� ������ ������
-			new File(savePath + "/" + product.getProduct_image()).delete();
-		}
-		//2.��ǰ ÷������ 1���� ������ ���
-		//���ο� ÷������ ���� ��
-		if(!mfile.isEmpty()) {
-			//2-1. ���� ÷�������� ���� ��
+	// 새로운 첨부파일이 있을때
+		if(!mfile1.isEmpty()) {
+			// 이전 첨부파일이 있을 때
 			if(product.getProduct_image() != null) {
-				//���� ������ �ִ� ���� ���� ������
-				new File(savePath + "/" + product.getProduct_image()).delete();
+				// 저장 폴더에 있는 이전 파일을 삭제함
+				new File(product.getProduct_image()).delete();
 			}
-			//2-2. ���� ÷�������� ���� ��
-			//���� �� �����̸� ������
-			String fileName = mfile.getOriginalFilename();
 			
-			if(fileName != null && fileName.length() > 0) {
-				String renameFileName = FileNameChange.change(fileName, "yyyyMMddHHmmss");
-				
-				renameFileName += "." + fileName.substring(fileName.lastIndexOf(".") + 1);
-				logger.info("÷�� ���ϸ� Ȯ�� : " + fileName + ", " + renameFileName);
-				
-				//���� ��ü �����
-				File renameFile = new File(savePath + "/" + renameFileName);
-				
-				//������ ���� ó��
-				try {
-					mfile.transferTo(renameFile);
-				}catch(Exception e) {
-					e.printStackTrace();
-					model.addAttribute("message", "÷������ ���� ����!");
-					return "common/error";
-				}
+			// 첨부파일1
+		    String fileName1 = mfile1.getOriginalFilename();
+
+		    if (fileName1 != null && fileName1.length() > 0) {
+//		        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		        // 변경할 파일명 만들기
+		        String renameFileName1 = "wine_single_" + (productService.selectLastProductId() + 1) ;
+
+//		        renameFileName1 += "." + fileName1.substring(fileName1.lastIndexOf(".") + 1);
+		        logger.info("첨부 파일명 확인 : " + fileName1 + ", " + renameFileName1);
+
+		        File renameFile1 = new File(savePath1 + "\\" + renameFileName1);
+
+		        try {
+		            mfile1.transferTo(renameFile1);
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		            model.addAttribute("message", "첨부파일1 저장 실패!");
+		            return "common/error";
+		        }
+		        product.setProduct_image("/resources/images/product_single/" + renameFileName1);
+		    }
+			
+		}
+		if(!mfile2.isEmpty()) {
+			// 이전 첨부파일이 있을 때
+			if(product.getWine_detail() != null) {
+				// 저장 폴더에 있는 이전 파일을 삭제함
+				new File(product.getWine_detail()).delete();
 			}
+			String fileName2 = mfile2.getOriginalFilename();
+
+		    if (fileName2 != null && fileName2.length() > 0) {
+//		        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		        // 변경할 파일명 만들기
+		        String renameFileName2 = "wine_detail_" + (productService.selectLastProductId() + 1) ;
+
+//		        renameFileName2 += "." + fileName2.substring(fileName2.lastIndexOf(".") + 1);
+		        logger.info("첨부 파일명 확인 : " + fileName2 + ", " + renameFileName2);
+
+		        File renameFile2 = new File(savePath2 + "\\" + renameFileName2);
+
+		        try {
+		            mfile2.transferTo(renameFile2);
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		            model.addAttribute("message", "첨부파일2 저장 실패!");
+		            return "common/error";
+		        }
+		        product.setWine_detail("/resources/images/product_detail/" +  renameFileName2);
+		    }
 		}
 
 		if(productService.updateProduct(product) > 0) {
@@ -483,8 +538,9 @@ public class ProductController {
 	public String productDeleteMethod(Product product, HttpServletRequest request, Model model) {
     	if(productService.deleteProduct(product) > 0) {
     		//�� ������ �����ϸ�, ���������� �ִ� ÷�����ϵ� ���� ó��
-    			new File(request.getSession().getServletContext().getRealPath("resources/product_upfiles") + "/" + product.getProduct_image()).delete();
-    			return "redirect:plistView.do?page=1";	
+    			new File(request.getSession().getServletContext().getRealPath("resources/images/product_single") + "/" + product.getProduct_image()).delete();
+    			new File(request.getSession().getServletContext().getRealPath("resources/images/product_detail") + "/" + product.getWine_detail()).delete();
+    			return "redirect:adminplistView.do?page=1";	
     	}else {
     		model.addAttribute("message", product.getProduct_id() + "��ǰ ���� ����!");
     		return "common/error";

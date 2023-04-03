@@ -121,6 +121,11 @@ public class ProductServiceImpl implements ProductService {
 		return productDao.selectSearchWineType(wine_type);
 	}
 
+	@Override
+	public int selectLastProductId() {
+		return productDao.selectLastProductId();
+	}
+
 
 	
 

@@ -41,7 +41,7 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/resources/css/users/font-awesome.min.css">
+	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet"
 	href="${pageContext.servletContext.contextPath}/resources/css/users/animate.css">
 <link rel="stylesheet"
@@ -50,6 +50,9 @@
 	href="${pageContext.servletContext.contextPath}/resources/css/users/owl.theme.default.min.css">
 <link rel="stylesheet"
 	href="${pageContext.servletContext.contextPath}/resources/css/users/magnific-popup.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
+
 <link rel="stylesheet"
 	href="${pageContext.servletContext.contextPath}/resources/css/users/flaticon.css">
 <link rel="stylesheet"
@@ -61,10 +64,11 @@
 			<div class="row">
 				<div class="col-md-6 d-flex align-items-center">
 					<div align="center" class="top-total-sch main-sch-section">
-						<form action="${pageContext.servletContext.contextPath}/psearch.do" class="input-box">
-						<input type="hidden" name="action" value="product_name">
-							<input type="search" size="20" name="keyword"
-								placeholder="상품검색">
+						<form
+							action="${pageContext.servletContext.contextPath}/psearch.do"
+							class="input-box">
+							<input type="hidden" name="action" value="product_name">
+							<input type="search" size="20" name="keyword" placeholder="상품검색">
 							<!-- <p class="input-box"><input type="text" id="wingSearch" placeholder="통합검색" onkeydown="onInputSearchKeyDown(event);" value=""> -->
 							<input type='submit' class='btn-search' value="검색">
 						</form>

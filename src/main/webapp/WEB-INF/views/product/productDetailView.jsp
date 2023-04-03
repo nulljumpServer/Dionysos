@@ -64,10 +64,10 @@
 				         <th>타닌</th>
 				      </tr>
 				      <tr>
-				       <td><img src="resources/images/graph_${ wdt.sweetness }.png" width="50" height="50">&nbsp;</td>
-			           <td><img src="resources/images/graph_${ wdt.body }.png" width="50" height="50">&nbsp;</td>
-			           <td><img src="resources/images/graph_${ wdt.acidity }.png" width="50" height="50">&nbsp;</td>
-			           <td><img src="resources/images/graph_${ wdt.tannin }.png" width="50" height="50">&nbsp;</td>
+				       <td><img src="resources/images/users/graph_${ product.sweetness }.png" width="50" height="50">&nbsp;</td>
+			           <td><img src="resources/images/users/graph_${ product.body }.png" width="50" height="50">&nbsp;</td>
+			           <td><img src="resources/images/users/graph_${ product.acidity }.png" width="50" height="50">&nbsp;</td>
+			           <td><img src="resources/images/users/graph_${ product.tannin }.png" width="50" height="50">&nbsp;</td>
 				      </tr> 
 				       <!-- <tr>
 				            <td><img src="resources/images/graph_0.png" width="50" height="50">&nbsp;</td> 
@@ -125,7 +125,7 @@
 
               <div class="tab-pane fade show active" id="v-pills-1" role="tabpanel" aria-labelledby="day-1-tab">
                  <div class="p-4">
-                    <h3 class="mb-4">${ product.product_name }</h3>
+                    
                     <p><img src='${pageContext.servletContext.contextPath}${product.wine_detail}.png'>
                     </div>
               </div>
