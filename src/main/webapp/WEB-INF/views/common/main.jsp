@@ -13,8 +13,7 @@
 </head>
 <body>
 	<c:import url="/WEB-INF/views/common/menubar.jsp" />
-
-
+	
 	<div align="center" class="main-filter-layer">
 		<div class='main-filter clear'>
 			<form action="avdsearch.do" method="post">
@@ -124,7 +123,7 @@
 					<div class="col-md-3 d-flex">
 						<div class="product ftco-animate">
 							<div class="img d-flex align-items-center justify-content-center"
-								style="background-image: url(${product.product_image});">
+								style="background-image: url('${pageContext.servletContext.contextPath}${product.product_image}.png');">
 								<div class="desc">
 									<p class="meta-prod d-flex">
 										<a href="#"
@@ -168,7 +167,7 @@
 					<div class="col-md-3 d-flex">
 						<div class="product ftco-animate">
 							<div class="img d-flex align-items-center justify-content-center"
-								style="background-image: url(${product.product_image});">
+								style="background-image: url('${pageContext.servletContext.contextPath}${product.product_image}.png');">
 								<div class="desc">
 									<p class="meta-prod d-flex">
 										<a href="#"

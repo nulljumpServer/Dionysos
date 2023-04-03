@@ -48,54 +48,66 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="review-tab-pro-inner">
                                 <ul id="myTab3" class="tab-review-design">
-                                    <li class="active"><a href="#description"><i class="icon nalika-edit" aria-hidden="true"></i> Product Edit</a></li>
-                                    <li><a href="#reviews"><i class="icon nalika-picture" aria-hidden="true"></i> Pictures</a></li>
-                                    <li><a href="#INFORMATION"><i class="icon nalika-chat" aria-hidden="true"></i> Review</a></li>
+                                    <li class="active"><a href="#description"><i class="icon nalika-edit" aria-hidden="true"></i> 상품 정보 수정</a></li>
+                                    <li><a href="#REVIEW"><i class="icon nalika-chat" aria-hidden="true"></i> 리뷰</a></li>
                                 </ul>
+                                <!-- 상품 정보 관리 -->
                                 <div id="myTabContent" class="tab-content custom-product-edit">
                                     <div class="product-tab-list tab-pane fade active in" id="description">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                 <div class="review-content-section">
-                                                    <div class="input-group mg-b-pro-edt">
-                                                        <span class="input-group-addon">product_ename : </span>
+                                                <div class="input-group mg-b-pro-edt">
+                                                        <span class="input-group-addon">상품 이미지(첨부파일) : </span>
                                                         <input type="text" class="form-control" value="${ product.product_ename }">
                                                     </div>
                                                     <div class="input-group mg-b-pro-edt">
-                                                        <span class="input-group-addon">product_name : </span>
+                                                        <span class="input-group-addon">상품명(영문) : </span>
+                                                        <input type="text" class="form-control" value="${ product.product_ename }">
+                                                    </div>
+                                                    <div class="input-group mg-b-pro-edt">
+                                                        <span class="input-group-addon">상품명 : </span>
                                                         <input type="text" class="form-control" value="${ product.product_name }">
                                                     </div>
                                                     <div class="input-group mg-b-pro-edt">
-                                                        <span class="input-group-addon"><i class="fa fa-usd" aria-hidden="true"></i></span>
-                                                        <input type="text" class="form-control" value="${ product.product_name }">
+                                                        <span class="input-group-addon">가격 : </span>
+                                                        <input type="text" class="form-control" value="${ product.product_price }">
                                                     </div>
                                                     <div class="input-group mg-b-pro-edt">
-                                                        <span class="input-group-addon"><i class="icon nalika-new-file" aria-hidden="true"></i></span>
-                                                        <input type="text" class="form-control" value="${ product.product_name }">
+                                                        <span class="input-group-addon">와인 종류 : </span>
+                                                        <input type="text" class="form-control" value="${ product.wine_type }">
                                                     </div>
                                                     <div class="input-group mg-b-pro-edt">
-                                                        <span class="input-group-addon"><i class="icon nalika-favorites" aria-hidden="true"></i></span>
-                                                        <input type="text" class="form-control" placeholder="Quantity">
+                                                        <span class="input-group-addon">포도 종류 : </span>
+                                                        <input type="text" class="form-control" value="${ product.grape_type }">
+                                                    </div>
+                                                    <div class="input-group mg-b-pro-edt">
+                                                        <span class="input-group-addon">원산지 : </span>
+                                                        <input type="text" class="form-control" value="${ product.wine_origin }">
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                 <div class="review-content-section">
                                                     <div class="input-group mg-b-pro-edt">
-                                                        <span class="input-group-addon"><i class="icon nalika-user" aria-hidden="true"></i></span>
-                                                        <input type="text" class="form-control" placeholder="Last Name">
+                                                        <span class="input-group-addon">알콜 도수 : </span>
+                                                        <input type="text" class="form-control" value="${ product.alcohol }">
                                                     </div>
                                                     <div class="input-group mg-b-pro-edt">
-                                                        <span class="input-group-addon"><i class="icon nalika-favorites-button" aria-hidden="true"></i></span>
-                                                        <input type="text" class="form-control" placeholder="Product Description">
+                                                        <span class="input-group-addon">산도 : </span>
+                                                        <input type="text" class="form-control" value="${ product.acidity }">
                                                     </div>
                                                     <div class="input-group mg-b-pro-edt">
-                                                        <span class="input-group-addon"><i class="fa fa-usd" aria-hidden="true"></i></span>
-                                                        <input type="text" class="form-control" placeholder="Sale Price">
+                                                        <span class="input-group-addon">당도 : </span>
+                                                        <input type="text" class="form-control" value="${ product.sweetness }">
                                                     </div>
                                                     <div class="input-group mg-b-pro-edt">
-                                                        <span class="input-group-addon"><i class="icon nalika-like" aria-hidden="true"></i></span>
-                                                        <input type="text" class="form-control" placeholder="Category">
+                                                        <span class="input-group-addon">바디 : </span>
+                                                        <input type="text" class="form-control" value="${ product.body }">
+                                                    </div>
+                                                    <div class="input-group mg-b-pro-edt">
+                                                        <span class="input-group-addon">타닌 : </span>
+                                                        <input type="text" class="form-control" value="${ product.tannin }">
                                                     </div>
                                                     <select name="select" class="form-control pro-edt-select form-control-primary">
 															<option value="opt1">Select One Value Only</option>
@@ -111,170 +123,16 @@
                                         <div class="row">
                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                 <div class="text-center custom-pro-edt-ds">
-                                                    <button type="button" class="btn btn-ctl-bt waves-effect waves-light m-r-10">Save
+                                                    <button type="button" class="btn btn-ctl-bt waves-effect waves-light m-r-10">수정
 														</button>
-                                                    <button type="button" class="btn btn-ctl-bt waves-effect waves-light">Discard
+                                                    <button type="button" class="btn btn-ctl-bt waves-effect waves-light">취소
 														</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="product-tab-list tab-pane fade" id="reviews">
-                                        <div class="row">
-                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                <div class="review-content-section">
-                                                    <div class="row">
-                                                        <div class="col-lg-4">
-                                                            <div class="pro-edt-img">
-                                                                <img src="img/new-product/5-small.jpg" alt="" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-8">
-                                                            <div class="row">
-                                                                <div class="col-lg-12">
-                                                                    <div class="product-edt-pix-wrap">
-                                                                        <div class="input-group">
-                                                                            <span class="input-group-addon">TT</span>
-                                                                            <input type="text" class="form-control" placeholder="Label Name">
-                                                                        </div>
-                                                                        <div class="row">
-                                                                            <div class="col-lg-6">
-                                                                                <div class="form-radio">
-                                                                                    <form>
-                                                                                        <div class="radio radiofill">
-                                                                                            <label>
-																									<input type="radio" name="radio"><i class="helper"></i>Largest Image
-																								</label>
-                                                                                        </div>
-                                                                                        <div class="radio radiofill">
-                                                                                            <label>
-																									<input type="radio" name="radio"><i class="helper"></i>Medium Image
-																								</label>
-                                                                                        </div>
-                                                                                        <div class="radio radiofill">
-                                                                                            <label>
-																									<input type="radio" name="radio"><i class="helper"></i>Small Image
-																								</label>
-                                                                                        </div>
-                                                                                    </form>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-lg-6">
-                                                                                <div class="product-edt-remove">
-                                                                                    <button type="button" class="btn btn-ctl-bt waves-effect waves-light">Remove
-																							<i class="fa fa-times" aria-hidden="true"></i>
-																						</button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-lg-4">
-                                                            <div class="pro-edt-img">
-                                                                <img src="img/new-product/6-small.jpg" alt="" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-8">
-                                                            <div class="row">
-                                                                <div class="col-lg-12">
-                                                                    <div class="product-edt-pix-wrap">
-                                                                        <div class="input-group">
-                                                                            <span class="input-group-addon">TT</span>
-                                                                            <input type="text" class="form-control" placeholder="Label Name">
-                                                                        </div>
-                                                                        <div class="row">
-                                                                            <div class="col-lg-6">
-                                                                                <div class="form-radio">
-                                                                                    <form>
-                                                                                        <div class="radio radiofill">
-                                                                                            <label>
-																									<input type="radio" name="radio"><i class="helper"></i>Largest Image
-																								</label>
-                                                                                        </div>
-                                                                                        <div class="radio radiofill">
-                                                                                            <label>
-																									<input type="radio" name="radio"><i class="helper"></i>Medium Image
-																								</label>
-                                                                                        </div>
-                                                                                        <div class="radio radiofill">
-                                                                                            <label>
-																									<input type="radio" name="radio"><i class="helper"></i>Small Image
-																								</label>
-                                                                                        </div>
-                                                                                    </form>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-lg-6">
-                                                                                <div class="product-edt-remove">
-                                                                                    <button type="button" class="btn btn-ctl-bt waves-effect waves-light">Remove
-																							<i class="fa fa-times" aria-hidden="true"></i>
-																						</button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-lg-4">
-                                                            <div class="pro-edt-img mg-b-0">
-                                                                <img src="img/new-product/7-small.jpg" alt="" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-8">
-                                                            <div class="row">
-                                                                <div class="col-lg-12">
-                                                                    <div class="product-edt-pix-wrap">
-                                                                        <div class="input-group">
-                                                                            <span class="input-group-addon">TT</span>
-                                                                            <input type="text" class="form-control" placeholder="Label Name">
-                                                                        </div>
-                                                                        <div class="row">
-                                                                            <div class="col-lg-6">
-                                                                                <div class="form-radio">
-                                                                                    <form>
-                                                                                        <div class="radio radiofill">
-                                                                                            <label>
-																									<input type="radio" name="radio"><i class="helper"></i>Largest Image
-																								</label>
-                                                                                        </div>
-                                                                                        <div class="radio radiofill">
-                                                                                            <label>
-																									<input type="radio" name="radio"><i class="helper"></i>Medium Image
-																								</label>
-                                                                                        </div>
-                                                                                        <div class="radio radiofill">
-                                                                                            <label>
-																									<input type="radio" name="radio"><i class="helper"></i>Small Image
-																								</label>
-                                                                                        </div>
-                                                                                    </form>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-lg-6">
-                                                                                <div class="product-edt-remove">
-                                                                                    <button type="button" class="btn btn-ctl-bt waves-effect waves-light">Remove
-																							<i class="fa fa-times" aria-hidden="true"></i>
-																						</button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-tab-list tab-pane fade" id="INFORMATION">
+                                    <!-- 리뷰 관리  -->
+                                    <div class="product-tab-list tab-pane fade" id="REVIEW">
                                         <div class="row">
                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                 <div class="review-content-section">

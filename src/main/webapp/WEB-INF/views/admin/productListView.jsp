@@ -68,7 +68,7 @@
                                 </tr>
                                 <c:forEach items="${list}" var="product">
                                 <tr>
-                                    <td><img src="${product.product_image}" alt="" /></td>
+                                    <td><img src="${pageContext.servletContext.contextPath}${product.product_image}.png" alt="" /></td>
                                     <td>${product.product_id }</td>
                                     <td>
                                         ${product.product_name}

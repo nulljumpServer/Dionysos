@@ -39,7 +39,7 @@
        <div class="container">
           <div class="row">
              <div class="col-lg-6 mb-5 ftco-animate">
-                <a href="${ product.product_image }" class="image-popup prod-img-bg"><img src="${ product.product_image }" class="img-fluid" alt="Colorlib Template"></a>
+                <a href="${ product.product_image }" class="image-popup prod-img-bg"><img src="${pageContext.servletContext.contextPath}${product.product_image}.png" class="img-fluid" alt="Colorlib Template"></a>
              </div>
              <div class="col-lg-6 product-details pl-md-5 ftco-animate">
                 <h1>${ product.product_name }</h1>
@@ -126,7 +126,7 @@
               <div class="tab-pane fade show active" id="v-pills-1" role="tabpanel" aria-labelledby="day-1-tab">
                  <div class="p-4">
                     <h3 class="mb-4">${ product.product_name }</h3>
-                    <p>${ product.wine_detail }
+                    <p><img src='${pageContext.servletContext.contextPath}${product.wine_detail}.png'>
                     </div>
               </div>
 

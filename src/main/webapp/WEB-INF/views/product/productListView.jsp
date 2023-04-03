@@ -56,7 +56,7 @@
 								<div class="product ftco-animate">
 									<div
 										class="img d-flex align-items-center justify-content-center"
-										style="background-image: url(${product.product_image});">
+										style="background-image: url('${pageContext.servletContext.contextPath}${product.product_image}.png');">
 										<div class="desc">
 											<p class="meta-prod d-flex">
 												<a href="#"
