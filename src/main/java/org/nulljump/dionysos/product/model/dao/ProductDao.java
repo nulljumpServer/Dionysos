@@ -107,7 +107,7 @@ public class ProductDao {
 	}
 
 	public int updateProduct(Product product) {
-		return session.selectOne("productMapper.updateProduct", product);
+		return session.update("productMapper.updateProduct", product);
 	}
 
 	public int deleteProduct(Product product) {

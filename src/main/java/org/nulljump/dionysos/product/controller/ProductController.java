@@ -431,7 +431,7 @@ public class ProductController {
 	
 		// 상품 수정 페이지 요청
 	@RequestMapping(value="pupdateForm.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String moveProductUpdateView(@RequestParam("product_id") int product_id, @RequestParam("page") int currentPage, Model model) {
+	public String moveProductUpdateView(@RequestParam("product_id") int product_id, @RequestParam("page") String currentPage, Model model) {
 		//������������ ���� product ��ü ���� ��ȸ��
 		Product product = productService.selectProduct(product_id);
 		
@@ -452,7 +452,7 @@ public class ProductController {
 	public String productUpdateMethod(Product product, Model model, HttpServletRequest request,
 			@RequestParam(name = "upfile1", required = false) MultipartFile mfile1,
 			@RequestParam(name = "upfile2", required = false) MultipartFile mfile2,
-			@RequestParam("page") int page) {
+			@RequestParam("page") String page) {
 		
 		// 원본 첨부파일 저장 폴더 경로 지정
 		String savePath1 = request.getSession().getServletContext().getRealPath("resources/images/product_single");
@@ -473,9 +473,9 @@ public class ProductController {
 		    if (fileName1 != null && fileName1.length() > 0) {
 //		        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		        // 변경할 파일명 만들기
-		        String renameFileName1 = "wine_single_" + (productService.selectLastProductId() + 1) ;
+		        String renameFileName1 = "wine_single_" + (product.getProduct_image()) ;
 
-//		        renameFileName1 += "." + fileName1.substring(fileName1.lastIndexOf(".") + 1);
+		        renameFileName1 += "." + fileName1.substring(fileName1.lastIndexOf(".") + 1);
 		        logger.info("첨부 파일명 확인 : " + fileName1 + ", " + renameFileName1);
 
 		        File renameFile1 = new File(savePath1 + "\\" + renameFileName1);
@@ -502,9 +502,9 @@ public class ProductController {
 		    if (fileName2 != null && fileName2.length() > 0) {
 //		        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		        // 변경할 파일명 만들기
-		        String renameFileName2 = "wine_detail_" + (productService.selectLastProductId() + 1) ;
+		        String renameFileName2 = "wine_detail_" + (product.getWine_detail()) ;
 
-//		        renameFileName2 += "." + fileName2.substring(fileName2.lastIndexOf(".") + 1);
+		        renameFileName2 += "." + fileName2.substring(fileName2.lastIndexOf(".") + 1);
 		        logger.info("첨부 파일명 확인 : " + fileName2 + ", " + renameFileName2);
 
 		        File renameFile2 = new File(savePath2 + "\\" + renameFileName2);
@@ -525,7 +525,7 @@ public class ProductController {
 			model.addAttribute("page", page);
 			model.addAttribute("product_id", product.getProduct_id());
 			
-			return "redirect:pdetailView.do";
+			return "redirect:adminplistView.do";
 		} else {
 			model.addAttribute("message", product.getProduct_id() + "��ǰ ���� ����!");
 			return "common/error";

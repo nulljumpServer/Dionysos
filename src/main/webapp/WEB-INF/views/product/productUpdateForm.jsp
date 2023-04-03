@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<c:set var="currentPage" value="${requestScope.currentPage}" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -108,6 +110,8 @@
 							</ul>
 							<!-- 상품 정보 관리 -->
 							<form action="pupdate.do" method="post" enctype="multipart/form-data">
+							<input type="hidden" name="product_id" value="${product.product_id}">
+   							<input type="hidden" name="page" value="${currentPage}">
 								<div id="myTabContent" class="tab-content custom-product-edit">
 									<div class="product-tab-list tab-pane fade active in"
 										id="description">
@@ -198,10 +202,10 @@
 										<div class="row">
 											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 												<div class="text-center custom-pro-edt-ds">
-													<button type="button"
+													<button type="submit"
 														class="btn btn-ctl-bt waves-effect waves-light m-r-10">수정
 													</button>
-													<button type="button"
+													<button type="reset"
 														class="btn btn-ctl-bt waves-effect waves-light">취소
 													</button>
 												</div>
