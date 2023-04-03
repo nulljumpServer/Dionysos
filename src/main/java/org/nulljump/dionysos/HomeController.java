@@ -23,46 +23,43 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class HomeController {
-	
+
 	@Autowired
 	private ProductService productService;
-	
+
 	@Autowired
 	private UsersService usersService;
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	
+
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
-		
+
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
+
 		String formattedDate = dateFormat.format(date);
-		
-		model.addAttribute("serverTime", formattedDate );
-		
+
+		model.addAttribute("serverTime", formattedDate);
+
 		return "home";
 	}
 
-	//index.jsp �� ���ĵ� �� �������� ��û�� �޾Ƽ� main.jsp
-	//common/main.jsp �� �������� ���� �����ϴ� �޼ҵ�
+	// index.jsp 가 웰컴될 때 포워딩된 요청을 받아서 main.jsp
+	// common/main.jsp 를 내보내기 위해 리턴하는 메소드
 	@RequestMapping(value = "main.do")
 	public ModelAndView forwardMainView(ModelAndView mv) {
 		ArrayList<Product> list1 = productService.selectNew4();
 		ArrayList<Product> list2 = productService.selectTop4();
-			mv.addObject("list1", list1);
-			mv.addObject("list2", list2);
-			
-				mv.setViewName("common/main");
+		mv.addObject("list1", list1);
+		mv.addObject("list2", list2);
 
-				
-		
-		
+		mv.setViewName("common/main");
+
 		return mv;
 	}
 }
