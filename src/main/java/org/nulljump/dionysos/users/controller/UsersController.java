@@ -81,9 +81,9 @@ public class UsersController {
 			session.setAttribute("loginUsers", loginUsers);
 			status.setComplete();
 			if(loginUsers.getAdmin().equals("Y")) {
-				return "admin/admin";
+				return "redirect:admin.do";
 			} else {
-				return "common/main";
+				return "redirect:main.do";
 			}
 			
 		} else {

@@ -1,6 +1,7 @@
 package org.nulljump.dionysos.product.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.nulljump.dionysos.common.Paging;
 import org.nulljump.dionysos.product.model.dao.ProductDao;
@@ -116,14 +117,16 @@ public class ProductServiceImpl implements ProductService {
 		return productDao.deleteProduct(product);
 	}
 
-	@Override
-	public ArrayList<Product> selectSearchWineType(String wine_type) {
-		return productDao.selectSearchWineType(wine_type);
-	}
 
 	@Override
 	public int selectLastProductId() {
 		return productDao.selectLastProductId();
+	}
+
+	@Override
+	public ArrayList<Product> selectAdvancedSearch(List<String> wine_type, List<String> wine_origin,
+			int product_price, int sweetness, int acidity, int body, int tannin) {
+		return productDao.selectAdvancedSearch(wine_type, wine_origin, product_price, sweetness, acidity, body, tannin);
 	}
 
 

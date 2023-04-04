@@ -39,15 +39,7 @@
 					<div class="row mb-4">
 						<div
 							class="col-md-12 d-flex justify-content-between align-items-center">
-							<h4 class="product-select">Select Types of Products</h4>
-							<select class="selectpicker" multiple>
-								<option>Brandy</option>
-								<option>Gin</option>
-								<option>Rum</option>
-								<option>Tequila</option>
-								<option>Vodka</option>
-								<option>Whiskey</option>
-							</select>
+							<h4 class="product-select">와인 목록</h4>
 						</div>
 					</div>
 					<div class="row">
@@ -56,25 +48,24 @@
 								<div class="product ftco-animate">
 									<div
 										class="img d-flex align-items-center justify-content-center"
-										style="background-image: url('${pageContext.servletContext.contextPath}${product.product_image}.png');">
+										style="background-image: url('${pageContext.servletContext.contextPath}${product.product_image}');">
 										<div class="desc">
-											<p class="meta-prod d-flex">
-												<a href="#"
-													class="d-flex align-items-center justify-content-center"><span
-													class="flaticon-shopping-bag"></span></a> <a href="#"
-													class="d-flex align-items-center justify-content-center"><span
-													class="flaticon-heart"></span></a> <a href="#"
-													class="d-flex align-items-center justify-content-center"><span
-													class="flaticon-visibility"></span></a>
-											</p>
+
+											<a href="#">${product.wine_origin}</a><br>
+											<br> <a href="#">${product.wine_type}</a><br>
+											<br> <a href="#">${product.grape_type}</a>
+
+
 										</div>
 									</div>
 									<c:url var="pdetail" value="pdetail.do">
 										<c:param name="product_id" value="${product.product_id }" />
 									</c:url>
 									<a href="${pdetail}"><div class="text text-center">
+
 											<span class="sale">${product.wine_type}</span> <span
 												class="category">${product.product_ename}</span>
+
 											<h2>${product.product_name}</h2>
 											<p class="mb-0">
 												<span class="price price-sale"><fmt:formatNumber
@@ -99,39 +90,81 @@
 				<div class="col-md-3">
 					<div class="sidebar-box ftco-animate">
 						<div class="categories">
-							<h3>Product Types</h3>
-							<form action="${pageContext.servletContext.contextPath}/psearch.do">
-							<input type="hidden" name="action" value="wine_type">
-							<ul class="p-0">
-								
-								<li><a href="${psearch}">레드와인 <span
-										class="fa fa-chevron-right"></span></a></li>
-								<c:url var="psearchType" value="/psearch.do">
-									<c:param name="keyword" value="화이트" />
-								</c:url>
-								<li><a href="${psearch}">화이트와인 <span
-										class="fa fa-chevron-right"></span></a></li>
-								<c:url var="psearch" value="/psearch.do">
-									<c:param name="keyword" value="스파클링" />
-								</c:url>
-								<li><a href="${psearch}">스파클링 <span
-										class="fa fa-chevron-right"></span></a></li>
-								<c:url var="psearch" value="/psearch.do">
-									<c:param name="keyword" value="로제" />
-								</c:url>
-								<li><a href="${psearch}">로제 <span
-										class="fa fa-chevron-right"></span></a></li>
-								<c:url var="psearch" value="/psearch.do">
-									<c:param name="keyword" value="주정강화" />
-								</c:url>
-								<li><a href="${psearch}">주정강화 <span
-										class="fa fa-chevron-right"></span></a></li>
-								<c:url var="psearch" value="/psearch.do">
-									<c:param name="keyword" value="기타" />
-								</c:url>
-								<li><a href="${psearch}">기타 <span
-										class="fa fa-chevron-right"></span></a></li>
-							</ul>
+							<h3>상세 검색</h3>
+							<form action="advsearch.do" method="post">
+								<fieldset>
+									<legend>와인 종류</legend>
+									<input name='wine_type' type='checkbox' value='레드'> 레드
+									&nbsp; &nbsp; <input name='wine_type' type='checkbox'
+										value='화이트'> 화이트 &nbsp; &nbsp; <input name='wine_type'
+										type='checkbox' value='스파클링'> 스파클링 &nbsp; &nbsp; <input
+										name='wine_type' type='checkbox' value='로제'>로제 &nbsp;
+									&nbsp; <input name='wine_type' type='checkbox' value='주정강화'>주정강화
+									&nbsp; &nbsp;
+								</fieldset>
+								<br>
+								<fieldset>
+									<legend>와인 원산지</legend>
+									<input name='wine_origin' type='checkbox' value="프랑스">
+									프랑스&nbsp; &nbsp; <input name='wine_origin' type='checkbox'
+										value="이탈리아"> 이탈리아&nbsp; &nbsp; <input
+										name='wine_origin' type='checkbox' value="스페인">
+									스페인&nbsp; &nbsp; <input name='wine_origin' type='checkbox'
+										value="포르투갈"> 포르투갈&nbsp; &nbsp; <input
+										name='wine_origin' type='checkbox' value="독일">
+									독일&nbsp; &nbsp; <br> <input name='wine_origin'
+										type='checkbox' value="오스트리아"> 오스트리아&nbsp; &nbsp; <input
+										name='wine_origin' type='checkbox' value="미국">
+									미국&nbsp; &nbsp; <input name='wine_origin' type='checkbox'
+										value="호주"> 호주&nbsp; &nbsp;<br> <input
+										name='wine_origin' type='checkbox' value="뉴질랜드">
+									뉴질랜드&nbsp; &nbsp; <input name='wine_origin' type='checkbox'
+										value="칠레"> 칠레&nbsp; &nbsp;<br> <input
+										name='wine_origin' type='checkbox' value="아르헨티나">
+									아르헨티나&nbsp; &nbsp; <input name='wine_origin' type='checkbox'
+										value="남아프리카"> 남아프리카&nbsp; &nbsp;
+								</fieldset>
+								<br>
+								<fieldset>
+									<legend>가격대</legend>
+									<input name='product_price' type='radio' value="10000">
+									1만원 이하&nbsp;&nbsp; <input name='product_price' type='radio'
+										value="30000"> 3만원 이하&nbsp;&nbsp;<br> <input
+										name='product_price' type='radio' value="50000"> 5만원
+									이하&nbsp;&nbsp; <input name='product_price' type='radio'
+										value="70000"> 7만원 이하&nbsp;&nbsp;<br> <input
+										name='product_price' type='radio' value="100000"> 10만원
+									이하&nbsp;&nbsp; <input name='product_price' type='radio'
+										value="200000"> 20만원 이하&nbsp;&nbsp; <br>
+									<input name='product_price' type='radio' value="500000">
+									50만원 이하&nbsp;&nbsp; <input name='product_price' type='radio'
+										value="1000000"> 100만원 이하&nbsp;&nbsp;<br> <input
+										name='product_price' type='radio' value="9999999">
+									100만원 이상&nbsp;&nbsp;
+								</fieldset>
+
+								<br>
+								<fieldset>
+									<legend>와인 특성</legend>
+									당도&nbsp;&nbsp; <input type="checkbox"
+										onclick="document.getElementById('sweetness').disabled = !document.getElementById('sweetness').disabled;">
+									<input type="range" id="sweetness" name="sweetness" min="0"
+										max="5" step="1" list="tick" disabled><br>
+									산도&nbsp;&nbsp; <input type="checkbox"
+										onclick="document.getElementById('acidity').disabled = !document.getElementById('acidity').disabled;">
+									<input type="range" id="acidity" name="acidity" min="0" max="5"
+										step="1" disabled><br> 바디&nbsp;&nbsp; <input
+										type="checkbox"
+										onclick="document.getElementById('body').disabled = !document.getElementById('body').disabled;">
+									<input type="range" id="body" name="body" min="0" max="5"
+										step="1" disabled><br> 타닌&nbsp;&nbsp; <input
+										type="checkbox"
+										onclick="document.getElementById('tannin').disabled = !document.getElementById('tannin').disabled;">
+									<input type="range" id="tannin" name="tannin" min="0" max="5"
+										step="1" disabled> <br>
+									<button type='reset'>초기화</button>
+									<button type='submit'>검색</button>
+								</fieldset>
 							</form>
 						</div>
 					</div>
@@ -154,7 +187,7 @@
 
 
 
-
+	<c:set var="url" value="plistView.do" />
 	<script
 		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.min.js"></script>
 	<script

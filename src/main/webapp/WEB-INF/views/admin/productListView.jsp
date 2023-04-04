@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
         <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+<c:set var="url" value="plistView.do" />
 <c:set var="currentPage" value="${ requestScope.paging.currentPage }" />
 <!DOCTYPE html>
 <html>
@@ -110,7 +110,8 @@
                 </div>
             </div>
         </div>
-    </div>
+    
+    
 
     <!-- jquery
 		============================================ -->

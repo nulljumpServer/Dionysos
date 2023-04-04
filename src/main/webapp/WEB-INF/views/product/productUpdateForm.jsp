@@ -111,6 +111,8 @@
 							<!-- 상품 정보 관리 -->
 							<form action="pupdate.do" method="post" enctype="multipart/form-data">
 							<input type="hidden" name="product_id" value="${product.product_id}">
+							<input type="hidden" name="product_id" value="${product.product_image}">
+							<input type="hidden" name="product_id" value="${product.wine_detail}">
    							<input type="hidden" name="page" value="${currentPage}">
 								<div id="myTabContent" class="tab-content custom-product-edit">
 									<div class="product-tab-list tab-pane fade active in"
@@ -221,7 +223,7 @@
 															기존 이미지
 															<div class="pro-edt-img">
 																<img
-																	src="${pageContext.servletContext.contextPath}${product.product_image}.png"
+																	src="${pageContext.servletContext.contextPath}${product.product_image}"
 																	alt="" />
 															</div>
 														</div>
@@ -248,7 +250,7 @@
 															기존 이미지
 															<div class="pro-edt-img">
 																<img
-																	src="${pageContext.servletContext.contextPath}${product.wine_detail}.png"
+																	src="${pageContext.servletContext.contextPath}${product.wine_detail}"
 																	alt="" />
 															</div>
 														</div>
@@ -262,7 +264,7 @@
 														</div>
 
 														<div class="input-group">
-															<span class="input-group-addon">상품 이미지 : </span>
+															<span class="input-group-addon">상세 이미지 : </span>
 															<div class="form-group">
 																<input class="form-control form-control-user"
 																	type="file" name="upfile2" id="wine_detail"
