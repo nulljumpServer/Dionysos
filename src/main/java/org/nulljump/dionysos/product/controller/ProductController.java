@@ -192,7 +192,7 @@ public class ProductController {
 			model.addAttribute("list", list);
 			return "product/productListView";
 		} else {
-			model.addAttribute("message", action + " ��ǰ�� ǰ�� Ȥ�� �������� �ʽ��ϴ�.");
+			model.addAttribute("message", action + " 검색 결과가 없습니다.");
 			return "common/error";
 		}
 	}
@@ -410,11 +410,11 @@ public class ProductController {
 		Paging paging = new Paging(listCount, currentPage, limit);
 		paging.calculator();
 		
-		int product_price = 0;
-		int sweetness = 0;
-		int body = 0;
-		int tannin = 0;
-		int acidity = 0;
+		int product_price = -1;
+		int sweetness = -1;
+		int body = -1;
+		int tannin = -1;
+		int acidity = -1;
 		if(pr != null) {
 			product_price = Integer.parseInt(pr);
 		}
@@ -430,7 +430,7 @@ public class ProductController {
 		if(ac != null) {
 			acidity = Integer.parseInt(ac);
 		}
-		ArrayList<Product> list = productService.selectAdvancedSearch(wine_type, wine_origin, product_price, sweetness, acidity, body, tannin);
+		ArrayList<Product> list = productService.selectFilter(wine_type, wine_origin, product_price, sweetness, acidity, body, tannin);
 		
 		if (list != null && list.size() > 0) {
 			model.addAttribute("list", list);

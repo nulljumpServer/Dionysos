@@ -34,7 +34,7 @@ public interface ProductService {
 	int updateProduct(Product product);           //��ǰ ����
 	int deleteProduct(Product product);           //��ǰ ����
 
-	ArrayList<Product> selectAdvancedSearch(List<String> wine_type, List<String> wine_origin, int product_price, int sweetness, int acidity, int body, int tannin);
+	ArrayList<Product> selectFilter(List<String> wine_type, List<String> wine_origin, int product_price, int sweetness, int acidity, int body, int tannin);
 
 	
 }

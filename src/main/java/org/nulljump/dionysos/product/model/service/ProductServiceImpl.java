@@ -124,9 +124,9 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public ArrayList<Product> selectAdvancedSearch(List<String> wine_type, List<String> wine_origin,
+	public ArrayList<Product> selectFilter(List<String> wine_type, List<String> wine_origin,
 			int product_price, int sweetness, int acidity, int body, int tannin) {
-		return productDao.selectAdvancedSearch(wine_type, wine_origin, product_price, sweetness, acidity, body, tannin);
+		return productDao.selectFilter(wine_type, wine_origin, product_price, sweetness, acidity, body, tannin);
 	}
 
 

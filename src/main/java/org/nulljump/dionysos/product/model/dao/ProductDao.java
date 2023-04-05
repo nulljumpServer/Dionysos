@@ -125,7 +125,7 @@ public class ProductDao {
 		return session.selectOne("productMapper.selectLastProductId");
 		}
 
-	public ArrayList<Product> selectAdvancedSearch(List<String> wine_type, List<String> wine_origin,
+	public ArrayList<Product> selectFilter(List<String> wine_type, List<String> wine_origin,
 			int product_price, int sweetness, int acidity, int body, int tannin) {
 		 Map<String, Object> paramMap = new HashMap<>();
 		    paramMap.put("wine_type", wine_type);
@@ -136,7 +136,7 @@ public class ProductDao {
 		    paramMap.put("body", body);
 		    paramMap.put("tannin", tannin);
 		    
- 		    List<Object> products = session.selectList("productMapper.selectAdvancedSearch", paramMap);
+ 		    List<Object> products = session.selectList("productMapper.selectFilter", paramMap);
  		    ArrayList<Product> list = new ArrayList<Product>();
  		    for(Object obj : products) {
  		    	list.add((Product)obj);

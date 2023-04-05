@@ -146,22 +146,18 @@
 								<br>
 								<fieldset>
 									<legend>와인 특성</legend>
-									당도&nbsp;&nbsp; <input type="checkbox"
-										onclick="document.getElementById('sweetness').disabled = !document.getElementById('sweetness').disabled;">
-									<input type="range" id="sweetness" name="sweetness" min="0"
-										max="5" step="1" list="tick" disabled><br>
-									산도&nbsp;&nbsp; <input type="checkbox"
-										onclick="document.getElementById('acidity').disabled = !document.getElementById('acidity').disabled;">
-									<input type="range" id="acidity" name="acidity" min="0" max="5"
-										step="1" disabled><br> 바디&nbsp;&nbsp; <input
-										type="checkbox"
-										onclick="document.getElementById('body').disabled = !document.getElementById('body').disabled;">
-									<input type="range" id="body" name="body" min="0" max="5"
-										step="1" disabled><br> 타닌&nbsp;&nbsp; <input
-										type="checkbox"
-										onclick="document.getElementById('tannin').disabled = !document.getElementById('tannin').disabled;">
-									<input type="range" id="tannin" name="tannin" min="0" max="5"
-										step="1" disabled> <br>
+									당도&nbsp;&nbsp; <input type="checkbox"	onclick="document.getElementById('sweetness').disabled = !document.getElementById('sweetness').disabled;"> 
+						<input type="range" id="sweetness" name="sweetness" min="0" max="5" step="1" value="0" oninput="document.getElementById('value1').innerHTML=this.value;" disabled>&nbsp;
+						<span id="value1">0</span><br>
+					산도&nbsp;&nbsp; <input type="checkbox" onclick="document.getElementById('acidity').disabled = !document.getElementById('acidity').disabled;"> 
+						<input type="range" id="acidity" name="acidity" min="0" max="5" step="1" value="0" oninput="document.getElementById('value2').innerHTML=this.value;" disabled>&nbsp;
+						<span id="value2">0</span><br>
+					바디&nbsp;&nbsp; <input type="checkbox" onclick="document.getElementById('body').disabled = !document.getElementById('body').disabled;"> 
+						<input type="range" id="body" name="body" min="0" max="5" step="1" value="0" oninput="document.getElementById('value3').innerHTML=this.value;" disabled>&nbsp;
+						<span id="value3">0</span><br>
+					타닌&nbsp;&nbsp; <input type="checkbox"	onclick="document.getElementById('tannin').disabled = !document.getElementById('tannin').disabled;"> 
+					<input type="range" id="tannin" name="tannin" min="0" max="5" step="1" value="0" oninput="document.getElementById('value4').innerHTML=this.value;" disabled>&nbsp;
+					<span id="value4">0</span>
 									<button type='reset'>초기화</button>
 									<button type='submit'>검색</button>
 								</fieldset>
