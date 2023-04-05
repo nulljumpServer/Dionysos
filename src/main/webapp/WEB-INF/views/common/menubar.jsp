@@ -1,8 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" errorPage="error.jsp" %>
+	pageEncoding="UTF-8" errorPage="error.jsp"%>
 <%-- <%@ page import="org.ict.first.User.model.vo.User" %> --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%
+    String admin = (String) session.getAttribute("admin");
+    if ("y".equals(admin)) {
+        response.sendRedirect("다른페이지URL");
+    }
+%>
 <%-- <%
 	User loginUser = (User)session.getAttribute("loginUser");
 %> --%>
@@ -63,14 +69,11 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-6 d-flex align-items-center">
-					<div align="center" class="top-total-sch main-sch-section">
-						<form
-							action="psearch.do"
-							class="input-box">
-							<input type="hidden" name="action" value="product_name">
-							<input type="search" size="20" name="keyword" placeholder="상품검색">
-							<!-- <p class="input-box"><input type="text" id="wingSearch" placeholder="통합검색" onkeydown="onInputSearchKeyDown(event);" value=""> -->
-							<input type='submit' class='btn-search' value="검색">
+					<div class="top-total-sch main-sch-section">
+						<form action="psearch.do" class="input-box">
+						<input type="hidden" name="action" value="product_name">
+						<input type="search" size="20" name="keyword" placeholder="상품검색">
+						<input type='submit' class='btn-search' value="검색">
 						</form>
 					</div>
 				</div>
@@ -86,7 +89,7 @@
 								<a href="${pageContext.servletContext.contextPath}/loginPage.do">Log
 									In</a>
 							</c:if>
-							<c:if test="${!empty loginUsers and loginUsers.admin ne 'Y'}">
+							<c:if test="${!empty loginUsers}">
 		        	 		${loginUsers.name}님 &nbsp;
 		        	 		<a
 									href="${pageContext.servletContext.contextPath}/logout.do">Log
@@ -128,9 +131,9 @@
 						<li class="nav-item"><a href="about.html" class="nav-link">와인사전</a></li>
 						<li class="nav-item dropdown"><a
 							class="nav-link dropdown-toggle" href="#" id="dropdown04"
-							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">추천상품</a>
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">상품</a>
 							<div class="dropdown-menu" aria-labelledby="dropdown04">
-								<a class="dropdown-item" href="product.html">와인 종류</a> <a
+								<a class="dropdown-item" href="plistView.do">전체상품 목록</a> <a
 									class="dropdown-item" href="product-single.html">원산지</a> <a
 									class="dropdown-item" href="cart.html">가격대</a> <a
 									class="dropdown-item" href="checkout.html">특성</a>
@@ -141,7 +144,7 @@
 							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">고객센터</a>
 							<div class="dropdown-menu" aria-labelledby="dropdown04">
 								<a class="dropdown-item"
-									href="${pageContext.servletContext.contextPath}/nlist.do">공지사항</a>
+									href="${pageContext.servletContext.contextPath}/nplist.do">공지사항</a>
 								<a class="dropdown-item"
 									href="${pageContext.servletContext.contextPath}/flist.do">자주하는
 									질문</a> <a class="dropdown-item"
@@ -154,13 +157,13 @@
 		</nav>
 	</c:if>
 	<!-- 로그인(일반 유저) -->
-	<c:if test="${!empty loginUsers and loginUsers.admin eq 'N'}">
+	<c:if test="${!empty loginUsers}">
 		<nav
 			class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light"
 			id="ftco-navbar">
 			<div class="container">
-				<a class="navbar-brand" href="main.do">Liquor <span>store</span></a>
-				
+				<a class="navbar-brand" href="main.do">Dionysos <span>store</span></a>
+
 
 				<button class="navbar-toggler" type="button" data-toggle="collapse"
 					data-target="#ftco-nav" aria-controls="ftco-nav"
@@ -175,9 +178,9 @@
 						<li class="nav-item"><a href="about.html" class="nav-link">와인사전</a></li>
 						<li class="nav-item dropdown"><a
 							class="nav-link dropdown-toggle" href="#" id="dropdown04"
-							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">추천상품</a>
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">상품</a>
 							<div class="dropdown-menu" aria-labelledby="dropdown04">
-								<a class="dropdown-item" href="product.html">와인 종류</a> <a
+								<a class="dropdown-item" href="plistView.do">전체상품 목록</a> <a
 									class="dropdown-item" href="product-single.html">원산지</a> <a
 									class="dropdown-item" href="cart.html">가격대</a> <a
 									class="dropdown-item" href="checkout.html">특성</a>
@@ -188,7 +191,7 @@
 							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">고객센터</a>
 							<div class="dropdown-menu" aria-labelledby="dropdown04">
 								<a class="dropdown-item"
-									href="${pageContext.servletContext.contextPath}/nlist.do">공지사항</a>
+									href="${pageContext.servletContext.contextPath}/nplist.do">공지사항</a>
 								<a class="dropdown-item"
 									href="${pageContext.servletContext.contextPath}/flist.do">자주하는
 									질문</a> <a class="dropdown-item"
@@ -204,19 +207,48 @@
 	<div class="hero-wrap"
 		style="background-image: url('resources/images/users/bg_5.jpg');">
 		<div class="overlay"></div>
-		<div class="container">
+		
 			<div
 				class="row no-gutters slider-text align-items-center justify-content-center">
 				<div class="col-md-8 ftco-animate d-flex align-items-end">
 					<div class="text w-100 text-center">
 						<h1 class="mb-4">
-							Dionysos <span>Wine</span> Shop<span>&</span> Dictionary
+							Dionysos <span>Wine</span> Shop<span> & </span> Dictionary
 						</h1>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	
+	<section class="ftco-section ftco-no-pb">
+				최근 본 상품
+				
+		<div class="container">
+			<div class="row">
+				<c:forEach var="product" items="${recentProducts}">
+				<c:url var="pdetail" value="pdetail.do">
+					<c:param name="product_id" value="${product.product_id}" />
+				</c:url>
+					
+					<div class="col-lg-2 col-md-4 ">
+					<div class="sort w-100 text-center ftco-animate">
+					<a href="${pdetail}">
+							<div class="img" style="background-image: url('${pageContext.servletContext.contextPath}${product.product_image}');"></div>
+							<h3>${product.product_name}</h3>
+							</a>
+						</div>
+						
+					</div>
+				</c:forEach>
+			</div>
+		</div>
+		
+	</section>
+
+
+
+
+
 	<img id="topBtn"
 		src="${pageContext.servletContext.contextPath}/resources/images/users/top.png"
 		align="right">

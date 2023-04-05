@@ -11,43 +11,44 @@ import org.nulljump.dionysos.product.model.vo.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-@Repository("productDao")  //xml�� �ڵ� ��ϵ�
+@Repository("productDao")  
 public class ProductDao {
 
 	@Autowired
-	private SqlSessionTemplate session;   //������ ����
+	private SqlSessionTemplate session;  
 	
+	// 페이징용 상품 조회
 	public ArrayList<Product> selectProductList(Paging page) {
 		List<Product> list = session.selectList("productMapper.selectProductList", page);
 		return (ArrayList<Product>)list;
 	}
-	
+	// TOP N 분석 (상품 판매량 기준)
 	public ArrayList<Product> selectTop4() {
 		List<Product> list = session.selectList("productMapper.selectTop4");
 		return (ArrayList<Product>)list;
 	}
-	
+	// TOP N 분석 (상품 추가일 기준, 신상품)
 	public ArrayList<Product> selectNew4() {
 		List<Product> list = session.selectList("productMapper.selectNew4");
 		return (ArrayList<Product>)list;
 	}
 	
-	//��ǰ ����� �� ���� ��ȸ
+	//상품 갯수 조회
 	public int selectListCount() {
 		return session.selectOne("productMapper.selectListCount");
 	}
-
+	// 상품 아이디로 검색 (상품 객체 전달)
 	public Product selectProduct(int product_id) {
 		return session.selectOne("productMapper.selectProduct", product_id);
 	}
 
-	//Ư�� ������ �ش��ϴ� ��ǰ ��� ��ȸ
+	
 	public ArrayList<Product> selectFilterProductList() {
 		List<Product> list = session.selectList("productMapper.selectFilterProductList");
 		return (ArrayList<Product>) list;
 	}
 
-	//�˻� ó����
+	
 	public ArrayList<Product> selectSearchProductId(int keyword) {
 		List<Product> list = session.selectList("productMapper.selectSearchProduct", keyword);
 		return (ArrayList<Product>)list;
@@ -103,7 +104,7 @@ public class ProductDao {
 		return (ArrayList<Product>)list;
 	}
 
-	//������
+	//관리자 기능 (추가, 수정, 삭제)
 	public int insertProduct(Product product) {
 		return session.insert("productMapper.insertProduct", product);
 	}
@@ -116,15 +117,12 @@ public class ProductDao {
 		return session.delete("productMapper.deleteProduct", product);
 	}
 
-	public ArrayList<Product> selectSearchWineType(String wine_type) {
-		List<Product> list = session.selectList("productMapper.selectSearchProduct", wine_type);
-		return (ArrayList<Product>)list;
-	}
-
+	
+	// 상품 마지막 번호 조회
 	public int selectLastProductId() {
 		return session.selectOne("productMapper.selectLastProductId");
 		}
-
+	// 필터링 검색
 	public ArrayList<Product> selectFilter(List<String> wine_type, List<String> wine_origin,
 			int product_price, int sweetness, int acidity, int body, int tannin) {
 		 Map<String, Object> paramMap = new HashMap<>();

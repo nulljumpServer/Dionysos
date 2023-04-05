@@ -185,15 +185,14 @@
 	 */
 	function setAdult() {
 
-		//Csrf.Set(_CSRF_NAME_); //토큰 초기화
 		$.ajax({
 			type : "POST",
 			url : "main.do",
 			data : {},
-			success : function(res) {
+			success : function(data) {
 				location.href = 'main.do';
 			},
-			error : function(res) {
+			error : function(data) {
 				console.log(res.responseText);
 			}
 		});

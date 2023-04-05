@@ -68,16 +68,14 @@
 			           <td><img src="resources/images/users/graph_${ product.body }.png" width="50" height="50">&nbsp;</td>
 			           <td><img src="resources/images/users/graph_${ product.acidity }.png" width="50" height="50">&nbsp;</td>
 			           <td><img src="resources/images/users/graph_${ product.tannin }.png" width="50" height="50">&nbsp;</td>
-				      </tr> 
-				       <!-- <tr>
+				      </tr>				       <!-- <tr>
 				            <td><img src="resources/images/graph_0.png" width="50" height="50">&nbsp;</td> 
 				            <td><img src="resources/images/graph_1.png" width="50" height="50">&nbsp;</td>
 				            <td><img src="resources/images/graph_2.png" width="50" height="50">&nbsp;</td>
 				            <td><img src="resources/images/graph_3.png" width="50" height="50">&nbsp;</td>
 				         </tr>  -->
 				   </table>
-				 					
- 				
+				 			
  				<!--  <div><label>산도 : </label><img src="resources/images/graph_0.png" alt="산도" height="50" width="50"></div>
                 <div><label>당도 : </label><span> 6.00%</span></div>
                 <div><label>바디 : </label><span> 6.00%</span></div>

@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8" errorPage="/error.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -70,18 +71,30 @@
 				<br>
 				<fieldset>
 					<legend>와인 특성</legend>
-					당도&nbsp;&nbsp; <input type="checkbox"	onclick="document.getElementById('sweetness').disabled = !document.getElementById('sweetness').disabled;"> 
-						<input type="range" id="sweetness" name="sweetness" min="0" max="5" step="1" value="0" oninput="document.getElementById('value1').innerHTML=this.value;" disabled>&nbsp;
-						<span id="value1">0</span>&nbsp;&nbsp;
-					산도&nbsp;&nbsp; <input type="checkbox" onclick="document.getElementById('acidity').disabled = !document.getElementById('acidity').disabled;"> 
-						<input type="range" id="acidity" name="acidity" min="0" max="5" step="1" value="0" oninput="document.getElementById('value2').innerHTML=this.value;" disabled>&nbsp;
-						<span id="value2">0</span> &nbsp;&nbsp;
-					바디&nbsp;&nbsp; <input type="checkbox" onclick="document.getElementById('body').disabled = !document.getElementById('body').disabled;"> 
-						<input type="range" id="body" name="body" min="0" max="5" step="1" value="0" oninput="document.getElementById('value3').innerHTML=this.value;" disabled>&nbsp;
-						<span id="value3">0</span> &nbsp;&nbsp;
-					타닌&nbsp;&nbsp; <input type="checkbox"	onclick="document.getElementById('tannin').disabled = !document.getElementById('tannin').disabled;"> 
-					<input type="range" id="tannin" name="tannin" min="0" max="5" step="1" value="0" oninput="document.getElementById('value4').innerHTML=this.value;" disabled>&nbsp;
-					<span id="value4">0</span>
+					당도&nbsp;&nbsp; <input type="checkbox"
+						onclick="document.getElementById('sweetness').disabled = !document.getElementById('sweetness').disabled;">
+					<input type="range" id="sweetness" name="sweetness" min="0" max="5"
+						step="1" value="0"
+						oninput="document.getElementById('value1').innerHTML=this.value;"
+						disabled>&nbsp; <span id="value1">0</span>&nbsp;&nbsp;
+					산도&nbsp;&nbsp; <input type="checkbox"
+						onclick="document.getElementById('acidity').disabled = !document.getElementById('acidity').disabled;">
+					<input type="range" id="acidity" name="acidity" min="0" max="5"
+						step="1" value="0"
+						oninput="document.getElementById('value2').innerHTML=this.value;"
+						disabled>&nbsp; <span id="value2">0</span> &nbsp;&nbsp;
+					바디&nbsp;&nbsp; <input type="checkbox"
+						onclick="document.getElementById('body').disabled = !document.getElementById('body').disabled;">
+					<input type="range" id="body" name="body" min="0" max="5" step="1"
+						value="0"
+						oninput="document.getElementById('value3').innerHTML=this.value;"
+						disabled>&nbsp; <span id="value3">0</span> &nbsp;&nbsp;
+					타닌&nbsp;&nbsp; <input type="checkbox"
+						onclick="document.getElementById('tannin').disabled = !document.getElementById('tannin').disabled;">
+					<input type="range" id="tannin" name="tannin" min="0" max="5"
+						step="1" value="0"
+						oninput="document.getElementById('value4').innerHTML=this.value;"
+						disabled>&nbsp; <span id="value4">0</span>
 					<button type='reset'>초기화</button>
 					<button type='submit'>검색</button>
 				</fieldset>
@@ -108,15 +121,12 @@
 						<div class="img d-flex align-items-center justify-content-center"
 							style="background-image: url('${pageContext.servletContext.contextPath}${product.product_image}');">
 							<div class="desc">
-								<p class="meta-prod d-flex">
-									<a href="#"
-										class="d-flex align-items-center justify-content-center"><span
-										class="flaticon-shopping-bag"></span></a> <a href="#"
-										class="d-flex align-items-center justify-content-center"><span
-										class="flaticon-heart"></span></a> <a href="#"
-										class="d-flex align-items-center justify-content-center"><span
-										class="flaticon-visibility"></span></a>
-								</p>
+
+								<a href="#">${product.wine_origin}</a><br> <br> <a
+									href="#">${product.wine_type}</a><br> <br> <a
+									href="#">${product.grape_type}</a>
+
+
 							</div>
 						</div>
 						<c:url var="pdetail" value="pdetail.do">
