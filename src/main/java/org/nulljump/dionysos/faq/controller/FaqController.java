@@ -2,7 +2,6 @@ package org.nulljump.dionysos.faq.controller;
 
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.nulljump.dionysos.faq.model.service.FaqService;
@@ -16,7 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class FaqController {
@@ -25,26 +23,34 @@ public class FaqController {
 	@Autowired
 	private FaqService faqservice;
 
-	// ÀÚÁÖÇÏ´ÂÁú¹® ÀüÃ¼ ¸ñ·Ï Ãâ·Â
+	// ìì£¼í•˜ëŠ”ì§ˆë¬¸ ì „ì²´ ëª©ë¡ ì¶œë ¥
 	@RequestMapping("flist.do")
-	public String faqListMethod(Model model) {
+	public String faqListMethod(Model model, HttpSession session) {
 		ArrayList<Faq> list = faqservice.selectFaq();
 
 		if (list != null && list.size() > 0) {
-			model.addAttribute("list", list);
-			return "faq/faqListView";
+			Users loginUsers = (Users)session.getAttribute("loginUsers");
+			if (loginUsers != null && loginUsers.getAdmin().equals("Y")) {
+				// ë¡œê·¸ì¸í•œ ê´€ë¦¬ìê°€ ìš”ì²­í–ˆë‹¤ë©´
+				model.addAttribute("list", list);
+				return "faq/faqAdminListView";
+			}else {
+				// ê´€ë¦¬ìê°€ ì•„ë‹Œ ë˜ëŠ” ë¡œê·¸ì¸í•˜ì§€ ì•Šì€ ìƒíƒœì—ì„œì˜ ìš”ì²­ì´ë¼ë©´
+				model.addAttribute("list", list);
+				return "faq/faqListView";
+			}
 		} else {
-			model.addAttribute("message", "µî·ÏµÈ Á¤º¸°¡ ¾ø½À´Ï´Ù.");
+			model.addAttribute("message", "ë“±ë¡ëœ ì •ë³´ê°€ ì—†ìŠµë‹ˆë‹¤.");
 			return "common/error";
 		}
 	}
 	
 	
-	// ÀÚÁÖÇÏ´ÂÁú¹® »ó¼¼º¸±â 
+	// ìì£¼í•˜ëŠ”ì§ˆë¬¸ ìƒì„¸ë³´ê¸° 
 	@RequestMapping("fdetail.do")
-	public String faqDetailMethod(@RequestParam("faqno") int faq_no, Model model, HttpSession session) {
-		// °ü¸®ÀÚ¿ë »ó¼¼º¸±â ÆäÀÌÁö¿Í ÀÏ¹İÈ¸¿ø ¶Ç´Â ºñÈ¸¿ø »ó¼¼º¸±â ÆäÀÌÁö ±¸ºĞ
-		// HttpSession À» ¸Å°³º¯¼ö¿¡ Ãß°¡
+	public String faqDetailMethod(@RequestParam("faq_no") int faq_no, Model model, HttpSession session) {
+		// ê´€ë¦¬ììš© ìƒì„¸ë³´ê¸° í˜ì´ì§€ì™€ ì¼ë°˜íšŒì› ë˜ëŠ” ë¹„íšŒì› ìƒì„¸ë³´ê¸° í˜ì´ì§€ êµ¬ë¶„
+		// HttpSession ì„ ë§¤ê°œë³€ìˆ˜ì— ì¶”ê°€
 
 		Faq faq = faqservice.selectList(faq_no);
 
@@ -53,71 +59,87 @@ public class FaqController {
 
 			Users loginUsers = (Users) session.getAttribute("loginUsers");
 			if (loginUsers != null && loginUsers.getAdmin().equals("Y")) {
-				// ·Î±×ÀÎÇÑ °ü¸®ÀÚ°¡ ¿äÃ»Çß´Ù¸é
+				// ë¡œê·¸ì¸í•œ ê´€ë¦¬ìê°€ ìš”ì²­í–ˆë‹¤ë©´
 				return "faq/faqAdminDetailView";
 			} else {
-				// °ü¸®ÀÚ°¡ ¾Æ´Ñ ¶Ç´Â ·Î±×ÀÎÇÏÁö ¾ÊÀº »óÅÂ¿¡¼­ÀÇ ¿äÃ»ÀÌ¶ó¸é
-				return "faq/faqDetailView";
+				// ê´€ë¦¬ìê°€ ì•„ë‹Œ ë˜ëŠ” ë¡œê·¸ì¸í•˜ì§€ ì•Šì€ ìƒíƒœì—ì„œì˜ ìš”ì²­ì´ë¼ë©´
+				return "faq/faqListView";
 			}
 		} else {
-			model.addAttribute("message", faq_no + "¹ø »ó¼¼º¸±â Á¶È¸ ½ÇÆĞ");
+			model.addAttribute("message", faq_no + "ë²ˆ ìƒì„¸ë³´ê¸° ì¡°íšŒ ì‹¤íŒ¨");
 			return "common/error";
 		}
 	}
 	
-	//ÀÚÁÖÇÏ´Â Áú¹® µî·Ï ÆäÀÌÁö·Î ÀÌµ¿ 
+	//ìì£¼í•˜ëŠ” ì§ˆë¬¸ ë“±ë¡ í˜ì´ì§€ë¡œ ì´ë™ 
 	@RequestMapping("fwform.do")
 	public String moveFaqWriteForm() {
 		return "faq/faqWriteForm";
 	}
 	
-	//ÀÚÁÖÇÏ´Â Áú¹® µî·Ï
+	//ìì£¼í•˜ëŠ” ì§ˆë¬¸ ë“±ë¡
 	@RequestMapping(value = "finsert.do", method = RequestMethod.POST)
-	public String faqInsertMethod(Faq faq, Model model, HttpServletRequest request,
-			@RequestParam(name = "upfile", required = false) MultipartFile mfile) {
+	public String faqInsertMethod(Faq faq, Model model) {
 		
 		if (faqservice.insertFaq(faq) > 0) {
-			// °øÁö±Û µî·Ï ¼º°ø½Ã ¸ñ·Ï º¸±â ÆäÀÌÁö·Î ÀÌµ¿
+			// ê³µì§€ê¸€ ë“±ë¡ ì„±ê³µì‹œ ëª©ë¡ ë³´ê¸° í˜ì´ì§€ë¡œ ì´ë™
 			return "redirect:flist.do";
 		} else {
-			model.addAttribute("message", "»õ °øÁö µî·Ï ½ÇÆĞ");
+			model.addAttribute("message", "ìƒˆ ê³µì§€ ë“±ë¡ ì‹¤íŒ¨");
 			return "common/error";
 		}
 	}
 	
 	
-	//ÀÚÁÖÇÏ´Â Áú¹® »èÁ¦
-	
-	
-	//ÀÚÁÖÇÏ´Â Áú¹® ¼öÁ¤
-	
-	
-	
-	
+	//ìì£¼í•˜ëŠ” ì§ˆë¬¸ ì‚­ì œ
+	@RequestMapping("fdel.do")
+	public String faqDeleteMethod(@RequestParam("faq_no") int faq_no, Model model) {
 
-	// »ç¿ëÀÚ
-//	public String faqListMethod(String page, ModelAndView mv, Model model, HttpSession session) {}
-//	
-//	public String faqDetailMethod(Model model, int faq_no, HttpSession session) {}
-//	
+		if (faqservice.deleteFaq(faq_no) > 0) {
+			return "redirect:flist.do";
+
+		} else {
+			model.addAttribute("message", faq_no + "ë²ˆ ê¸€ ì‚­ì œ ì‹¤íŒ¨");
+			return "common/error";
+		}
+	}
+	
+	//ìì£¼í•˜ëŠ” ì§ˆë¬¸ ìˆ˜ì •
+	@RequestMapping(value = "fupdate.do", method = RequestMethod.POST)
+	public String faqUpdateMethod(Faq faq, Model model) {
+
+		if (faqservice.updateFaq(faq) > 0) {
+			// ëŒ“ê¸€, ëŒ€ëŒ“ê¸€ ìˆ˜ì • ì„±ê³µì‹œ ë‹¤ì‹œ ìƒì„¸ë³´ê¸° í˜ì´ì§€ê°€ ë³´ì—¬ì§€ê²Œ í•œë‹¤ë©´
+			model.addAttribute("faq_no", faq.getFaq_no());
+			System.out.println(faqservice.updateFaq(faq));
+			return "redirect:flist.do";
+		} else {
+			model.addAttribute("message", faq.getFaq_no() + "ë²ˆ ê¸€ ìˆ˜ì •ì‹¤íŒ¨");
+			System.out.println(faqservice.updateFaq(faq));
+			return "common/error";
+		}
+	}
+	
+	// ìì£¼í•˜ëŠ” ì§ˆë¬¸ ìˆ˜ì •í˜ì´ì§€ë¡œ ì´ë™ 
+	@RequestMapping("fupview.do")
+	public String moveUpdatePage(@RequestParam("faq_no") int faq_no, Model model) {
+		// ìˆ˜ì •í˜ì´ì§€ì— ì¶œë ¥í•  í•´ë‹¹ ê³µì§€ê¸€ ë‹¤ì‹œ ì¡°íšŒ
+		Faq faq = faqservice.selectList(faq_no);
+
+		if (faq != null) {
+			model.addAttribute("faq", faq);
+			
+			return "faq/faqUpdateForm";
+		} else {
+			model.addAttribute("message", faq_no + "ë²ˆ ê³µì§€ê¸€ ìˆ˜ì •í˜ì´ì§€ë¡œ ì´ë™ ì‹¤íŒ¨");
+			return "common/error";
+		}
+	}
+
+	// ì‚¬ìš©ì
 //	public String moveQnAPage() {}
 //	
 //	public String moveNoticePage() {}
-//
-//		
-//	//°ü¸®ÀÚ
-//	public String moveWritePage() {}
-//	
-//	public String moveUpdatePage() {}
-//	
-//	public String AllListMethod(String page, ModelAndView mv, Model model, HttpSession session) {}
-//		
-//	public String faqDeleteMethod(Faq faq, Model model, HttpServletRequest request) {}
-//		
-//	public String faqUpdateMethod(Faq faq, Model model, HttpServletRequest request) {}
-//
-//	public String faqInsertMethod(Faq faq, Model model, HttpServletRequest request) {}
-//
-//	public String faqSearchMethod(String question, String answer, Model model) {}
+
 
 }

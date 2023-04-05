@@ -22,7 +22,7 @@
 						<div class="col-md-12">
 							<p class="mb-0" style="color: rgba(255, 255, 255, .5);">
 								<img
-									src="${ pageContext.servletContext.contextPath }/resources/images/다운로드.png">
+									src="${ pageContext.servletContext.contextPath }/resources/images/users/다운로드.png">
 								<br> &nbsp; <a href="#">&nbsp;&nbsp;이용약관</a>&nbsp;|&nbsp;
 								&nbsp; <a href="#">개인정보처리방침</a>&nbsp;|&nbsp; &nbsp; <a href="#">찾아오시는
 									길</a><br> &nbsp; 고객센터 : 1234-567(평일 09:00~18:00, 점심시간
@@ -57,7 +57,7 @@
 						<div class="col-md-12">
 							<p class="mb-0" style="color: rgba(255, 255, 255, .5);">
 								<img
-									src="${ pageContext.servletContext.contextPath }/resources/images/다운로드.png">
+									src="${ pageContext.servletContext.contextPath }/resources/images/users/다운로드.png">
 								<br> &nbsp; <a href="#">&nbsp;&nbsp;이용약관</a>&nbsp;|&nbsp;
 								&nbsp; <a href="#">개인정보처리방침</a>&nbsp;|&nbsp; &nbsp; <a href="#">찾아오시는
 									길</a><br> &nbsp; 고객센터 : 1234-567(평일 09:00~18:00, 점심시간

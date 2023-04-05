@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" errorPage="error.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
@@ -124,7 +124,7 @@
 					<div class="col-md-3 d-flex">
 						<div class="product ftco-animate">
 							<div class="img d-flex align-items-center justify-content-center"
-								style="background-image: url(${product.product_image});">
+								style="background-image: url('${pageContext.servletContext.contextPath}${product.product_image}.png');">
 								<div class="desc">
 									<p class="meta-prod d-flex">
 										<a href="#"
@@ -168,7 +168,7 @@
 					<div class="col-md-3 d-flex">
 						<div class="product ftco-animate">
 							<div class="img d-flex align-items-center justify-content-center"
-								style="background-image: url(${product.product_image});">
+								style="background-image: url('${pageContext.servletContext.contextPath}${product.product_image}.png');">
 								<div class="desc">
 									<p class="meta-prod d-flex">
 										<a href="#"
@@ -230,28 +230,28 @@
 
 
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery-migrate-3.0.1.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery-migrate-3.0.1.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/popper.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/popper.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/bootstrap.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/bootstrap.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery.easing.1.3.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.easing.1.3.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery.waypoints.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.waypoints.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery.stellar.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.stellar.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/owl.carousel.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/owl.carousel.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery.magnific-popup.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.magnific-popup.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery.animateNumber.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.animateNumber.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/scrollax.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/scrollax.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/main.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/main.js"></script>
 </body>
 </html>

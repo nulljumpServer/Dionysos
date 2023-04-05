@@ -11,24 +11,22 @@ public class Faq implements java.io.Serializable{
 	private String answer;
 	private java.sql.Date registration_date;
 	private String user_id;
-	private int views;
-	
+
 	public Faq() {}
 	
-	public Faq(String question, String answer, int faq_no, Date registration_date, String user_id, int views) {
+	public Faq(String question, String answer, int faq_no, Date registration_date, String user_id) {
 		super();
 		this.question = question;
 		this.answer = answer;
 		this.faq_no = faq_no;
 		this.registration_date = registration_date;
 		this.user_id = user_id;
-		this.views = views;
 	}
 
 	@Override
 	public String toString() {
 		return "Faq [question=" + question + ", answer=" + answer + ", faq_no=" + faq_no + ", registration_date="
-				+ registration_date + ", user_id=" + user_id + ", views=" + views + "]";
+				+ registration_date + ", user_id=" + user_id + "]";
 	}
 
 	public String getQuestion() {
@@ -71,13 +69,6 @@ public class Faq implements java.io.Serializable{
 		this.user_id = user_id;
 	}
 
-	public int getViews() {
-		return views;
-	}
-
-	public void setViews(int views) {
-		this.views = views;
-	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;

@@ -30,40 +30,40 @@ public class CartsController {
 	private CartsService cartsService;
 
 	
-	 //Àå¹Ù±¸´Ï ÆäÀÌÁö ÀÌµ¿
+	 //ï¿½ï¿½Ù±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
     @RequestMapping("clistView.do")
     public String moveReviewDetailView() {
     	return "carts/cartsListView";
     }
     
-    // Àå¹Ù±¸´Ï ÆäÀÌÁö·Î ÀÌµ¿ÇÏ±â
-    @RequestMapping(value="clist.do" , method={ RequestMethod.GET , RequestMethod.POST })
-    public String movecartsListPage(@RequestParam("cart_id") int cart_id, HttpSession session,
-                                   @RequestParam("cart_quantity") int number, Model model) {
+    // ï¿½ï¿½Ù±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Ï±ï¿½
+ //   @RequestMapping(value="clist.do" , method={ RequestMethod.GET , RequestMethod.POST })
+//    public String movecartsListPage(@RequestParam("cart_id") int cart_id, HttpSession session,
+ //                                  @RequestParam("cart_quantity") int number, Model model) {
 
-        // 1. ·Î±×ÀÎµÈ »ç¿ëÀÚÀÎÁö Ã¼Å© : ÇöÀç ¼¼¼Ç¿¡ ÀúÀåµÈ »ç¿ëÀÚ Á¤º¸¸¦ °¡Á®¿È
-        Users loginUser = (Users) session.getAttribute("loginUser");
+        // 1. ï¿½Î±ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¼Å© : ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//        Users loginUser = (Users) session.getAttribute("loginUser");
 
-        // 2. ·Î±×ÀÎµÇ¾î ÀÖÁö ¾ÊÀº °æ¿ì, ·Î±×ÀÎ ÆäÀÌÁö·Î ÀÌµ¿
-        if (loginUser == null) {
+        // 2. ï¿½Î±ï¿½ï¿½ÎµÇ¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
+//        if (loginUser == null) {
 
-            return "redirect:/users/loginPage.do";
-        }
+//            return "redirect:/users/loginPage.do";
+//        }
 
-    // 3. ·Î±×ÀÎµÈ »ç¿ëÀÚÀÇ Àå¹Ù±¸´Ï ¸ñ·ÏÀ» °¡Á®¿À±â : »ç¿ëÀÚÀÇ ÀÌ¸ÞÀÏ·Î Àå¹Ù±¸´Ï ¸ñ·ÏÀ» °¡Á®¿È
-        ArrayList<Carts> cartsList = cartsService.getcartsList(loginUser.getUser_email());
+    // 3. ï¿½Î±ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ù±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½Ï·ï¿½ ï¿½ï¿½Ù±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//        ArrayList<Carts> cartsList = cartsService.getcartsList(loginUser.getEmail());
 
-        // 4. Àå¹Ù±¸´Ï¿¡ »óÇ°ÀÌ ÀÖ´ÂÁö Ã¼Å©
-        if (cartsList != null && !cartsList.isEmpty()) {
-            // 5. »óÇ°ÀÌ Á¸ÀçÇÏ¸é ¸ðµ¨¿¡ Ãß°¡ÇÏ°í Àå¹Ù±¸´Ï ÆäÀÌÁö ¹ÝÈ¯
-            model.addAttribute("cartsList", cartsList);
-            return "carts/cartsListView";
-        } else {
-            // 6. »óÇ°ÀÌ ¾øÀ¸¸é ¿À·ù ¸Þ½ÃÁö¸¦ Ç¥½ÃÇÏ°í È¨ÆäÀÌÁö·Î ¸®´ÙÀÌ·ºÆ®
-            model.addAttribute("message", "Àå¹Ù±¸´Ï¿¡ »óÇ°ÀÌ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù!");
-            return "redirect:/";
-        }
-    }
+        // 4. ï¿½ï¿½Ù±ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½Ç°ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ Ã¼Å©
+ //       if (cartsList != null && !cartsList.isEmpty()) {
+            // 5. ï¿½ï¿½Ç°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ðµ¨¿ï¿½ ï¿½ß°ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½Ù±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
+ //           model.addAttribute("cartsList", cartsList);
+ //           return "carts/cartsListView";
+//        } else {
+            // 6. ï¿½ï¿½Ç°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½Ï°ï¿½ È¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì·ï¿½Æ®
+//            model.addAttribute("message", "ï¿½ï¿½Ù±ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½Ç°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½!");
+ //           return "redirect:/";
+//        }
+//    }
 
     
 	 
@@ -71,67 +71,67 @@ public class CartsController {
     public ModelAndView list(HttpSession session, ModelAndView mav) {
         Map<String, Object> map=new HashMap<>();
  
-//hashmapÀº map(key,value)·Î ÀÌ·ïÁ® ÀÖ°í,
-//key°ªÀº Áßº¹ÀÌ ºÒ°¡´É ÇÏ°í value´Â Áßº¹ÀÌ °¡´ÉÇÏ´Ù.
-//value¿¡ null°ªµµ »ç¿ëÀÌ °¡´ÉÇÏ´Ù.
- //Àü´ÞÇÒ Á¤º¸°¡ ¸¹À» °æ¿ì¿¡´Â HashMap<>À» »ç¿ëÇÏ´Â °ÍÀÌ ÁÁ´Ù.
- //Àå¹Ù±¸´Ï¿¡ ´ãÀ» °ªµéÀÌ ¸¹±â ¶§¹®¿¡ ¿©±â¼± HashMap<>¸¦ »ç¿ëÇÑ´Ù.
+//hashmapï¿½ï¿½ map(key,value)ï¿½ï¿½ ï¿½Ì·ï¿½ï¿½ï¿½ ï¿½Ö°ï¿½,
+//keyï¿½ï¿½ï¿½ï¿½ ï¿½ßºï¿½ï¿½ï¿½ ï¿½Ò°ï¿½ï¿½ï¿½ ï¿½Ï°ï¿½ valueï¿½ï¿½ ï¿½ßºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+//valueï¿½ï¿½ nullï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+ //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ HashMap<>ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
+ //ï¿½ï¿½Ù±ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½â¼± HashMap<>ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
  
  
         String user_id=(String)session.getAttribute("user_id");
  
-//session¿¡ ÀúÀåµÈ userid¸¦ getAttribute()¸Þ¼Òµå¸¦ »ç¿ëÇØ¼­ ¾ò¾î¿À°í ¿ÀºêÁ§Æ® Å¸ÀÔÀÌ±â ¶§¹®¿¡
-//String Å¸ÀÔÀ¸·Î Å¸ÀÔº¯È¯ÇÑ´Ù.
+//sessionï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ useridï¿½ï¿½ getAttribute()ï¿½Þ¼Òµå¸¦ ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® Å¸ï¿½ï¿½ï¿½Ì±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//String Å¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½Ôºï¿½È¯ï¿½Ñ´ï¿½.
  
         if(user_id != null) { 
- //·Î±×ÀÎÇÑ »óÅÂÀÌ¸é ½ÇÇà
-            ArrayList<Carts> list=cartsService.listCarts(user_id);//Àå¹Ù±¸´Ï ¸ñ·Ï
-            int sumMoney=cartsService.sumMoney(user_id);//±Ý¾× ÇÕ°è
+ //ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+            ArrayList<Carts> list=cartsService.listCarts(user_id);//ï¿½ï¿½Ù±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+//            int sumMoney=cartsService.sumMoney(user_id);//ï¿½Ý¾ï¿½ ï¿½Õ°ï¿½
             
  
- //hasp map¿¡ Àå¹Ù±¸´Ï¿¡ ³ÖÀ» °¢Á¾ °ªµéÀ» ÀúÀåÇÔ
-            map.put("sumMoney", sumMoney);
-            map.put("list", list); //Àå¹Ù±¸´Ï ¸ñ·Ï
-            map.put("count", list.size()); //·¹ÄÚµå °¹¼ö
+ //hasp mapï¿½ï¿½ ï¿½ï¿½Ù±ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ //           map.put("sumMoney", sumMoney);
+            map.put("list", list); //ï¿½ï¿½Ù±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+            map.put("count", list.size()); //ï¿½ï¿½ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½
  
- //ModelAndView mav¿¡ ÀÌµ¿ÇÒ ÆäÀÌÁöÀÇ ÀÌ¸§°ú µ¥ÀÌÅÍ¸¦ ÀúÀåÇÑ´Ù.
+ //ModelAndView mavï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
  
-            mav.setViewName("carts/cartsDetailView"); //ÀÌµ¿ÇÒ ÆäÀÌÁöÀÇ ÀÌ¸§
-            mav.addObject("map", map); //µ¥ÀÌÅÍ ÀúÀå
+            mav.setViewName("carts/cartsDetailView"); //ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
+            mav.addObject("map", map); //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
  
-            return mav; //È­¸é ÀÌµ¿
+            return mav; //È­ï¿½ï¿½ ï¿½Ìµï¿½
  
-        }else { //·Î±×ÀÎÇÏÁö ¾ÊÀº »óÅÂ
+        }else { //ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
  
             return new ModelAndView("member/login", "", null);
-//·Î±×ÀÎÀ» ÇÏÁö ¾Ê¾ÒÀ¸¸é ·Î±×ÀÎ ÆäÀÌÁö·Î ÀÌµ¿½ÃÅ²´Ù.
+//ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½Å²ï¿½ï¿½.
         }
     }
 
-	@RequestMapping("cartsInsert.do") //¼¼ºÎÀûÀÎ url mapping
+	@RequestMapping("cartsInsert.do") //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ url mapping
 	 
     public String insertCarts(@ModelAttribute Carts carts, 
             HttpSession session) {
  
-        //@ModelAttribute´Â sumitµÈ formÀÇ ³»¿ëÀ» ÀúÀåÇØ¼­ Àü´Þ¹Þ°Å³ª, ´Ù½Ã ºä·Î ³Ñ°Ü¼­ Ãâ·ÂÇÏ±â À§ÇØ »ç¿ëµÇ´Â ¿ÀºêÁ§Æ® ÀÌ´Ù.
+        //@ModelAttributeï¿½ï¿½ sumitï¿½ï¿½ formï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½Þ¹Þ°Å³ï¿½, ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ñ°Ü¼ï¿½ ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ì´ï¿½.
  
-        //µµ¸ÞÀÎ ¿ÀºêÁ§Æ®³ª DTOÀÇ ÇÁ·ÎÆÛÆ¼¿¡ ¿äÃ» ÆÄ¶ó¹ÌÅÍ¸¦ ¹ÙÀÎµùÇØ¼­ ÇÑ¹ø¿¡ ¹ÞÀ¸¸é @ModelAttribute ¶ó°í º¼ ¼ö ÀÖ´Ù.
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ DTOï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½Ã» ï¿½Ä¶ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½Îµï¿½ï¿½Ø¼ï¿½ ï¿½Ñ¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ @ModelAttribute ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½.
  
-        //@ModelAttribute´Â ÄÁÆ®·Ñ·¯°¡ ¸®ÅÏÇÏ´Â ¸ðµ¨¿¡ ÆÄ¶ó¹ÌÅÍ·Î Àü´ÞÇÑ ¿ÀºêÁ§Æ®¸¦ ÀÚµ¿À¸·Î Ãß°¡ÇØÁØ´Ù.
+        //@ModelAttributeï¿½ï¿½ ï¿½ï¿½Æ®ï¿½Ñ·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ðµ¨¿ï¿½ ï¿½Ä¶ï¿½ï¿½ï¿½Í·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
         
         
-        //·Î±×ÀÎ ¿©ºÎ¸¦ Ã¼Å©ÇÏ±â À§ÇØ ¼¼¼Ç¿¡ ÀúÀåµÈ ¾ÆÀÌµð È®ÀÎ
+        //ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¸ï¿½ Ã¼Å©ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ È®ï¿½ï¿½
  
         String user_id=(String)session.getAttribute("user_id");
         if(user_id == null) { 
  
- //·Î±×ÀÎÇÏÁö ¾ÊÀº »óÅÂÀÌ¸é ·Î±×ÀÎ È­¸éÀ¸·Î ÀÌµ¿
+ //ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ È­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
  
             return "redirect:/member/login.do";
         }
-        User.setUserId(user_id);
-        cartsService.insertCarts(carts); //Àå¹Ù±¸´Ï Å×ÀÌºí¿¡ ÀúÀåµÊ
-        return "redirect:carts.do"; //Àå¹Ù±¸´Ï ¸ñ·ÏÀ¸·Î ÀÌµ¿
+//        User.setUserId(user_id);
+        cartsService.insertCarts(carts); //ï¿½ï¿½Ù±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
+        return "redirect:carts.do"; //ï¿½ï¿½Ù±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
     }
 
 

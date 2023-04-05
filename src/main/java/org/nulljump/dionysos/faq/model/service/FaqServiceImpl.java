@@ -13,8 +13,8 @@ public class FaqServiceImpl implements FaqService {
 	@Autowired
 	private FaqDao faqdao;
 
-	// »ç¿ëÀÚ
-	//ÀüÃ¼ ¸ñ·Ï º¸±â
+	// ì‚¬ìš©ì
+	//ì „ì²´ ëª©ë¡ ë³´ê¸°
 	@Override
 	public ArrayList<Faq> selectFaq() {
 		
@@ -23,30 +23,30 @@ public class FaqServiceImpl implements FaqService {
 
 
 	
-	//°ü¸®ÀÚ
-	//ÀüÃ¼ ¸ñ·Ï º¸±â
+	//ê´€ë¦¬ì
+	//ì „ì²´ ëª©ë¡ ë³´ê¸°
 	@Override
 	public Faq selectList(int faq_no) {
 		
 		return faqdao.selectList(faq_no);
 	}
 
-	//ÀÚÁÖÇÏ´Â Áú¹® µî·Ï
+	//ìì£¼í•˜ëŠ” ì§ˆë¬¸ ë“±ë¡
 	@Override
 	public int insertFaq(Faq faq) {
-		return 0;
+		return faqdao.insertFaq(faq);
 	}
 
-	//ÀÚÁÖÇÏ´Â Áú¹® »èÁ¦
+	//ìì£¼í•˜ëŠ” ì§ˆë¬¸ ì‚­ì œ
 	@Override
 	public int deleteFaq(int faq_no) {
-		return 0;
+		return faqdao.deleteFaq(faq_no);
 	}
 
-	//ÀÚÁÖÇÏ´Â Áú¹® ¼öÁ¤
+	//ìì£¼í•˜ëŠ” ì§ˆë¬¸ ìˆ˜ì •
 	@Override
 	public int updateFaq(Faq faq) {
-		return 0;
+		return faqdao.updateFaq(faq);
 	}
 
 

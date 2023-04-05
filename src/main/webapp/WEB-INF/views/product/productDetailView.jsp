@@ -12,14 +12,14 @@
 	src="${pageContext.servletContext.contextPath}/resources/js/jquery-3.6.3.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,700;0,800;1,200;1,300;1,400;1,500;1,700&display=swap"
 	rel="stylesheet">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet"	href="${pageContext.servletContext.contextPath}/resources/css/animate.css">
-<link rel="stylesheet"	href="${pageContext.servletContext.contextPath}/resources/css/owl.carousel.min.css">
-<link rel="stylesheet"	href="${pageContext.servletContext.contextPath}/resources/css/owl.theme.default.min.css">
-<link rel="stylesheet"	href="${pageContext.servletContext.contextPath}/resources/css/magnific-popup.css">
-<link rel="stylesheet"	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
-<link rel="stylesheet"	href="${pageContext.servletContext.contextPath}/resources/css/flaticon.css">
-<link rel="stylesheet"	href="${pageContext.servletContext.contextPath}/resources/css/style.css">
+<link rel="stylesheet" href="${pageContext.servletContext.contextPath}/resources/css/users/font-awesome.min.css">
+<link rel="stylesheet"	href="${pageContext.servletContext.contextPath}/resources/css/users/animate.css">
+<link rel="stylesheet"	href="${pageContext.servletContext.contextPath}/resources/css/users/owl.carousel.min.css">
+<link rel="stylesheet"	href="${pageContext.servletContext.contextPath}/resources/css/users/owl.theme.default.min.css">
+<link rel="stylesheet"	href="${pageContext.servletContext.contextPath}/resources/css/users/magnific-popup.css">
+<link rel="stylesheet"	href="${pageContext.servletContext.contextPath}/resources/css/users/bootstrap-select.min.css">
+<link rel="stylesheet"	href="${pageContext.servletContext.contextPath}/resources/css/users/flaticon.css">
+<link rel="stylesheet"	href="${pageContext.servletContext.contextPath}/resources/css/users/style.css">
   </head>
   <body>
 
@@ -39,11 +39,11 @@
        <div class="container">
           <div class="row">
              <div class="col-lg-6 mb-5 ftco-animate">
-                <a href="${ product.product_image }" class="image-popup prod-img-bg"><img src="${ product.product_image }" class="img-fluid" alt="Colorlib Template"></a>
+                <a href="${ product.product_image }" class="image-popup prod-img-bg"><img src="${pageContext.servletContext.contextPath}${product.product_image}.png" class="img-fluid" alt="Colorlib Template"></a>
              </div>
              <div class="col-lg-6 product-details pl-md-5 ftco-animate">
-                <h1>pp${ product.product_name }</h1>
-                <h5>pp</h5>
+                <h1>${ product.product_name }</h1>
+                <h5></h5>
                 <div class="rating d-flex">
                      <p class="text-left mr-4">
                         <a href="#" class="mr-2">5.00${ review.review_score }</a>
@@ -125,8 +125,8 @@
 
               <div class="tab-pane fade show active" id="v-pills-1" role="tabpanel" aria-labelledby="day-1-tab">
                  <div class="p-4">
-                    <h3 class="mb-4">pp${ product.product_name }</h3>
-                    <p>pp${ product.product_detail }
+                    <h3 class="mb-4">${ product.product_name }</h3>
+                    <p>${ product.wine_detail }
                     </div>
               </div>
 
@@ -330,21 +330,21 @@
   <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
 
 
-  <script src="${pageContext.servletContext.contextPath}/resources/js/jquery.min.js"></script>
-  <script src="${pageContext.servletContext.contextPath}/resources/js/jquery-migrate-3.0.1.min.js"></script>
-  <script src="${pageContext.servletContext.contextPath}/resources/js/popper.min.js"></script>
-  <script src="${pageContext.servletContext.contextPath}/resources/js/bootstrap.min.js"></script>
-  <script src="${pageContext.servletContext.contextPath}/resources/js/jquery.easing.1.3.js"></script>
-  <script src="${pageContext.servletContext.contextPath}/resources/js/jquery.waypoints.min.js"></script>
-  <script src="${pageContext.servletContext.contextPath}/resources/js/jquery.stellar.min.js"></script>
-  <script src="${pageContext.servletContext.contextPath}/resources/js/owl.carousel.min.js"></script>
-  <script src="${pageContext.servletContext.contextPath}/resources/js/jquery.magnific-popup.min.js"></script>
-  <script src="${pageContext.servletContext.contextPath}/resources/js/jquery.animateNumber.min.js"></script>
-  <script src="${pageContext.servletContext.contextPath}/resources/js/scrollax.min.js"></script>
+  <script src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.min.js"></script>
+  <script src="${pageContext.servletContext.contextPath}/resources/js/users/jquery-migrate-3.0.1.min.js"></script>
+  <script src="${pageContext.servletContext.contextPath}/resources/js/users/popper.min.js"></script>
+  <script src="${pageContext.servletContext.contextPath}/resources/js/users/bootstrap.min.js"></script>
+  <script src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.easing.1.3.js"></script>
+  <script src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.waypoints.min.js"></script>
+  <script src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.stellar.min.js"></script>
+  <script src="${pageContext.servletContext.contextPath}/resources/js/users/owl.carousel.min.js"></script>
+  <script src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.magnific-popup.min.js"></script>
+  <script src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.animateNumber.min.js"></script>
+  <script src="${pageContext.servletContext.contextPath}/resources/js/users/scrollax.min.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-  <script src="${pageContext.servletContext.contextPath}/resources/js/google-map.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
-  <script src="${pageContext.servletContext.contextPath}/resources/js/main.js"></script>
+  <script src="${pageContext.servletContext.contextPath}/resources/js/users/google-map.js"></script>
+  <script src="${pageContext.servletContext.contextPath}/resources/js/users/bootstrap-select.min.js"></script>
+  <script src="${pageContext.servletContext.contextPath}/resources/js/users/main.js"></script>
     
   </body>
 </html>

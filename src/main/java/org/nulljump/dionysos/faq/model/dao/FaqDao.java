@@ -13,9 +13,9 @@ public class FaqDao {
 	
 	@Autowired
 	private SqlSessionTemplate session;
-	
-	//»ç¿ëÀÚ
-	//ÀüÃ¼ ¸ñ·Ï º¸±â
+
+	//ì‚¬ìš©ì
+	//ì „ì²´ ëª©ë¡ ë³´ê¸°
 	public ArrayList<Faq> selectFaq(){
 		List<Faq> list = session.selectList("faqMapper.selectFaq");
 		
@@ -23,32 +23,33 @@ public class FaqDao {
 	}
 	
 	
-	//°ü¸®ÀÚ
-	//»ó¼¼º¸±â 
+	//ê´€ë¦¬ì
+	//ìƒì„¸ë³´ê¸° 
 	public Faq selectList(int faq_no) {
 
 		return session.selectOne("faqMapper.selectList", faq_no);
 	}
 
 	
-	//ÀÚÁÖÇÏ´Â Áú¹® µî·Ï
+	//ìì£¼í•˜ëŠ” ì§ˆë¬¸ ë“±ë¡
 	public int insertFaq(Faq faq) {
 
 		return session.insert("faqMapper.insertFaq", faq);
 	}
 	
 	
-	//ÀÚÁÖÇÏ´Â Áú¹® »èÁ¦
+	//ìì£¼í•˜ëŠ” ì§ˆë¬¸ ì‚­ì œ
 	public int deleteFaq(int faq_no) {
 
 		return session.delete("faqMapper.deleteFaq", faq_no);
 	}
 	
 	
-	//ÀÚÁÖÇÏ´Â Áú¹® ¼öÁ¤
+	//ìì£¼í•˜ëŠ” ì§ˆë¬¸ ìˆ˜ì •
 	public int updateFaq(Faq faq) {
-
+		System.out.println(faq);
 		return session.update("faqMapper.updateFaq", faq);
+		
 	}
 	
 	

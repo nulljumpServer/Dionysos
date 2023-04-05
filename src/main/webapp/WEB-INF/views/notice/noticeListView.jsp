@@ -5,6 +5,7 @@
 
 <c:set var="listCount" value="${requestScope.paging.listCount}" />
 <c:set var="currentPage" value="${ requestScope.paging.currentPage }" />
+<c:set var="url" value="nplist.do"></c:set>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,12 +44,6 @@
 <h1 align="center">공지사항</h1>
 <!-- 관리자만 공지글 등록할 수 있도록 처리 
 	=> 관리자가 로그인하면 '공지글 등록' 버튼이 보이게 함 -->
-<center>
-<div>
-	<c:if test="${sessionScope.loginUsers.admin eq 'Y'}">
-		<button onclick="javascript:location.href='movewrite.do';">새 공지글 등록</button>
-	</c:if>
-</center>
 <br>
 <!-- 검색 항목 영역 -->
 <center>
@@ -56,7 +51,7 @@
 	<input type="radio" name="item" value="title" checked> 제목
 	&nbsp; &nbsp;
 	<input type="radio" name="item" value="date"> 날짜
-</div>
+
 <div id="titleDiv">
 	<form action="nsearchTitle.do" method="post">
 		<input type="search" name="title" placeholder="검색어를 입력하세요.">&nbsp;
@@ -77,7 +72,6 @@
 
 <!-- 목록 출력 영역 -->
 <center>
-<h3 align="center">총 게시글 수 : ${listCount} 개</h3>
 	<button onclick="javascript:location.href='${pageContext.servletContext.contextPath}/nplist.do';">
 	목록</button>
 </center>
@@ -95,7 +89,7 @@
 			<td align="center">${n.notice_no}</td>
 			<!-- 공지 제목 클릭시 해당 공지의 상세보기로 넘어가게 함 -->
 			<c:url var="ndt" value="/ndetail.do">
-				<c:param name="noticeno" value="${n.notice_no}" />
+				<c:param name="notice_no" value="${n.notice_no}" />
 			</c:url>
 			<td align="center"><a href="${ndt}">${n.title}</a></td>
 			<td>${n.user_id}</td>

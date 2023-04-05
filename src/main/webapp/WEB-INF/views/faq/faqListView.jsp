@@ -408,7 +408,7 @@ ul {
 	<center>
 		<div>
 			<c:if test="${sessionScope.loginUsers.admin eq 'Y'}">
-				<button onclick="javascript:location.href='movewrite.do';">새
+				<button onclick="javascript:location.href='fwform.do';">새
 					공지글 등록</button>
 			</c:if>
 	</center>
