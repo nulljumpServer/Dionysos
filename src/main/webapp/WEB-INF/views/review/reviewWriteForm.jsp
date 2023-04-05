@@ -62,7 +62,7 @@
 	</tr>
 	<tr>
 		<th>작성자</th>
-			<td><input type="text" name="user_id" readonly value="${ sessionScope.loginMember.userid }"></td>
+			<td><input type="text" name="user_id" readonly value="${ sessionScope.loginMember.userid }" readonly></td>
 	</tr>
 	<tr>
 		<th>첨부파일</th>

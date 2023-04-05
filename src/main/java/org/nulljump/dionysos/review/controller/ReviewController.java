@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
  
-@Controller    //xml¿¡ Å¬·¡½º¸¦ controller·Î ÀÚµ¿ µî·ÏÇØ ÁÜ
+@Controller    //xmlì— í´ë˜ìŠ¤ë¥¼ controllerë¡œ ìë™ ë“±ë¡í•´ ì¤Œ
 public class ReviewController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ReviewController.class);
@@ -29,149 +29,109 @@ public class ReviewController {
 	@Autowired
 	private ReviewService reviewService;
 	
-	
 	public ReviewController(ReviewService reviewService) {
 	    this.reviewService = reviewService;
 	  }
 
-    // ¸®ºä ¸ñ·Ï º¸±â
-    @RequestMapping("rlistView.do")
-    public ModelAndView reviewListMethod(@RequestParam(name = "page", required = false) String page, ModelAndView mv) {
 
-		int currentPage = 1;
-		if (page != null) {
-			currentPage = Integer.parseInt(page);
-		}
+	
+//    // ë¦¬ë·° ëª©ë¡ ë³´ê¸°
+//    @RequestMapping("rlist.do")
+//    public ModelAndView reviewListMethod(
+//    		@RequestParam("product_id") int product_id,
+//    		@RequestParam(name = "page", required = false) String page, 
+//    		ModelAndView mv) {
+//
+//		int currentPage = 1;
+//		if (page != null) {
+//			currentPage = Integer.parseInt(page);
+//		}
+//
+//		// í•œ í˜ì´ì§€ì— ê²Œì‹œê¸€ 10ê°œì”© ì¶œë ¥ë˜ê²Œ í•˜ëŠ” ê²½ìš° :
+//		// í˜ì´ì§• ê³„ì‚° ì²˜ë¦¬ - ë³„ë„ì˜ í´ë˜ìŠ¤ë¡œ ì‘ì„±í•´ì„œ ì´ìš©í•´ë„ ë¨
+//		int limit = 10; // í•œ í˜ì´ì§€ì— ì¶œë ¥í•  ëª©ë¡ ê°¯ìˆ˜
+//		// ì´ í˜ì´ì§€ ìˆ˜ ê³„ì‚°ì„ ìœ„í•´ ê²Œì‹œê¸€ ì´ ê°¯ìˆ˜ ì¡°íšŒí•´ ì˜´
+//		int listCount = reviewService.getListCount(product_id);
+//		Paging paging = new Paging(listCount, currentPage, limit);
+//		paging.calculator();
+//
+//		ArrayList<Review> list = reviewService.selectReviewList(paging);
+//
+//		if (list != null && list.size() > 0) {
+//			
+//			mv.addObject("list", list);
+//			mv.addObject("paging", paging);
+//
+//			mv.setViewName("review/reviewListView");
+//		} else {
+//			mv.addObject("message", currentPage + " í˜ì´ì§€ ëª©ë¡ ì¡°íšŒ ì‹¤íŒ¨!");
+//			mv.setViewName("common/error");
+//		}
+//
+//		return mv;
+//	}
 
-		// ÇÑ ÆäÀÌÁö¿¡ °Ô½Ã±Û 10°³¾¿ Ãâ·ÂµÇ°Ô ÇÏ´Â °æ¿ì :
-		// ÆäÀÌÂ¡ °è»ê Ã³¸® - º°µµÀÇ Å¬·¡½º·Î ÀÛ¼ºÇØ¼­ ÀÌ¿ëÇØµµ µÊ
-		int limit = 10; // ÇÑ ÆäÀÌÁö¿¡ Ãâ·ÂÇÒ ¸ñ·Ï °¹¼ö
-		// ÃÑ ÆäÀÌÁö ¼ö °è»êÀ» À§ÇØ °Ô½Ã±Û ÃÑ °¹¼ö Á¶È¸ÇØ ¿È
-		int listCount = reviewService.getListCount();
-		Paging paging = new Paging(listCount, currentPage, limit);
-		paging.calculator();
-
-		ArrayList<Review> list = reviewService.selectReviewList(paging);
-
-		if (list != null && list.size() > 0) {
-			mv.addObject("list", list);
-			mv.addObject("paging", paging);
-
-			mv.setViewName("review/reviewListView");
-		} else {
-			mv.addObject("message", currentPage + " ÆäÀÌÁö ¸ñ·Ï Á¶È¸ ½ÇÆĞ!");
-			mv.setViewName("common/error");
-		}
-
-		return mv;
-	}
-//    public ModelAndView reviewListMethod(@RequestParam(name ="page", required = false) String page, ModelAndView mv) {
-//      
-//    	int currentPage = 1;
-//    	if(page != null) {
-//    		currentPage = Integer.parseInt(page);
-//    	}
-//    	//ÇÑ ÆäÀÌÁö¿¡ ¸®ºä °Ô½Ã±Û 10°³¾¿ Ãâ·ÂµÇ°Ô ÇÏ´Â °æ¿ì
-//    	//ÆäÀÌÂ¡ °è»ê Ã³¸® - º°µµÀÇ Å¬·¡½º·Î ÀÛ¼ºÇØ¼­ ÀÌ¿ëÇØµµ µÊ
-//    	int limit = 10;  //ÇÑ ÆäÀÌÁö¿¡ Ãâ·ÂÇÒ ¸ñ·Ï °¹¼ö
-//    	//ÃÑ ÆäÀÌÁö ¼ö °è»êÀ» À§ÇØ °Ô½Ã±Û ÃÑ °¹¼ö Á¶È¸ÇØ ¿È
-//    	int listCount = reviewService.getListCount();
-//    	//ÆäÀÌÁö ¼ö °è»ê
-//    	int maxPage = (int)((double) listCount / limit + 0.9);
-//    	
-//    	int startPage = ((currentPage - 1) / 10) * 10 + 1;
-//    	int endPage = startPage + 10 - 1;
-//    	
-//    	if(maxPage < endPage) {
-//    		endPage = maxPage;
-//    	}
-//    	
-//    	//Äõ¸®¹®¿¡ Àü´ŞÇÒ ÇöÀç ÆäÀÌÁö¿¡ Ç®·ÂÇÒ ¸ñ·ÏÀÇ ½ÃÀÛÇà°ú ³¡ÇàÀ» °è»ê
-//    	int startRow = (currentPage - 1) * limit + 1;
-//    	int endRow = startRow + limit - 1;
-//    	Paging paging = new Paging(startRow, endRow);
-//    	
-//    	ArrayList<Review> list = reviewService.selectReviewList(paging);
-//    	
-//    	if(list != null && list.size() > 0) {
-//    		mv.addObject("list", list);
-//    		mv.addObject("listCount", listCount);
-//    		mv.addObject("maxPage", maxPage);
-//    		mv.addObject("currentPage", currentPage);
-//    		mv.addObject("startPage", startPage);
-//    		mv.addObject("endPage", endPage);
-//    		mv.addObject("limit", limit);
-//    		
-//    		mv.setViewName("review/reviewListView");
-//    	}else{
-//    		mv.addObject("message", currentPage + "ÆäÀÌÁö ¸ñ·Ï Á¶È¸ ½ÇÆĞ!");
-//    		mv.setViewName("common/error");
-//    	}
-//    	
-//        return mv;
-//    }
-
-    // ¸®ºä ÀÛ¼º ÆäÀÌÁö ÀÌµ¿
+    // ë¦¬ë·° ì‘ì„± í˜ì´ì§€ ì´ë™
     @RequestMapping("rwriteForm.do")
     public String moveReviewWriteForm() {
     	return "review/reviewWriteForm";
     }
 
-    // ¸®ºä ÀÛ¼º Ã³¸®(/*ÆÄÀÏ ¾÷·Îµå ±â´É »ç¿ë*/)
+    // ë¦¬ë·° ì‘ì„± ì²˜ë¦¬(/*íŒŒì¼ ì—…ë¡œë“œ ê¸°ëŠ¥ ì‚¬ìš©*/)
     @RequestMapping(value = "rwrite.do", method = RequestMethod.POST)
     public String reviewMethod(Review review, Model model, HttpServletRequest request,
     	@RequestParam(name = "upfile", required = false) MultipartFile mfile){
     		
-    		//¸®ºä Ã·ºÎÆÄÀÏ ÀúÀå Æú´õ °æ·Î ÁöÁ¤ 
+    		//ë¦¬ë·° ì²¨ë¶€íŒŒì¼ ì €ì¥ í´ë” ê²½ë¡œ ì§€ì • 
     		String savePath = request.getSession().getServletContext().getRealPath("resources/review_upfiles");
     		
-    		//Ã·ºÎÆÄÀÏ ÀÖÀ» ¶§
+    		//ì²¨ë¶€íŒŒì¼ ìˆì„ ë•Œ
     		if(!mfile.isEmpty()) {
     			
     			String fileName = mfile.getOriginalFilename();
     			
     			if(fileName != null && fileName.length() > 0) {
-    				//¹Ù²Ü ÆÄÀÏ¸í¿¡ ´ëÇÑ ¹®ÀÚ¿­ ¸¸µé±â 
-    				//°øÁö±Û µî·Ï | ¼öÁ¤ ¿äÃ»½ÃÁ¡ÀÇ ³¯Â¥½Ã°£Á¤º¸¸¦ ÀÌ¿ëÇÔ
+    				//ë°”ê¿€ íŒŒì¼ëª…ì— ëŒ€í•œ ë¬¸ìì—´ ë§Œë“¤ê¸° 
+    				//ê³µì§€ê¸€ ë“±ë¡ | ìˆ˜ì • ìš”ì²­ì‹œì ì˜ ë‚ ì§œì‹œê°„ì •ë³´ë¥¼ ì´ìš©í•¨
     				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-    				//º¯°æÇÒ ÆÄÀÏ¸í ¸¸µé±â
+    				//ë³€ê²½í•  íŒŒì¼ëª… ë§Œë“¤ê¸°
     				String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis()));
     				
-    				//¿øº» ÆÄÀÏÀÇ È®ÀåÀÚ¸¦ ÃßÃâÇØ¼­, º¯°æ ÆÄÀÏ¸í¿¡ ºÙ¿©ÁÜ
+    				//ì›ë³¸ íŒŒì¼ì˜ í™•ì¥ìë¥¼ ì¶”ì¶œí•´ì„œ, ë³€ê²½ íŒŒì¼ëª…ì— ë¶™ì—¬ì¤Œ
     				renameFileName += "." + fileName.substring(fileName.lastIndexOf(".") + 1);
-    				logger.info("Ã·ºÎ ÆÄÀÏ¸í È®ÀÎ : " + fileName + ", " + renameFileName);
+    				logger.info("ì²¨ë¶€ íŒŒì¼ëª… í™•ì¸ : " + fileName + ", " + renameFileName);
     				
-    				//Æú´õ¿¡ ÀúÀå Ã³¸®
+    				//í´ë”ì— ì €ì¥ ì²˜ë¦¬
     				try {
     					mfile.transferTo(new File(savePath + "\\" + renameFileName));
     				}catch(Exception e){
     					e.printStackTrace();
-    					model.addAttribute("message", "Ã·ºÎÆÄÀÏ ÀúÀå ½ÇÆĞ!");
+    					model.addAttribute("message", "ì²¨ë¶€íŒŒì¼ ì €ì¥ ì‹¤íŒ¨!");
     					return "common/error";
     				}
     				
-//    				//reivew °´Ã¼¿¡ Ã·ºÎÆÄÀÏ Á¤º¸ ±â·Ï ÀúÀå 
+//    				//reivew ê°ì²´ì— ì²¨ë¶€íŒŒì¼ ì •ë³´ ê¸°ë¡ ì €ì¥ 
 //    				review.setReview_original_filename(fileName);
 //    				review.setReview_rename_filename(renameFileName);
-    			}  //ÀÌ¸§ ¹Ù²Ù±â
-    		} //»õ·Î¿î Ã·ºÎÆÄÀÏÀÌ ÀÖÀ» ¶§
+    			}  //ì´ë¦„ ë°”ê¾¸ê¸°
+    		} //ìƒˆë¡œìš´ ì²¨ë¶€íŒŒì¼ì´ ìˆì„ ë•Œ
     		
     		if(reviewService.insertReview(review) > 0) {
-    			//¸®ºä µî·Ï ¼º°ø½Ã ¸ñ·Ï º¸±â ÆäÀÌÁö·Î ÀÌµ¿
+    			//ë¦¬ë·° ë“±ë¡ ì„±ê³µì‹œ ëª©ë¡ ë³´ê¸° í˜ì´ì§€ë¡œ ì´ë™
     			return "redirect:rlist.do";
     		}else {
-    			model.addAttribute("message", review.getReview_id() + "»õ ¸®ºä µî·Ï ½ÇÆĞ!");
+    			model.addAttribute("message", review.getReview_id() + "ìƒˆ ë¦¬ë·° ë“±ë¡ ì‹¤íŒ¨!");
     			return "common/error";
     		}
     	}
 
-    //¸®ºä »ó¼¼ ÆäÀÌÁö ÀÌµ¿
+    //ë¦¬ë·° ìƒì„¸ í˜ì´ì§€ ì´ë™
     @RequestMapping("rdetailView.do")
     public String moveReviewDetailView() {
     	return "review/reviewDetailView";
     }
     
-    // ¸®ºä »ó¼¼ º¸±â Ã³¸®¿ë
+    // ë¦¬ë·° ìƒì„¸ ë³´ê¸° ì²˜ë¦¬ìš©
     @RequestMapping("rdetail.do")
     public ModelAndView reviewDetailMethod(ModelAndView mv, @RequestParam("review_id") int review_id,
     		@RequestParam(name = "page", required = false) String page) {
@@ -180,10 +140,10 @@ public class ReviewController {
     		currentPage = Integer.parseInt(page);
     	}
     	
-    	//Á¶È¸¼ö 1Áõ°¡ Ã³¸®
+    	//ì¡°íšŒìˆ˜ 1ì¦ê°€ ì²˜ë¦¬
     	reviewService.updateReviewReadcount(review_id);
     	
-    	//ÇØ´ç °Ô½Ã±Û Á¶È¸ 
+    	//í•´ë‹¹ ê²Œì‹œê¸€ ì¡°íšŒ 
     	Review review = reviewService.selectReview(review_id);
     	
     	if(review != null) {
@@ -191,16 +151,21 @@ public class ReviewController {
     		mv.addObject("currentPage", currentPage);
     		mv.setViewName("review/reviewDetailView");
     	}else {
-    		mv.addObject("message", review_id + "¹ø °Ô½Ã±Û Á¶È¸ ½ÇÆĞ!");
+    		mv.addObject("message", review_id + "ë²ˆ ê²Œì‹œê¸€ ì¡°íšŒ ì‹¤íŒ¨!");
     		mv.setViewName("common/error");
     	}
     	return mv;
     }
+    
+    @RequestMapping("updateView.do")
+    public String moveReviewUpdateForm() {
+    	return "review/reviewUpdateForm";
+    }
 
-    // ¸®ºä ¼öÁ¤ ÆäÀÌÁö ÀÌµ¿ Ã³¸®¿ë
-    @RequestMapping("rupdateForm.do")
+    // ë¦¬ë·° ìˆ˜ì • í˜ì´ì§€ ì´ë™ ì²˜ë¦¬ìš©
+    @RequestMapping("rupdate.do")
     public String moveReviewUpdateView(@RequestParam("review_id") int review_id, @RequestParam("page") int currentPage, Model model) {
-        //¼öÁ¤ÆäÀÌÁö·Î º¸³¾ reivew °´Ã¼ Á¤º¸ Á¶È¸ÇÔ
+        //ìˆ˜ì •í˜ì´ì§€ë¡œ ë³´ë‚¼ reivew ê°ì²´ ì •ë³´ ì¡°íšŒí•¨
     	Review review = reviewService.selectReview(review_id);
     	
     	if(review != null) {
@@ -209,83 +174,83 @@ public class ReviewController {
     		
     		return "review/reviewUpdateForm";
     	}else {
-    		model.addAttribute("message", review_id + "¹ø ±Û ¼öÁ¤ÆäÀÌÁö·Î ÀÌµ¿ ½ÇÆĞ!");
+    		model.addAttribute("message", review_id + "ë²ˆ ê¸€ ìˆ˜ì •í˜ì´ì§€ë¡œ ì´ë™ ì‹¤íŒ¨!");
     		
     		return "common/error";
     	}
     }
 
-    // ¸®ºä ¼öÁ¤ Ã³¸® (ÆÄÀÏ ¾÷·Îµå ±â´É »ç¿ë)
+    // ë¦¬ë·° ìˆ˜ì • ì²˜ë¦¬ (íŒŒì¼ ì—…ë¡œë“œ ê¸°ëŠ¥ ì‚¬ìš©)
     @RequestMapping(value = "rupdate.do", method = RequestMethod.POST)
     public String reviewUpdateMethod(Review review, Model model, HttpServletRequest request,
     		@RequestParam(name = "delflag", required = false) String delFlag,
     		@RequestParam(name = "upfile", required = false) MultipartFile mfile,
     		@RequestParam("page") int page) {
-        //¸®ºä Ã·ºÎÆÄÀÏ ÀúÀå Æú´õ °æ·Î ÁöÁ¤
+        //ë¦¬ë·° ì²¨ë¶€íŒŒì¼ ì €ì¥ í´ë” ê²½ë¡œ ì§€ì •
     	String savePath = request.getSession().getServletContext().getRealPath("resources/review_upfiles");
-    	//1. ¿ø·¡ Ã·ºÎÆÄÀÏÀÌ ÀÖ´Âµ¥, 'ÆÄÀÏ»èÁ¦'¸¦ ¼±ÅÃÇÑ °æ¿ì
+    	//1. ì›ë˜ ì²¨ë¶€íŒŒì¼ì´ ìˆëŠ”ë°, 'íŒŒì¼ì‚­ì œ'ë¥¼ ì„ íƒí•œ ê²½ìš°
     	if(review.getReview_image() != null && delFlag!= null && delFlag.equals("yes")) {
-    		//ÀúÀå Æú´õ¿¡ ÀÖ´Â ÆÄÀÏÀ» »èÁ¦ÇÔ 
+    		//ì €ì¥ í´ë”ì— ìˆëŠ” íŒŒì¼ì„ ì‚­ì œí•¨ 
     		new File(savePath + "/" + review.getReview_image()).delete();
 
     	}
-    	//2. ¸®ºä Ã·ºÎÆÄÀÏ 1°³¸¸ °¡´ÉÇÑ °æ¿ì
-    	//»õ·Î¿î Ã·ºÎÆÄÀÏÀÌ ÀÖÀ» ¶§ 
+    	//2. ë¦¬ë·° ì²¨ë¶€íŒŒì¼ 1ê°œë§Œ ê°€ëŠ¥í•œ ê²½ìš°
+    	//ìƒˆë¡œìš´ ì²¨ë¶€íŒŒì¼ì´ ìˆì„ ë•Œ 
     	if(!mfile.isEmpty()) {
-    		//2-1. ÀÌÀü Ã·ºÎÆÄÀÏÀÌ ÀÖÀ» ¶§
+    		//2-1. ì´ì „ ì²¨ë¶€íŒŒì¼ì´ ìˆì„ ë•Œ
     		if(review.getReview_image() != null) {
-    			//ÀúÀå Æú´õ ¾È¿¡ ÀÖ´Â ÀÌÀü ÆÄÀÏÀ» »èÁ¦ÇÔ
+    			//ì €ì¥ í´ë” ì•ˆì— ìˆëŠ” ì´ì „ íŒŒì¼ì„ ì‚­ì œí•¨
     			new File(savePath + "/" + review.getReview_image()).delete();
 
     		}
-    		//2-2. ÀÌÀü Ã·ºÎÆÄÀÏÀÌ ¾øÀ» ¶§
-    		//Àü¼Û ¿Â ÆÄÀÏÀÌ¸§ ÃßÃâÇÔ
+    		//2-2. ì´ì „ ì²¨ë¶€íŒŒì¼ì´ ì—†ì„ ë•Œ
+    		//ì „ì†¡ ì˜¨ íŒŒì¼ì´ë¦„ ì¶”ì¶œí•¨
     		String fileName = mfile.getOriginalFilename();
     		
     		if(fileName != null && fileName.length() > 0) {
-    			//¹Ù²Ü ÆÄÀÏ¸í¿¡ ´ëÇÑ ¹®ÀÚ¿­ ¸¸µé±â 
-    			//°øÁö±Û µî·Ï | ¼öÁ¤ ¿äÃ»½ÃÁ¡ÀÇ ³¯Â¥½Ã°£Á¤º¸¸¦ ÀÌ¿ëÇÔ
+    			//ë°”ê¿€ íŒŒì¼ëª…ì— ëŒ€í•œ ë¬¸ìì—´ ë§Œë“¤ê¸° 
+    			//ê³µì§€ê¸€ ë“±ë¡ | ìˆ˜ì • ìš”ì²­ì‹œì ì˜ ë‚ ì§œì‹œê°„ì •ë³´ë¥¼ ì´ìš©í•¨
     			String renameFileName = FileNameChange.change(fileName, "yyyyMMddHHmmss");
     			
-    			//¿øº» ÆÄÀÏÀÇ È®ÀåÀÚ¸¦ ÃßÃâÇØ¼­, º¯°æ ÆÄÀÏ¸í¿¡ ºÙ¿©ÁÜ
+    			//ì›ë³¸ íŒŒì¼ì˜ í™•ì¥ìë¥¼ ì¶”ì¶œí•´ì„œ, ë³€ê²½ íŒŒì¼ëª…ì— ë¶™ì—¬ì¤Œ
     			renameFileName += "." + fileName.substring(fileName.lastIndexOf(".") + 1);
-    			logger.info("Ã·ºÎ ÆÄÀÏ¸í È®ÀÎ : " + fileName + ", " + renameFileName);
+    			logger.info("ì²¨ë¶€ íŒŒì¼ëª… í™•ì¸ : " + fileName + ", " + renameFileName);
     			
-    			//ÆÄÀÏ °´Ã¼ ¸¸µé±â
+    			//íŒŒì¼ ê°ì²´ ë§Œë“¤ê¸°
     			File renameFile = new File(savePath + "/" + renameFileName);
     			
-    			//Æú´õ¿¡ ÀúÀå Ã³¸® 
+    			//í´ë”ì— ì €ì¥ ì²˜ë¦¬ 
     			try {
     				mfile.transferTo(renameFile);
     			}catch(Exception e) {
     				e.printStackTrace();
-    				model.addAttribute("message", "Ã·ºÎÆÄÀÏ ÀúÀå ½ÇÆĞ!");
+    				model.addAttribute("message", "ì²¨ë¶€íŒŒì¼ ì €ì¥ ì‹¤íŒ¨!");
     				return "common/error";
     			}
-    		} //ÀÌ¸§ ¹Ù²Ù±â
-    	} //»õ·Î¿î Ã·ºÎÆÄÀÏÀÌ ÀÖÀ» ¶§
+    		} //ì´ë¦„ ë°”ê¾¸ê¸°
+    	} //ìƒˆë¡œìš´ ì²¨ë¶€íŒŒì¼ì´ ìˆì„ ë•Œ
     	
     	if(reviewService.updateReview(review) > 0) {
-    		//¸®ºä ¿ø±Û ¼öÁ¤½Ã »ó¼¼º¸±â ÆäÀÌÁö·Î ÀÌµ¿
+    		//ë¦¬ë·° ì›ê¸€ ìˆ˜ì •ì‹œ ìƒì„¸ë³´ê¸° í˜ì´ì§€ë¡œ ì´ë™
     		model.addAttribute("page", page);
     		model.addAttribute("review_id", review.getReview_id());
     		
     		return "redirect:rdetail.do";
     	} else {
-    		model.addAttribute("message", review.getReview_id() + "¹ø ¸®ºä ¼öÁ¤ ½ÇÆĞ!");
+    		model.addAttribute("message", review.getReview_id() + "ë²ˆ ë¦¬ë·° ìˆ˜ì • ì‹¤íŒ¨!");
     		return "common/error";
     	}
     }
 
-    // ¸®ºä »èÁ¦ Ã³¸®
+    // ë¦¬ë·° ì‚­ì œ ì²˜ë¦¬
     @RequestMapping("rdelete.do")
     public String reviewDeleteMethod(Review review, HttpServletRequest request, Model model) {
     	if(reviewService.deleteReview(review) > 0) {
-    		//±Û »èÁ¦°¡ ¼º°øÇÏ¸é, ÀúÀåÆú´õ¿¡ ÀÖ´Â Ã·ºÎÆÄÀÏµµ »èÁ¦ Ã³¸®
+    		//ê¸€ ì‚­ì œê°€ ì„±ê³µí•˜ë©´, ì €ì¥í´ë”ì— ìˆëŠ” ì²¨ë¶€íŒŒì¼ë„ ì‚­ì œ ì²˜ë¦¬
     			new File(request.getSession().getServletContext().getRealPath("resources/review_upfiles") + "/" + review.getReview_image()).delete();
     			return "redirect:rlist.do?page=1";	
     	}else {
-    		model.addAttribute("message", review.getReview_id() + "¹ø ±Û »èÁ¦ ½ÇÆĞ!");
+    		model.addAttribute("message", review.getReview_id() + "ë²ˆ ê¸€ ì‚­ì œ ì‹¤íŒ¨!");
     		return "common/error";
     	}
     }

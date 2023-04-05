@@ -23,7 +23,7 @@ public class WineDictionaryController {
 	@Autowired
 	private WineDictionaryService wineDictionaryService;
 
-	// ¿ÍÀÎ»çÀü ÀüÃ¼ ¸ñ·Ïº¸±â ¿äÃ» Ã³¸®¿ë
+	// ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½Ïºï¿½ï¿½ï¿½ ï¿½ï¿½Ã» Ã³ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping("wdlist.do")
 	public String wineDictionaryListMethod(Model model) {
 		ArrayList<WineDictionary> list = wineDictionaryService.selectList();
@@ -32,12 +32,12 @@ public class WineDictionaryController {
 			model.addAttribute("list", list);
 			return "wineDictionary/wineDictionaryListView";
 		} else {
-			model.addAttribute("message", "µî·ÏµÈ ¿ÍÀÎÇ°Á¾ Á¤º¸°¡ ¾ø½À´Ï´Ù.");
+			model.addAttribute("message", "ï¿½ï¿½Ïµï¿½ ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 			return "common/error";
 		}
 	}
 
-	// ¿ÍÀÎ»çÀü Ç°Á¾ °Ë»ö¿ë
+	// ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½ Ç°ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½ï¿½
 	@RequestMapping(value = "wdsearchTitle.do", method = RequestMethod.POST)
 	public String wineDictionarySearchTitleMethod(@RequestParam("keyword") String keyword, Model model) {
 
@@ -48,12 +48,12 @@ public class WineDictionaryController {
 			model.addAttribute("list", list);
 			return "wineDictionary/wineDictionaryListView";
 		} else {
-			model.addAttribute("message", keyword + "À¸·Î °Ë»öµÈ ¿ÍÀÎÇ°Á¾ Á¤º¸°¡ ¾ø½À´Ï´Ù.");
+			model.addAttribute("message", keyword + "ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 			return "common/error";
 		}
 	}
 
-	// ¿ÍÀÎ»çÀü »ó¼¼º¸±â
+	// ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½ ï¿½ó¼¼ºï¿½ï¿½ï¿½
 	@RequestMapping("wddetail.do")
 	public String wineDictionaryDetailMethod(@RequestParam("wine") String wine, Model model, HttpSession session) {
 
@@ -64,7 +64,7 @@ public class WineDictionaryController {
 			model.addAttribute("wineDictionary", wineDictionary);
 			return "wineDictionary/wineDictionaryDetailView";
 		} else {
-			model.addAttribute("message", "ÇØ´ç µ¥ÀÌÅÍ°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+			model.addAttribute("message", "ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.");
 			return "common/error";
 		}
 

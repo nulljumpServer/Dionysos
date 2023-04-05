@@ -12,6 +12,8 @@ import org.nulljump.dionysos.common.FileNameChange;
 import org.nulljump.dionysos.common.Paging;
 import org.nulljump.dionysos.product.model.service.ProductService;
 import org.nulljump.dionysos.product.model.vo.Product;
+import org.nulljump.dionysos.review.model.service.ReviewService;
+import org.nulljump.dionysos.review.model.vo.Review;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-@Controller   //xml¿¡ Å¬·¡½º¸¦ controller·Î ÀÚµ¿ µî·ÏÇØ ÁÜ
+@Controller   //xmlì— í´ë˜ìŠ¤ë¥¼ controllerë¡œ ìë™ ë“±ë¡í•´ ì¤Œ
 public class ProductController {
 	private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 	
@@ -31,46 +33,58 @@ public class ProductController {
 	private ProductService productService;
 	
 	@Autowired
-	private ProductController(ProductService productService) {
+	private ReviewService reviewService;
+	
+	@Autowired
+	private ProductController(ProductService productService, ReviewService reviewService) {
 		this.productService = productService;
+		this.reviewService = reviewService;
 	}
+
+
+	//ëª©ë¡ í˜ì´ì§€ ë‹¨ìœ„ë¡œ ëª©ë¡ë³´ê¸° ìš”ì²­ ì²˜ë¦¬ìš© ë©”ì†Œë“œ
+		@RequestMapping("plistView.do")
+		 public ModelAndView productListMethod(@RequestParam(name = "page", required = false) String page, ModelAndView mv) {
+
+			int currentPage = 1;
+			if (page != null) {
+				currentPage = Integer.parseInt(page);
+			}
+
+			// í•œ í˜ì´ì§€ì— ê²Œì‹œê¸€ 10ê°œì”© ì¶œë ¥ë˜ê²Œ í•˜ëŠ” ê²½ìš° :
+			// í˜ì´ì§• ê³„ì‚° ì²˜ë¦¬ - ë³„ë„ì˜ í´ë˜ìŠ¤ë¡œ ì‘ì„±í•´ì„œ ì´ìš©í•´ë„ ë¨
+			int limit = 10; // í•œ í˜ì´ì§€ì— ì¶œë ¥í•  ëª©ë¡ ê°¯ìˆ˜
+			// ì´ í˜ì´ì§€ ìˆ˜ ê³„ì‚°ì„ ìœ„í•´ ê²Œì‹œê¸€ ì´ ê°¯ìˆ˜ ì¡°íšŒí•´ ì˜´
+			int listCount = productService.selectListCount();
+			Paging paging = new Paging(listCount, currentPage, limit);
+			paging.calculator();
+
+			ArrayList<Product> list = productService.selectProductList(paging);
+
+			if (list != null && list.size() > 0) {
+				mv.addObject("list", list);
+				mv.addObject("paging", paging);
+
+				mv.setViewName("product/productListView");
+			} else {
+				mv.addObject("message", currentPage + " í˜ì´ì§€ ëª©ë¡ ì¡°íšŒ ì‹¤íŒ¨!");
+				mv.setViewName("common/error");
+			}
+
+			return mv;
+		}
 	
-	//»óÇ° ¸ñ·ÏÀÇ ÃÑ °¹¼ö º¸¿©ÁÜ
-	@RequestMapping("pcount.do")
-	public int getProductListCountMethod(@RequestParam(required = false) Integer product_id) {
-	    int count;
-	    if (product_id != null) {
-	        count = productService.selectListCount();
-	    } else {
-	        count = productService.selectListCount(); // get count of all products
-	    }
-	    return count;
-	}
-	
-//	@RequestMapping("plist.do")
-//	public String moveProductlistView() {
-//		return "product/productListView";
-//	}
-	
-//	//»óÇ° ¸ñ·Ï ÆäÀÌÁö º¸¿©ÁÜ
-//	@GetMapping
-//	public ArrayList<Product> selectPrductsList() {
-//		return productService.selectProductList();
-//	}
-	
-	//¸ñ·Ï ÆäÀÌÁö ´ÜÀ§·Î ¸ñ·Ïº¸±â ¿äÃ» Ã³¸®¿ë ¸Ş¼Òµå
-	@RequestMapping("plistView.do")
-	 public ModelAndView productListMethod(@RequestParam(name = "page", required = false) String page, ModelAndView mv) {
+	@RequestMapping("adminplistView.do")
+	 public ModelAndView adminProductListMethod(@RequestParam(name = "page", required = false) String page, ModelAndView mv) {
 
 		int currentPage = 1;
 		if (page != null) {
 			currentPage = Integer.parseInt(page);
 		}
 
-		// ÇÑ ÆäÀÌÁö¿¡ °Ô½Ã±Û 10°³¾¿ Ãâ·ÂµÇ°Ô ÇÏ´Â °æ¿ì :
-		// ÆäÀÌÂ¡ °è»ê Ã³¸® - º°µµÀÇ Å¬·¡½º·Î ÀÛ¼ºÇØ¼­ ÀÌ¿ëÇØµµ µÊ
-		int limit = 10; // ÇÑ ÆäÀÌÁö¿¡ Ãâ·ÂÇÒ ¸ñ·Ï °¹¼ö
-		// ÃÑ ÆäÀÌÁö ¼ö °è»êÀ» À§ÇØ °Ô½Ã±Û ÃÑ °¹¼ö Á¶È¸ÇØ ¿È
+		
+		int limit = 10; 
+		
 		int listCount = productService.selectListCount();
 		Paging paging = new Paging(listCount, currentPage, limit);
 		paging.calculator();
@@ -81,78 +95,49 @@ public class ProductController {
 			mv.addObject("list", list);
 			mv.addObject("paging", paging);
 
-			mv.setViewName("product/productListView");
+			mv.setViewName("admin/productListView");
 		} else {
-			mv.addObject("message", currentPage + " ÆäÀÌÁö ¸ñ·Ï Á¶È¸ ½ÇÆĞ!");
+			mv.addObject("message", currentPage + " í˜ì´ì§€ ëª©ë¡ ì¡°íšŒ ì‹¤íŒ¨!");
 			mv.setViewName("common/error");
 		}
 
 		return mv;
 	}
-//	public ModelAndView productListMethod(@RequestParam(name = "page", required = false) String page, ModelAndView mv) {
-//		
-//		int currentPage = 1;
-//		if(page != null) {
-//			currentPage = Integer.parseInt(page);
-//		}
-//		//ÇÑ ÆäÀÌÁö¿¡ »óÇ° 10°³¾¿ Ãâ·ÂµÇ°Ô ÇÔ
-//		int limit = 10;
-//		int listCount = productService.getListCount();
-//		int maxPage = (int)((double)listCount / limit + 0.9);
-//		int startPage = ((currentPage - 1) / 10) * 10 + 1;
-//		int endPage = startPage + 10 - 1;
-//		
-//		if(maxPage < endPage) {
-//			endPage = maxPage;
-//		}
-//		
-//		//Äõ¸®¹®¿¡ Àü´ŞÇÒ ÇöÀç ÆäÀÌÁö¿¡ Ãâ·ÂÇÒ ¸ñ·ÏÀÇ ½ÃÀÛÇà°ú ³¡ÇàÀ» °è»ê
-//		int startRow = (currentPage - 1) * limit + 1;
-//		int endRow = startRow + limit - 1;
-//		Paging paging = new Paging(startRow, endRow);
-//		
-//		ArrayList<Product> list = productService.selectProductList(paging);
-//		
-//		if(list != null && list.size() > 0) {
-//			mv.addObject("list", list);
-//			mv.addObject("listCount", listCount);
-//			mv.addObject("maxPage", maxPage);
-//			mv.addObject("currentPage", currentPage);
-//			mv.addObject("startPage", startPage);
-//			mv.addObject("endPage", endPage);
-//			mv.addObject("limit", limit);
-//			
-//			mv.setViewName("product/productListView");
-//		}else {
-//			mv.addObject("message", currentPage + "ÆäÀÌÁö ¸ñ·Ï Á¶È¸ ½ÇÆĞ!");
-//			mv.setViewName("common/error");
-//		}
-//		return mv;
-//	}
 	
-	// »óÇ° ¸®½ºÆ® ÆäÀÌÁö ¿äÃ» Ã³¸®
-//	@RequestMapping(value = "plistView.do", method = RequestMethod.GET)
-//	public String productListMethod(Model model, HttpServletRequest request, HttpServletResponse response) {
-//		ArrayList<Product> selectProductList = productService.selectProductList(Paging page);
-//		model.addAttribute("selectProductList", selectProductList);
-//		return "product/productListView";
-//	}
-	
-//	//»óÇ° ¸®½ºÆ® ÇÊÅÍ
-//	@RequestMapping(value="pfilterList.do", method = RequestMethod.POST)
-//	public String productFilterListMethod() {
-//		ArrayList<Product> selectFilterProductList = productService.selectFilterProductList();
-//		return "product/productListView";
-//	}
-	
-	//ÃÖ±Ù º» »óÇ° 3°³
+	//ìµœê·¼ ë³¸ ìƒí’ˆ 3ê°œ
 	@RequestMapping(value="platest3.do", method=RequestMethod.POST)
 	public String productLatest3Method() {
 		return null;
 	}
 	
 	
-//	//½Å»óÇ° »óÇ° 3°³
+// //ì‹ ìƒí’ˆ
+//	@RequestMapping(value="pnew3.do", method=RequestMethod.POST)
+//	@ResponseBody
+//	public String productNew3Method() throws UnsupportedEncodingException {
+//		ArrayList<Product> list = productService.selectNew3();
+//		logger.info("pnew3.do : " + list.size());
+//		
+//		JSONObject sendJson = new JSONObject();
+//		JSONArray jarr = new JSONArray();
+//		
+//		for(Product product : list) {
+//			JSONObject job = new JSONObject();
+//			
+//			job.put("product_name", URLEncoder.encode(product.getProduct_name(), "utf-8"));
+//			job.put("product_ename", product.getProduct_ename());
+//			job.put("product_price",  product.getProduct_price());
+//			job.put("product_image",  product.getProduct_image());
+//			
+//			jarr.add(job);
+//		}
+//		sendJson.put("list", jarr);
+//		
+//		return sendJson.toJSONString();
+//		
+//	}
+
+	//ì‹ ìƒí’ˆ ìƒí’ˆ 3ê°œ
 //	@RequestMapping(value="pnew3.do", method=RequestMethod.POST)
 //	@ResponseBody
 //	public String productNew3Method() throws UnsupportedEncodingException {
@@ -181,130 +166,102 @@ public class ProductController {
 //	@RequestMapping(value = "ptop5.do", method = RequestMethod.POST)
 //	@ResponseBody
 //	public String productTop5Method() throws UnsupportedEncodingException {
-//		// ajax·Î ¿äÃ»½Ã ¸®ÅÏ ¹æ¹ıÀº ¿©·¯°¡Áö°¡ ÀÖÀ½
-//		// response °´Ã¼ ÀÌ¿ë½Ã
-//		// 1. Ãâ·Â½ºÆ®¸²À¸·Î ÀÀ´äÇÏ´Â ¹æ¹ı (¿¹: ¾ÆÀÌµğ Áßº¹Ã¼Å©)
-//		// 2. ºä¸®Á¹¹ö·Î ¸®ÅÏÇÏ´Â ¹æ¹ı : response body¿¡ °ªÀ» ÀúÀå
+//		// ajaxë¡œ ìš”ì²­ì‹œ ë¦¬í„´ ë°©ë²•ì€ ì—¬ëŸ¬ê°€ì§€ê°€ ìˆìŒ
+//		// response ê°ì²´ ì´ìš©ì‹œ
+//		// 1. ì¶œë ¥ìŠ¤íŠ¸ë¦¼ìœ¼ë¡œ ì‘ë‹µí•˜ëŠ” ë°©ë²• (ì˜ˆ: ì•„ì´ë”” ì¤‘ë³µì²´í¬)
+//		// 2. ë·°ë¦¬ì¡¸ë²„ë¡œ ë¦¬í„´í•˜ëŠ” ë°©ë²• : response bodyì— ê°’ì„ ì €ì¥
 //
-//		// Á¶È¸¼ö ¸¹Àº ÀÎ±â °Ô½Ã±Û 5°³ Á¶È¸ÇØ ¿È
+//		// ì¡°íšŒìˆ˜ ë§ì€ ì¸ê¸° ê²Œì‹œê¸€ 5ê°œ ì¡°íšŒí•´ ì˜´
 //		ArrayList<Product> list = productService.selectTop5();
-//		logger.info("ptop5.do : " + list.size()); // 5°³ Ãâ·Â È®ÀÎ
+//		logger.info("ptop5.do : " + list.size()); // 5ê°œ ì¶œë ¥ í™•ì¸
 //
-//		// Àü¼Û¿ë json °´Ã¼ ÁØºñ
+//		// ì „ì†¡ìš© json ê°ì²´ ì¤€ë¹„
 //		JSONObject sendJson = new JSONObject();
-//		// ¸®½ºÆ® ÀúÀåÇÒ json ¹è¿­ °´Ã¼ ÁØºñ
+//		// ë¦¬ìŠ¤íŠ¸ ì €ì¥í•  json ë°°ì—´ ê°ì²´ ì¤€ë¹„
 //		JSONArray jarr = new JSONArray();
 //
-//		// list¸¦ jarr¿¡ ¿Å±â±â (º¹»ç)
+//		// listë¥¼ jarrì— ì˜®ê¸°ê¸° (ë³µì‚¬)
 //		for (Product product : list) {
-//			// notice ÀÇ °¢ ÇÊµå°ª ÀúÀåÇÒ json °´Ã¼ »ı¼º
+//			// notice ì˜ ê° í•„ë“œê°’ ì €ì¥í•  json ê°ì²´ ìƒì„±
 //			JSONObject job = new JSONObject();
 //
 //			job.put("product_image", product.getProduct_image());
-//			// ÇÑ±Û¿¡ ´ëÇØ¼­´Â ÀÎÄÚµùÇØ¼­ json¿¡ ´ãµµ·Ï ÇÔ (ÇÑ±Û±úÁü ¹æÁö)
+//			// í•œê¸€ì— ëŒ€í•´ì„œëŠ” ì¸ì½”ë”©í•´ì„œ jsonì— ë‹´ë„ë¡ í•¨ (í•œê¸€ê¹¨ì§ ë°©ì§€)
 //			job.put("product_name", URLEncoder.encode(product.getProduct_name(), "utf-8"));
-//			// ³¯Â¥´Â ¹İµå½Ã toString() À¸·Î ¹®ÀÚ¿­·Î ¹Ù²ã¼­ json¿¡ ´ã¾Æ¾ß ÇÔ
+//			// ë‚ ì§œëŠ” ë°˜ë“œì‹œ toString() ìœ¼ë¡œ ë¬¸ìì—´ë¡œ ë°”ê¿”ì„œ jsonì— ë‹´ì•„ì•¼ í•¨
 //			job.put("product_price", product.getProduct_price());
 //
-//			jarr.add(job); // job¸¦ jarr¿¡ Ãß°¡ÇÔ
+//			jarr.add(job); // jobë¥¼ jarrì— ì¶”ê°€í•¨
 //		}
 //
-//		// Àü¼Û¿ë °´Ã¼¿¡ jarr À» ´ãÀ½
+//		// ì „ì†¡ìš© ê°ì²´ì— jarr ì„ ë‹´ìŒ
 //		sendJson.put("list", jarr);
 //
-//		// jsonÀ» json string Å¸ÀÔÀ¸·Î ¹Ù²ã¼­ Àü¼ÛµÇ°Ô ÇÔ
-//		return sendJson.toJSONString(); // ºä¸®Á¹¹ö·Î ¸®ÅÏ
-//		// servlet-context.xml ¿¡ json string ³»º¸³»´Â JsonView ¶ó´Â ºä¸®Á¹¹ö¸¦ Ãß°¡ µî·ÏÇØ¾ß ÇÔ
+//		// jsonì„ json string íƒ€ì…ìœ¼ë¡œ ë°”ê¿”ì„œ ì „ì†¡ë˜ê²Œ í•¨
+//		return sendJson.toJSONString(); // ë·°ë¦¬ì¡¸ë²„ë¡œ ë¦¬í„´
+//		// servlet-context.xml ì— json string ë‚´ë³´ë‚´ëŠ” JsonView ë¼ëŠ” ë·°ë¦¬ì¡¸ë²„ë¥¼ ì¶”ê°€ ë“±ë¡í•´ì•¼ í•¨
 //
 //	}
 	
-	//»óÇ° »ó¼¼º¸±â ÆäÀÌÁö ³»º¸³»±â¿ë
 	@RequestMapping("pdetail.do")
-	public String moveProductDetailView() {
-		return "product/productDetailView";
+	public String productDetailMethod(
+			@RequestParam("product_id") int product_id, Model model) {
+		
+		Product product = productService.selectProduct(product_id);
+		
+		logger.info("product_id :" +product_id);
+		
+		int rlistcount = reviewService.getListCount(product_id);
+		
+		Paging paging = new Paging(rlistcount, 1, 10, product_id);
+		paging.calculator();
+		
+		ArrayList<Review> rlist = reviewService.selectReviewList(paging);
+		
+		if(product != null) {
+			model.addAttribute("product", product);
+			model.addAttribute("rlist", rlist);
+			return "product/productDetailView";
+		}else {
+			model.addAttribute("message", product + " ìƒí’ˆì´ í’ˆì ˆ í˜¹ì€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
+			return "common/error";
+		}
 	}
 	
-//	// »óÇ° »ó¼¼º¸±â ÆäÀÌÁö ¿äÃ» Ã³¸®
-//	@RequestMapping("pdetailView.do")
-//	public ModelAndView productDetailMethod(ModelAndView mv, @RequestParam("product_id") int product_id,
-//			@RequestParam(name = "page", required = false) String page) {
-//		int currentPage = 1;
-//		if (page != null) {
-//			currentPage = Integer.parseInt(page);
-//		}
-//
-////		// Á¶È¸¼ö 1 Áõ°¡ Ã³¸®
-////		boardService.updateBoardReadcount(board_num);
-//
-//		// ÇØ´ç °Ô½Ã±Û Á¶È¸
-//		Product product = productService.selectProduct(product_id);
-//
-//		if (product != null) {
-//			mv.addObject("product", product);
-//			mv.addObject("currentPage", currentPage);
-//
-//			mv.setViewName("product/productDetailView");
-//		} else {
-//			mv.addObject("message", product_id + "¹ø °Ô½Ã±Û Á¶È¸ ½ÇÆĞ!");
-//			mv.setViewName("common/error");
-//		}
-//
-//		return mv;
-//	}
-//	public String productDetailMethod(
-//			@RequestParam("product_id") int product_id, Model model, HttpSession session) {
-//		Product product = productService.selectProduct(product_id);
-//		if(product != null) {
-//			model.addAttribute("product", product);
-//			
-//			return "product/productDetailView";
-//		}else {
-//			model.addAttribute("message", product + " »óÇ°ÀÌ Ç°Àı È¤Àº Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
-//			return "common/error";
-//		}
-//	}
 
-//	//°áÁ¦ ÆäÀÌÁö ³»º¸³»±â¿ë
-//	@RequestMapping(value="paymentPage.do", method= {RequestMethod.GET, RequestMethod.POST})
-//	public String movePaymentPage() {
-//		return "payment/paymentPage";
-//	}
-//	
-//	//Àå¹Ù±¸´Ï ÆäÀÌÁö ³»º¸³»±â¿ë
-//	@RequestMapping(value="cartsPage.do", method= {RequestMethod.GET, RequestMethod.POST})
-//	public String moveCartsPage() {
-//		return "carts/cartsPage";
-//	}
+
+
 	
-	//»óÇ° °Ë»ö Á¶È¸
+	//ìƒí’ˆ ê²€ìƒ‰ ì¡°íšŒ
 	@RequestMapping(value="psearch.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String productSearchMethod(HttpServletRequest request, Model model) {
 		String action = request.getParameter("action");
+		logger.info(action);
 		String keyword = null;
-		
+		keyword = request.getParameter("keyword");
 		ArrayList<Product> list = null;
 		
 		switch(action) {
 		
 //		case "id": list = productService.selectSearchProductId(Integer.parseInt(keyword));
 //					break;
-		case "name": list = productService.selectSearchProductName(keyword);
+		case "product_name": list = productService.selectSearchProductName(keyword);
 					break;
-		case "ename": list = productService.selectSearchProductEname(keyword);
+		case "product_ename": list = productService.selectSearchProductEname(keyword);
 					break;
-		case "price": list = productService.selectSearchProductPrice(Integer.parseInt(keyword));
+		case "product_price": list = productService.selectSearchProductPrice(Integer.parseInt(keyword));
 					break;
-		case "acidity": list = productService.selectSearchProductAcidity(Integer.parseInt(keyword));
+		case "product_acidity": list = productService.selectSearchProductAcidity(Integer.parseInt(keyword));
 					break;
-		case "alcohol": list = productService.selectSearchProductAlcohol(Float.parseFloat(keyword));
+		case "product_alcohol": list = productService.selectSearchProductAlcohol(Float.parseFloat(keyword));
 					break;
-		case "sweetness": list = productService.selectSearchProductSweetness(Integer.parseInt(keyword));
+		case "product_sweetness": list = productService.selectSearchProductSweetness(Integer.parseInt(keyword));
 					break;
-		case "body": list = productService.selectSearchProductBody(Integer.parseInt(keyword));
+		case "product_body": list = productService.selectSearchProductBody(Integer.parseInt(keyword));
 					break;
-		case "tannin": list = productService.selectSearchProductTannin(Integer.parseInt(keyword));
+		case "product_tannin": list = productService.selectSearchProductTannin(Integer.parseInt(keyword));
 					break;
-		case "origin": list = productService.selectSearchProductOrigin(keyword);
+		case "product_origin": list = productService.selectSearchProductOrigin(keyword);
 					break;
 		case "wine_type": list = productService.selectSearchProductType(keyword);
 					break;
@@ -314,39 +271,33 @@ public class ProductController {
 			model.addAttribute("list", list);
 			return "product/productListView";
 		}else {
-			model.addAttribute("message", action + " »óÇ°ÀÌ Ç°Àı È¤Àº Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+			model.addAttribute("message", action + "ìƒí’ˆì´ í’ˆì ˆ í˜¹ì€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			return "common/error";
 		}
 	}
 	
-	//°ü¸®ÀÚ ±â´É
+		//ê´€ë¦¬ì ê¸°ëŠ¥
 	
-	//°ü¸®ÀÚ È®ÀÎ¿ë ¸Ş¼Òµå
-	
-	// »óÇ° µî·Ï ÆäÀÌÁö ¿äÃ»
-	@RequestMapping(value="pinsertForm.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String moveProductInsert() {
-		return "product/productInsertForm";
-	}
+		//ê´€ë¦¬ì í™•ì¸ìš© ë©”ì†Œë“œ
 
-	// »óÇ° µî·Ï Ã³¸®
+	// ìƒí’ˆ ë“±ë¡ ì²˜ë¦¬
 	@RequestMapping(value = "pinsert.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String productInsertMethod(Product product, Model model, HttpServletRequest request,
 			@RequestParam(name = "upfile", required = false) MultipartFile mfile) {
 		
-		//»óÇ° Ã·ºÎÆÄÀÏ ÀúÀå Æú´õ °æ·Î ÁöÁ¤
+		//ìƒí’ˆ ì²¨ë¶€íŒŒì¼ ì €ì¥ í´ë” ê²½ë¡œ ì§€ì •
 		String savePath = request.getSession().getServletContext().getRealPath("resources/product_upfiles");
 		
-		//Ã·ºÎÆÄÀÏ
+		//ì²¨ë¶€íŒŒì¼
 		String fileName = mfile.getOriginalFilename();
 		
 		if(fileName != null && fileName.length() > 0) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-			//º¯°æÇÒ ÆÄÀÏ¸í ¸¸µé±â
+			//ë³€ê²½í•  íŒŒì¼ëª… ë§Œë“¤ê¸°
 		    String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis()));
 			
 		    renameFileName += "." + fileName.substring(fileName.lastIndexOf(".") + 1);
-		    logger.info("Ã·ºÎ ÆÄÀÏ¸í È®ÀÎ : " + fileName + ", " + renameFileName);
+		    logger.info("ì²¨ë¶€ íŒŒì¼ëª… í™•ì¸ : " + fileName + ", " + renameFileName);
 		    
 		    File renameFile = new File(savePath +"\\" + renameFileName);
 		    
@@ -354,106 +305,106 @@ public class ProductController {
 		    	mfile.transferTo(renameFile);
 		    }catch(Exception e){
 		    	e.printStackTrace();
-		    	model.addAttribute("message", "Ã·ºÎÆÄÀÏ ÀúÀå ½ÇÆĞ!");
+		    	model.addAttribute("message", "ì²¨ë¶€íŒŒì¼ ì €ì¥ ì‹¤íŒ¨!");
 		    	return "common/error";
 		    }
 		}
 		if(productService.insertProduct(product) > 0) {
-			//»óÇ° µî·Ï ¼º°ø½Ã ¸ñ·Ï º¸±â ÆäÀÌÁö·Î ÀÌµ¿
+			//ìƒí’ˆ ë“±ë¡ ì„±ê³µì‹œ ëª©ë¡ ë³´ê¸° í˜ì´ì§€ë¡œ ì´ë™
 			return "redirect:plistView.do";
 		}else {
-			model.addAttribute("message", product.getProduct_id() + "»õ »óÇ° µî·Ï ½ÇÆĞ!");
+			model.addAttribute("message", product.getProduct_id() + "ìƒˆ ìƒí’ˆ ë“±ë¡ ì‹¤íŒ¨!");
 			return "common/error";
 		}
 	}
 	
-	// »óÇ° ¼öÁ¤ ÆäÀÌÁö ¿äÃ»
+	// ìƒí’ˆ ìˆ˜ì • í˜ì´ì§€ ìš”ì²­
 	@RequestMapping(value="pupdateForm.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String moveProductUpdateView(@RequestParam("product_id") int product_id, @RequestParam("page") int currentPage, Model model) {
-		//¼öÁ¤ÆäÀÌÁö·Î º¸³¾ product °´Ã¼ Á¤º¸ Á¶È¸ÇÔ
+		//ìˆ˜ì •í˜ì´ì§€ë¡œ ë³´ë‚¼ product ê°ì²´ ì •ë³´ ì¡°íšŒí•¨
 		Product product = productService.selectProduct(product_id);
 		
 		if(product != null) {
 			model.addAttribute("product", product);
-			model.addAttribute("currentPage", currentPage);
+//			model.addAttribute("currentPage", currentPage);
 			
 			return "product/productUpdateForm";
 		}else {
-			model.addAttribute("message", product_id +"»óÇ° ¼öÁ¤ÆäÀÌÁö·Î ÀÌµ¿ ½ÇÆĞ!");
+			model.addAttribute("message", product_id +"ìƒí’ˆ ìˆ˜ì •í˜ì´ì§€ë¡œ ì´ë™ ì‹¤íŒ¨!");
 			
 			return "common/error";
 		}
 	}
 
-	// »óÇ° ¼öÁ¤ Ã³¸®
+	// ìƒí’ˆ ìˆ˜ì • ì²˜ë¦¬
 	@RequestMapping(value = "pupdate.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String productUpdateMethod(Product product, Model model, HttpServletRequest request,
 			@RequestParam(name = "delflag", required = false) String delFlag,
 			@RequestParam(name = "upfile", required = false) MultipartFile mfile,
 			@RequestParam("page") int page) {
 		
-		//»óÇ° Ã·ºÎÆÄÀÏ ÀúÀå Æú´õ °æ·Î ÁöÁ¤
+		//ìƒí’ˆ ì²¨ë¶€íŒŒì¼ ì €ì¥ í´ë” ê²½ë¡œ ì§€ì •
 		String savePath = request.getSession().getServletContext().getRealPath("resources/product_upfiles");
 		
-		//Ã·ºÎÆÄÀÏÀÌ ¼öÁ¤ Ã³¸®µÈ °æ¿ì ------------------------------------------
+		//ì²¨ë¶€íŒŒì¼ì´ ìˆ˜ì • ì²˜ë¦¬ëœ ê²½ìš° ------------------------------------------
 		if(product.getProduct_image() != null && delFlag != null && delFlag.equals("yes")) {
-			//ÀúÀå Æú´õ¿¡ ÀÖ´Â ÆÄÀÏÀ» »èÁ¦ÇÔ
+			//ì €ì¥ í´ë”ì— ìˆëŠ” íŒŒì¼ì„ ì‚­ì œí•¨
 			new File(savePath + "/" + product.getProduct_image()).delete();
 		}
-		//2.»óÇ° Ã·ºÎÆÄÀÏ 1°³¸¸ °¡´ÉÇÑ °æ¿ì
-		//»õ·Î¿î Ã·ºÎÆÄÀÏ ÀÖÀ» ¶§
+		//2.ìƒí’ˆ ì²¨ë¶€íŒŒì¼ 1ê°œë§Œ ê°€ëŠ¥í•œ ê²½ìš°
+				//ìƒˆë¡œìš´ ì²¨ë¶€íŒŒì¼ ìˆì„ ë•Œ
 		if(!mfile.isEmpty()) {
-			//2-1. ÀÌÀü Ã·ºÎÆÄÀÏÀÌ ÀÖÀ» ¶§
+			//2-1. ì´ì „ ì²¨ë¶€íŒŒì¼ì´ ìˆì„ ë•Œ
 			if(product.getProduct_image() != null) {
-				//ÀúÀå Æú´õ¿¡ ÀÖ´Â ÀÌÀü ÆÄÀÏ »èÁ¦ÇÔ
+				//ì €ì¥ í´ë”ì— ìˆëŠ” ì´ì „ íŒŒì¼ ì‚­ì œí•¨
 				new File(savePath + "/" + product.getProduct_image()).delete();
 			}
-			//2-2. ÀÌÀü Ã·ºÎÆÄÀÏÀÌ ¾øÀ» ¶§
-			//Àü¼Û ¿Â ÆÄÀÏÀÌ¸§ ÃßÃâÇÔ
+			//2-2. ì´ì „ ì²¨ë¶€íŒŒì¼ì´ ì—†ì„ ë•Œ
+			//ì „ì†¡ ì˜¨ íŒŒì¼ì´ë¦„ ì¶”ì¶œí•¨
 			String fileName = mfile.getOriginalFilename();
 			
 			if(fileName != null && fileName.length() > 0) {
 				String renameFileName = FileNameChange.change(fileName, "yyyyMMddHHmmss");
 				
 				renameFileName += "." + fileName.substring(fileName.lastIndexOf(".") + 1);
-				logger.info("Ã·ºÎ ÆÄÀÏ¸í È®ÀÎ : " + fileName + ", " + renameFileName);
+				logger.info("ì²¨ë¶€ íŒŒì¼ëª… í™•ì¸ : " + fileName + ", " + renameFileName);
 				
-				//ÆÄÀÏ °´Ã¼ ¸¸µé±â
+				//íŒŒì¼ ê°ì²´ ë§Œë“¤ê¸°
 				File renameFile = new File(savePath + "/" + renameFileName);
 				
-				//Æú´õ¿¡ ÀúÀå Ã³¸®
+				//í´ë”ì— ì €ì¥ ì²˜ë¦¬
 				try {
 					mfile.transferTo(renameFile);
 				}catch(Exception e) {
 					e.printStackTrace();
-					model.addAttribute("message", "Ã·ºÎÆÄÀÏ ÀúÀå ½ÇÆĞ!");
+					model.addAttribute("message", "ì²¨ë¶€íŒŒì¼ ì €ì¥ ì‹¤íŒ¨!");
 					return "common/error";
 				}
 			}
 		}
 
 		if(productService.updateProduct(product) > 0) {
-			//»óÇ° ¼öÁ¤ ¼º°ø½Ã »ó¼¼º¸±â ÆäÀÌÁö·Î ÀÌµ¿
+			//ìƒí’ˆ ìˆ˜ì • ì„±ê³µì‹œ ìƒì„¸ë³´ê¸° í˜ì´ì§€ë¡œ ì´ë™
 			model.addAttribute("page", page);
 			model.addAttribute("product_id", product.getProduct_id());
 			
 			return "redirect:pdetailView.do";
 		} else {
-			model.addAttribute("message", product.getProduct_id() + "»óÇ° ¼öÁ¤ ½ÇÆĞ!");
+			model.addAttribute("message", product.getProduct_id() + "ìƒí’ˆ ìˆ˜ì • ì‹¤íŒ¨!");
 			return "common/error";
 		}
 	}
 
 
-	// »óÇ° »èÁ¦ Ã³¸®
+	// ìƒí’ˆ ì‚­ì œ ì²˜ë¦¬
 	@RequestMapping(value = "pdelete.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String productDeleteMethod(Product product, HttpServletRequest request, Model model) {
     	if(productService.deleteProduct(product) > 0) {
-    		//±Û »èÁ¦°¡ ¼º°øÇÏ¸é, ÀúÀåÆú´õ¿¡ ÀÖ´Â Ã·ºÎÆÄÀÏµµ »èÁ¦ Ã³¸®
+    		//ê¸€ ì‚­ì œê°€ ì„±ê³µí•˜ë©´, ì €ì¥í´ë”ì— ìˆëŠ” ì²¨ë¶€íŒŒì¼ë„ ì‚­ì œ ì²˜ë¦¬
     			new File(request.getSession().getServletContext().getRealPath("resources/product_upfiles") + "/" + product.getProduct_image()).delete();
     			return "redirect:plistView.do?page=1";	
     	}else {
-    		model.addAttribute("message", product.getProduct_id() + "»óÇ° »èÁ¦ ½ÇÆĞ!");
+    		model.addAttribute("message", product.getProduct_id() + "ìƒí’ˆ ì‚­ì œ ì‹¤íŒ¨!");
     		return "common/error";
     	}
     }
@@ -468,40 +419,7 @@ public class ProductController {
 			 						@RequestParam("tannin") int tannin, Model model) {
 		 
 		 return "redirect:product/productList";
-	 }
-	 
-//		@RequestMapping("psearchType.do")
-//		public String searchWineTypeMethod(@RequestParam("wine_type") String wine_type, Model model) {
-//			ArrayList<Product> list = productService.selectSearchWineType(wine_type);
-//			 logger.info("list : " + list.size());
-//			 if(list != null && list.size() > 0) {
-//				 model.addAttribute("list", list);
-//				 
-//				 return "product/productListView";
-//			 } else {
-//				 model.addAttribute("message", "°Ë»ö°á°ú°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
-//				 return "common/error";
-//			 }
-//			
-//		}
-	 
-//	 @RequestMapping("psearchName.do")
-//	 public String productNameSearchMethod(String product_name, Model model) {
-//		 ArrayList<Product> list = productService.selectSearchProductName(product_name);
-//		 logger.info("list : " + list);
-//		 if(list != null && list.size() > 0) {
-//			 model.addAttribute("list", list);
-//			 
-//			 return "product/productListView";
-//		 } else {
-//			 model.addAttribute("message", "°Ë»ö°á°ú°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
-//			 return "common/error";
-//		 }
-//		
-//		 
-//		 
-//	 }
-	
+	 }	
 		
 
 	

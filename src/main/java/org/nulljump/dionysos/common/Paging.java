@@ -1,41 +1,54 @@
 package org.nulljump.dionysos.common;
 
 public class Paging {
-	// ÇÑ ÆäÀÌÁö¿¡ Ãâ·ÂÇÒ ½ÃÀÛÇà°ú ³¡ÇàÀ» ÀúÀåÇÏ´Â °´Ã¼
+	// í•œ í˜ì´ì§€ì— ì¶œë ¥í•  ì‹œì‘í–‰ê³¼ ëí–‰ì„ ì €ì¥í•˜ëŠ” ê°ì²´
 	private int startRow;
 	private int endRow;
-	private int listCount; // ÃÑ ¸ñ·Ï ¼ö
-	private int limit; // ÇÑ ÆäÀÌÁö¿¡ Ãâ·ÂÇÒ ¸ñ·Ï¼ö
-	private int currentPage; // Ãâ·ÂÇÒ ÆäÀÌÁö
-	private int maxPage; // ÃÑ ÆäÀÌÁö ¼ö
-	private int startPage; //ÆäÀÌÁö±×·ìÀÇ ½ÃÀÛ°ª
-	private int endPage;  //ÆäÀÌÁö±×·ìÀÇ ³¡°ª
+	private int listCount; // ì´ ëª©ë¡ ìˆ˜
+	private int limit; // í•œ í˜ì´ì§€ì— ì¶œë ¥í•  ëª©ë¡ìˆ˜
+	private int currentPage; // ì¶œë ¥í•  í˜ì´ì§€
+	private int maxPage; // ì´ í˜ì´ì§€ ìˆ˜
+	private int startPage; //í˜ì´ì§€ê·¸ë£¹ì˜ ì‹œì‘ê°’
+	private int endPage;  //í˜ì´ì§€ê·¸ë£¹ì˜ ëê°’
+	private int product_id;
 
-	//»ı¼ºÀÚ ¾øÀ½
-	
+
+	public Paging() {
+		super();
+	}
+
 	public Paging(int listCount, int currentPage, int limit) {
 		this.listCount = listCount;
 		this.currentPage = currentPage;
 		this.limit = limit;
 	}
+	
+	//ë§¤ê°œë³€ìˆ˜ ìˆëŠ” ìƒì„±ì
+		public Paging(int listCount, int currentPage, int limit, int product_id) {
+			this.listCount = listCount;
+			this.currentPage = currentPage;
+			this.limit = limit;
+			this.product_id = product_id;
+		}
+
 
 	public void calculator() {
-		// ÆäÀÌÁö ¼ö °è»ê
-		// ÁÖÀÇ : ¸ñ·ÏÀÌ 11°³ÀÌ¸é ÆäÀÌÁö ¼ö´Â 2ÆäÀÌÁö°¡ µÊ
-		// ³ª¸ÓÁö ¸ñ·Ï 1°³µµ ÇÑ ÆäÀÌÁö°¡ ÇÊ¿äÇÔ
+		// í˜ì´ì§€ ìˆ˜ ê³„ì‚°
+		// ì£¼ì˜ : ëª©ë¡ì´ 11ê°œì´ë©´ í˜ì´ì§€ ìˆ˜ëŠ” 2í˜ì´ì§€ê°€ ë¨
+		// ë‚˜ë¨¸ì§€ ëª©ë¡ 1ê°œë„ í•œ í˜ì´ì§€ê°€ í•„ìš”í•¨
 		maxPage = (int) ((double) listCount / limit + 0.95);
-		// ÇöÀç ÆäÀÌÁö°¡ Æ÷ÇÔµÈ ÆäÀÌÁö ±×·ìÀÇ ½ÃÀÛ°ª°ú ³¡°ª °è»ê
-		// => ºä ÆäÀÌÁö ¾Æ·¡ÂÊ¿¡ Ç¥½ÃÇÒ ÆäÀÌÁö ¼ıÀÚ¸¦ 10°³ ÇÑ´Ù¸é
-		// ÇöÀç ÆäÀÌÁö°¡ 95¶ó¸é 91°ú 100 À» °è»êÇØ ³¿
-		startPage = ((currentPage - 1) / 10) * 10 + 1;
+		// í˜„ì¬ í˜ì´ì§€ê°€ í¬í•¨ëœ í˜ì´ì§€ ê·¸ë£¹ì˜ ì‹œì‘ê°’ê³¼ ëê°’ ê³„ì‚°
+		// => ë·° í˜ì´ì§€ ì•„ë˜ìª½ì— í‘œì‹œí•  í˜ì´ì§€ ìˆ«ìë¥¼ 10ê°œ í•œë‹¤ë©´
+		// í˜„ì¬ í˜ì´ì§€ê°€ 95ë¼ë©´ 91ê³¼ 100 ì„ ê³„ì‚°í•´ ëƒ„
+		startPage = ((currentPage - 1) /10) * 10 + 1;
 		endPage = startPage + 10 - 1;
 
 		if (maxPage < endPage) {
 			endPage = maxPage;
 		}
 
-		// Äõ¸®¹®¿¡ Àü´ŞÇÒ ÇöÀç ÆäÀÌÁö¿¡ Ãâ·ÂÇÒ ¸ñ·ÏÀÇ ½ÃÀÛÇà°ú
-		// ³¡ÇàÀ» °è»ê
+		// ì¿¼ë¦¬ë¬¸ì— ì „ë‹¬í•  í˜„ì¬ í˜ì´ì§€ì— ì¶œë ¥í•  ëª©ë¡ì˜ ì‹œì‘í–‰ê³¼
+		// ëí–‰ì„ ê³„ì‚°
 		startRow = (currentPage - 1) * limit + 1;
 		endRow = startRow + limit - 1;		
 	}
@@ -103,13 +116,23 @@ public class Paging {
 	public void setEndPage(int endPage) {
 		this.endPage = endPage;
 	}
+	
+	public int getProduct_id() {
+		return product_id;
+	}
+
+	public void setProduct_id(int product_id) {
+		this.product_id = product_id;
+	}
 
 	@Override
 	public String toString() {
 		return "Paging [startRow=" + startRow + ", endRow=" + endRow + ", listCount=" + listCount + ", limit=" + limit
 				+ ", currentPage=" + currentPage + ", maxPage=" + maxPage + ", startPage=" + startPage + ", endPage="
-				+ endPage + "]";
+				+ endPage + ", product_id=" + product_id + "]";
 	}
+
+	
 	
 	
 

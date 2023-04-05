@@ -31,7 +31,7 @@ public class NoticeController {
 	@Autowired
 	private NoticeService noticeservice;
 
-	// °øÁö»çÇ× ÀüÃ¼ ¸ñ·Ï Ãâ·Â
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	@RequestMapping("nlist.do")
 	public String noticeAllListMethod(Model model) {
 		ArrayList<Notice> list = noticeservice.selectAllList();
@@ -40,12 +40,12 @@ public class NoticeController {
 			model.addAttribute("list", list);
 			return "notice/noticeListView";
 		} else {
-			model.addAttribute("message", "µî·ÏµÈ Á¤º¸°¡ ¾ø½À´Ï´Ù.");
+			model.addAttribute("message", "ï¿½ï¿½Ïµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 			return "common/error";
 		}
 	}
 
-	// °øÁö»çÇ× ÆäÀÌÁö ´ÜÀ§·Î ¸ñ·Ïº¸±â ¿äÃ» Ã³¸®¿ë ¸Þ¼Òµå
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ïºï¿½ï¿½ï¿½ ï¿½ï¿½Ã» Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½
 	@RequestMapping("nplist.do")
 	public ModelAndView noticeListMethod(@RequestParam(name = "page", required = false) String page, ModelAndView mv) {
 		int currentPage = 1;
@@ -53,8 +53,8 @@ public class NoticeController {
 			currentPage = Integer.parseInt(page);
 		}
 
-		int limit = 10; // ÇÑ ÆäÀÌÁö¿¡ Ãâ·ÂÇÒ ¸ñ·Ï °¹¼ö
-		// ÃÑ ÆäÀÌÁö ¼ö °è»êÀ» À§ÇØ °Ô½Ã±Û ÃÑ °¹¼ö Á¶È¸ÇØ ¿È
+		int limit = 10; // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½
 		int listCount = noticeservice.getListCount();
 		Paging paging = new Paging(listCount, currentPage, limit);
 		paging.calculator();
@@ -67,18 +67,18 @@ public class NoticeController {
 
 			mv.setViewName("notice/noticeListView");
 		} else {
-			mv.addObject("message", currentPage + " ÆäÀÌÁö ¸ñ·Ï Á¶È¸ ½ÇÆÐ!");
+			mv.addObject("message", currentPage + " ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ ï¿½ï¿½ï¿½ï¿½!");
 			mv.setViewName("common/error");
 		}
 
 		return mv;
 	}
 
-	// °øÁö»çÇ× »ó¼¼º¸±â Ã³¸®¿ë
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ó¼¼ºï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping("ndetail.do")
 	public String noticeDetailMethod(@RequestParam("noticeno") int notice_no, Model model, HttpSession session) {
-		// °ü¸®ÀÚ¿ë »ó¼¼º¸±â ÆäÀÌÁö¿Í ÀÏ¹ÝÈ¸¿ø ¶Ç´Â ºñÈ¸¿ø »ó¼¼º¸±â ÆäÀÌÁö ±¸ºÐ
-		// HttpSession À» ¸Å°³º¯¼ö¿¡ Ãß°¡
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½ó¼¼ºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï¹ï¿½È¸ï¿½ï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ó¼¼ºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		// HttpSession ï¿½ï¿½ ï¿½Å°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 
 		Notice notice = noticeservice.selectNotice(notice_no);
 
@@ -87,54 +87,54 @@ public class NoticeController {
 
 			Users loginUsers = (Users) session.getAttribute("loginUsers");
 			if (loginUsers != null && loginUsers.getAdmin().equals("Y")) {
-				// ·Î±×ÀÎÇÑ °ü¸®ÀÚ°¡ ¿äÃ»Çß´Ù¸é
+				// ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½ï¿½Ã»ï¿½ß´Ù¸ï¿½
 				return "notice/noticeAdminDetailView";
 			} else {
-				// °ü¸®ÀÚ°¡ ¾Æ´Ñ ¶Ç´Â ·Î±×ÀÎÇÏÁö ¾ÊÀº »óÅÂ¿¡¼­ÀÇ ¿äÃ»ÀÌ¶ó¸é
+				// ï¿½ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½Æ´ï¿½ ï¿½Ç´ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½Ì¶ï¿½ï¿½
 				return "notice/noticeDetailView";
 			}
 		} else {
-			model.addAttribute("message", notice_no + "¹ø °øÁö±Û »ó¼¼º¸±â Á¶È¸ ½ÇÆÐ");
+			model.addAttribute("message", notice_no + "ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ó¼¼ºï¿½ï¿½ï¿½ ï¿½ï¿½È¸ ï¿½ï¿½ï¿½ï¿½");
 			return "common/error";
 		}
 	}
 
-	// Ã·ºÎÆÄÀÏ ´Ù¿î·Îµå ¿äÃ» Ã³¸®¿ë
+	// Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¿ï¿½Îµï¿½ ï¿½ï¿½Ã» Ã³ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping("nfdown.do")
 	public ModelAndView fileDownMethod(ModelAndView mv, HttpServletRequest request,
 			@RequestParam("ofile") String originalFileName, @RequestParam("rfile") String renameFileName) {
-		// °øÁö»çÇ× Ã·ºÎÆÄÀÏ ÀúÀåÆú´õ¿¡ ´ëÇÑ °æ·Î(path) ÁöÁ¤
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½(path) ï¿½ï¿½ï¿½ï¿½
 		String savePath = request.getSession().getServletContext().getRealPath("resources/notice_upfiles");
 
-		// ÀúÀå Æú´õ¿¡¼­ ÀÐÀ» ÆÄÀÏ¿¡ ´ëÇÑ ÆÄÀÏ °´Ã¼ »ý¼º
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½
 		File renameFile = new File(savePath + "\\" + renameFileName);
-		// ÆÄÀÏ ´Ù¿î½Ã ³»º¸³¾ ¿ø·¡ ÀÌ¸§ÀÇ ÆÄÀÏ °´Ã¼ »ý¼º
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½
 		File originFile = new File(originalFileName);
 
-		// ÆÄÀÏ ´Ù¿î·Îµå ºä·Î Àü´ÞÇÒ Á¤º¸ ÀúÀå
-		mv.setViewName("filedown"); // µî·ÏµÈ ÆÄÀÏ´Ù¿î·Îµå ºäÀÇ id¸í
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¿ï¿½Îµï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		mv.setViewName("filedown"); // ï¿½ï¿½Ïµï¿½ ï¿½ï¿½ï¿½Ï´Ù¿ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ idï¿½ï¿½
 		mv.addObject("renameFile", renameFile);
 		mv.addObject("originFile", originFile);
 
 		return mv;
 	}
 
-	// °øÁö±Û ¼öÁ¤ÆäÀÌÁö·Î ÀÌµ¿ ¿äÃ» Ã³¸®¿ë
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½Ã» Ã³ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping("nmoveup.do")
 	public String moveUpdatePage(@RequestParam("noticeno") int notice_no, Model model) {
-		// ¼öÁ¤ÆäÀÌÁö¿¡ Ãâ·ÂÇÒ ÇØ´ç °øÁö±Û ´Ù½Ã Á¶È¸
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½È¸
 		Notice notice = noticeservice.selectNotice(notice_no);
 
 		if (notice != null) {
 			model.addAttribute("notice", notice);
 			return "notice/noticeUpdateForm";
 		} else {
-			model.addAttribute("message", notice_no + "¹ø °øÁö±Û ¼öÁ¤ÆäÀÌÁö·Î ÀÌµ¿ ½ÇÆÐ");
+			model.addAttribute("message", notice_no + "ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½");
 			return "common/error";
 		}
 	}
 
-	// °øÁö±Û Á¦¸ñ °Ë»ö¿ë
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½ï¿½
 	@RequestMapping(value = "nsearchTitle.do", method = RequestMethod.POST)
 	public String noticeSearchTitleMethod(@RequestParam("title") String title, Model model) {
 
@@ -144,13 +144,13 @@ public class NoticeController {
 			model.addAttribute("list", list);
 			return "notice/noticeListView";
 		} else {
-			model.addAttribute("message", title + "·Î °Ë»öµÈ °øÁö±Û Á¤º¸°¡ ¾ø½À´Ï´Ù.");
+			model.addAttribute("message", title + "ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 			return "common/error";
 		}
 
 	}
 
-	// °øÁö±Û µî·Ï³¯Â¥ °Ë»ö¿ë
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ï³ï¿½Â¥ ï¿½Ë»ï¿½ï¿½ï¿½
 	@RequestMapping(value = "nsearchDate.do", method = RequestMethod.POST)
 	public String noticeSearchDateMethod(SearchDate date, Model model) {
 
@@ -160,210 +160,210 @@ public class NoticeController {
 			model.addAttribute("list", list);
 			return "notice/noticeListView";
 		} else {
-			model.addAttribute("message", "ÇØ´ç ³¯Â¥·Î µî·ÏµÈ °øÁö±Û Á¤º¸°¡ ¾ø½À´Ï´Ù.");
+			model.addAttribute("message", "ï¿½Ø´ï¿½ ï¿½ï¿½Â¥ï¿½ï¿½ ï¿½ï¿½Ïµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 			return "common/error";
 		}
 	}
 	
 	
 
-	// »õ °øÁö±Û µî·Ï ÆäÀÌÁö·Î ÀÌµ¿ Ã³¸®¿ë
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ Ã³ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping("movewrite.do")
 	public String moveWritePage() {
 
 		return "notice/noticeWriteForm";
 	}
 
-	// °øÁö±Û µî·Ï ¿äÃ» Ã³¸®¿ë (ÆÄÀÏ ¾÷·Îµå ±â´É »ç¿ë)
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» Ã³ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½)
 	@RequestMapping(value = "ninsert.do", method = RequestMethod.POST)
 	public String noticeInsertMethod(Notice notice, Model model, HttpServletRequest request,
 			@RequestParam(name = "upfile", required = false) MultipartFile mfile) {
-		// °øÁö»çÇ× Ã·ºÎÆÄÀÏ ÀúÀå Æú´õ °æ·Î ÁöÁ¤
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		String savePath = request.getSession().getServletContext().getRealPath("resources/notice_upfiles");
 
-		// Ã·ºÎÆÄÀÏÀÌ ÀÖÀ» ¶§
+		// Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 		if (!mfile.isEmpty()) {
-			// Àü¼Û ¿Â ÆÄÀÏÀÌ¸§ ÃßÃâ
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 			String fileName = mfile.getOriginalFilename();
 
-			// ´Ù¸¥ °øÁö±ÛÀÇ Ã·ºÎÆÄÀÏ°ú ÆÄÀÏ¸íÀÌ Áßº¹µÇ¾î µ¤¾î¾²±â µÇ´Â °ÍÀ» ¸·±â À§ÇØ
-			// ÆÄÀÏ¸íÀ» º¯°æÇØ¼­ Æú´õ¿¡ ÀúÀåÇÏ´Â ¹æ½ÄÀ» »ç¿ëÇÒ ¼ö ÀÖÀ½
-			// º¯°æ ÆÄÀÏ¸í : ³â¿ùÀÏ½ÃºÐÃÊ.È®ÀåÀÚ
+			// ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ ï¿½ßºï¿½ï¿½Ç¾ï¿½ ï¿½ï¿½ï¿½î¾²ï¿½ï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			// ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ : ï¿½ï¿½ï¿½ï¿½Ï½Ãºï¿½ï¿½ï¿½.È®ï¿½ï¿½ï¿½ï¿½
 			if (fileName != null && fileName.length() > 0) {
-				// ¹Ù²Ü ÆÄÀÏ¸í¿¡ ´ëÇÑ ¹®ÀÚ¿­ ¸¸µé±â
+				// ï¿½Ù²ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
 				String renameFileName = FileNameChange.change(fileName, "yyyyMMddHHmmss");
 
-				logger.info("Ã·ºÎ ÆÄÀÏ¸í È®ÀÎ : " + fileName + ", " + renameFileName);
+				logger.info("Ã·ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ È®ï¿½ï¿½ : " + fileName + ", " + renameFileName);
 
-				// ÆÄÀÏ °´Ã¼ ¸¸µé±â
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½
 				File renameFile = new File(savePath + "\\" + renameFileName);
 
-				// Æú´õ¿¡ ÀúÀå Ã³¸®
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 				try {
 					mfile.transferTo(renameFile);
 				} catch (Exception e) {
 					e.printStackTrace();
-					model.addAttribute("message", "Ã·ºÎÆÄÀÏ ÀúÀå ½ÇÆÐ");
+					model.addAttribute("message", "Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 					return "common/error";
 				}
 
-				// notice °´Ã¼¿¡ Ã·ºÎÆÄÀÏ Á¤º¸ ±â·Ï ÀúÀå
+				// notice ï¿½ï¿½Ã¼ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				notice.setNotice_original_filename(fileName);
 				notice.setNotice_rename_filename(renameFileName);
-			} // ÀÌ¸§ ¹Ù²Ù±â
-		} // »õ·Î¿î Ã·ºÎÆÄÀÏÀÌ ÀÖÀ» ¶§
+			} // ï¿½Ì¸ï¿½ ï¿½Ù²Ù±ï¿½
+		} // ï¿½ï¿½ï¿½Î¿ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 
 		if (noticeservice.insertNotice(notice) > 0) {
-			// °øÁö±Û µî·Ï ¼º°ø½Ã ¸ñ·Ï º¸±â ÆäÀÌÁö·Î ÀÌµ¿
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
 			return "redirect:nlist.do";
 		} else {
-			model.addAttribute("message", "»õ °øÁö µî·Ï ½ÇÆÐ");
+			model.addAttribute("message", "ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 			return "common/error";
 		}
 	}
 
-	// °øÁö±Û ¼öÁ¤ ¿äÃ» Ã³¸®¿ë (ÆÄÀÏ ¾÷·Îµå ±â´É »ç¿ë)
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» Ã³ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½)
 	@RequestMapping(value = "nupdate.do", method = RequestMethod.POST)
 	public String noticeUpdateMethod(Notice notice, Model model, HttpServletRequest request,
 			@RequestParam(name = "delflag", required = false) String delFlag,
 			@RequestParam(name = "upfile", required = false) MultipartFile mfile) {
-		// °øÁö»çÇ× Ã·ºÎÆÄÀÏ ÀúÀå Æú´õ °æ·Î ÁöÁ¤
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		String savePath = request.getSession().getServletContext().getRealPath("resources/notice_upfiles");
 
-		// Ã·ºÎÆÄÀÏÀÌ ¼öÁ¤ Ã³¸®µÈ °æ¿ì -------------------------
-		// 1. ¿ø·¡ Ã·ºÎÆÄÀÏÀÌ ÀÖ´Âµ¥ 'ÆÄÀÏ»èÁ¦'¸¦ ¼±ÅÃÇÑ °æ¿ì
+		// Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ -------------------------
+		// 1. ï¿½ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Âµï¿½ 'ï¿½ï¿½ï¿½Ï»ï¿½ï¿½ï¿½'ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		if (notice.getNotice_original_filename() != null && delFlag != null && delFlag.equals("yes")) {
-			// ÀúÀå Æú´õ¿¡ ÀÖ´Â ÆÄÀÏÀ» »èÁ¦
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			new File(savePath + "\\" + notice.getNotice_rename_filename()).delete();
-			// notice ÀÇ ÆÄÀÏ Á¤º¸µµ Á¦°Å
+			// notice ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			notice.setNotice_original_filename(null);
 			notice.setNotice_rename_filename(null);
 		}
 
-		// 2. °øÁö±Û Ã·ºÎÆÄÀÏÀº 1°³¸¸ °¡´ÉÇÑ °æ¿ì
-		// »õ·Î¿î Ã·ºÎÆÄÀÏÀÌ ÀÖÀ» ¶§
+		// 2. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+		// ï¿½ï¿½ï¿½Î¿ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 		if (!mfile.isEmpty()) {
-			// 2-1. ÀÌÀü Ã·ºÎÆÄÀÏÀÌ ÀÖÀ» ¶§
+			// 2-1. ï¿½ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 			if (notice.getNotice_original_filename() != null) {
-				// ÀúÀå Æú´õ¿¡ ÀÖ´Â ÀÌÀü ÆÄÀÏÀ» »èÁ¦
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				new File(savePath + "\\" + notice.getNotice_rename_filename()).delete();
-				// noticeÀÇ ÀÌÀü ÆÄÀÏ Á¤º¸ Á¦°Å
+				// noticeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				notice.setNotice_original_filename(null);
 				notice.setNotice_rename_filename(null);
 			}
 
-			// 2-2. ÀÌÀü Ã·ºÎÆÄÀÏÀÌ ¾øÀ» ¶§
-			// Àü¼Û ¿Â ÆÄÀÏÀÌ¸§ ÃßÃâ
+			// 2-2. ï¿½ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 			String fileName = mfile.getOriginalFilename();
 
-			// ´Ù¸¥ °øÁö±ÛÀÇ Ã·ºÎÆÄÀÏ°ú ÆÄÀÏ¸íÀÌ Áßº¹µÇ¾î µ¤¾î¾²±â µÇ´Â °ÍÀ» ¸·±â À§ÇØ
-			// ÆÄÀÏ¸íÀ» º¯°æÇØ¼­ Æú´õ¿¡ ÀúÀåÇÏ´Â ¹æ½ÄÀ» »ç¿ëÇÒ ¼ö ÀÖÀ½
-			// º¯°æ ÆÄÀÏ¸í : ³â¿ùÀÏ½ÃºÐÃÊ.È®ÀåÀÚ
+			// ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ ï¿½ßºï¿½ï¿½Ç¾ï¿½ ï¿½ï¿½ï¿½î¾²ï¿½ï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			// ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ : ï¿½ï¿½ï¿½ï¿½Ï½Ãºï¿½ï¿½ï¿½.È®ï¿½ï¿½ï¿½ï¿½
 			if (fileName != null && fileName.length() > 0) {
-				// ¹Ù²Ü ÆÄÀÏ¸í¿¡ ´ëÇÑ ¹®ÀÚ¿­ ¸¸µé±â
-				// °øÁö±Û µî·Ï ¶Ç´Â ¼öÁ¤ ¿äÃ» ½ÃÁ¡ÀÇ ³¯Â¥½Ã°£Á¤º¸¸¦ ÀÌ¿ë
+				// ï¿½Ù²ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ï¿½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-				// º¯°æÇÒ ÆÄÀÏ¸í ¸¸µé±â
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
 				String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis()));
 
-				// ¿øº» ÆÄÀÏÀÇ È®ÀåÀÚ¸¦ ÃßÃâÇØ¼­ º¯°æ ÆÄÀÏ¸í¿¡ ºÙ¿©ÁÜ
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½Ù¿ï¿½ï¿½ï¿½
 				renameFileName += "." + fileName.substring(fileName.lastIndexOf(".") + 1);
 
-				logger.info("º¯°æ ÆÄÀÏ¸í : " + renameFileName);
+				logger.info("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ : " + renameFileName);
 
-				// ÆÄÀÏ °´Ã¼ ¸¸µé±â
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½
 				File renameFile = new File(savePath + "\\" + renameFileName);
 
-				// Æú´õ¿¡ ÀúÀå Ã³¸®
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 				try {
 					mfile.transferTo(renameFile);
 				} catch (Exception e) {
 					e.printStackTrace();
-					model.addAttribute("message", "Ã·ºÎÆÄÀÏ ÀúÀå ½ÇÆÐ");
+					model.addAttribute("message", "Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 					return "common/error";
 				}
 
-				// notice °´Ã¼¿¡ Ã·ºÎÆÄÀÏ Á¤º¸ ±â·Ï ÀúÀå
+				// notice ï¿½ï¿½Ã¼ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				notice.setNotice_original_filename(fileName);
 				notice.setNotice_rename_filename(renameFileName);
-			} // ÀÌ¸§ ¹Ù²Ù±â
-		} // »õ·Î¿î Ã·ºÎÆÄÀÏÀÌ ÀÖÀ» ¶§
+			} // ï¿½Ì¸ï¿½ ï¿½Ù²Ù±ï¿½
+		} // ï¿½ï¿½ï¿½Î¿ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 
 		if (noticeservice.updateNotice(notice) > 0) {
-			// °øÁö±Û ¼öÁ¤ ¼º°ø½Ã ¸ñ·Ï º¸±â ÆäÀÌÁö·Î ÀÌµ¿
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
 			return "redirect:nlist.do";
 		} else {
-			model.addAttribute("message", notice.getNotice_no() + "¹ø °øÁö ¼öÁ¤ ½ÇÆÐ");
+			model.addAttribute("message", notice.getNotice_no() + "ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 			return "common/error";
 		}
 	}
 
-	// °øÁö±Û »èÁ¦ ¿äÃ» Ã³¸®¿ë
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» Ã³ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping("ndel.do")
 	public String noticeDeleteMethod(@RequestParam("noticeno") int notice_no,
 			@RequestParam(name = "rfile", required = false) String renameFileName, Model model,
 			HttpServletRequest request) {
 
 		if (noticeservice.deleteNotice(notice_no) > 0) {
-			// Ã·ºÎµÈ ÆÄÀÏÀÌ ÀÖ´Â °øÁöÀÏ ¶§´Â ÀúÀå Æú´õ¿¡ ÀÖ´Â Ã·ºÎÆÄÀÏµµ »èÁ¦
+			// Ã·ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ ï¿½ï¿½ï¿½ï¿½
 			if (renameFileName != null) {
-				// °øÁö»çÇ× Ã·ºÎÆÄÀÏ ÀúÀåÆú´õ¿¡ ´ëÇÑ °æ·Î(path) ÁöÁ¤
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½(path) ï¿½ï¿½ï¿½ï¿½
 				String savePath = request.getSession().getServletContext().getRealPath("resources/notice_upfiles");
 
 				new File(savePath + "\\" + renameFileName).delete();
 			}
 			return "redirect:nlist.do";
 		} else {
-			model.addAttribute("message", notice_no + "¹ø °øÁö »èÁ¦ ½ÇÆÐ");
+			model.addAttribute("message", notice_no + "ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 			return "common/error";
 		}
 	}
 
-//	// °Ô½Ã¿ø±Û µî·Ï ¿äÃ» Ã³¸®¿ë (ÆÄÀÏ ¾÷·Îµå ±â´É »ç¿ë)
+//	// ï¿½Ô½Ã¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» Ã³ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½)
 //	@RequestMapping(value = "binsert.do", method = RequestMethod.POST)
 //	public String boardInsertMethod(Board board, Model model, HttpServletRequest request,
 //			@RequestParam(name = "upfile", required = false) MultipartFile mfile) {
-//		// Ã·ºÎÆÄÀÏ ÀúÀå Æú´õ °æ·Î ÁöÁ¤
+//		// Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //		String savePath = request.getSession().getServletContext().getRealPath("resources/board_upfiles");
 //
-//		// Ã·ºÎÆÄÀÏÀÌ ÀÖÀ» ¶§
+//		// Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 //		if (!mfile.isEmpty()) {
-//			// Àü¼Û ¿Â ÆÄÀÏÀÌ¸§ ÃßÃâ
+//			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 //			String fileName = mfile.getOriginalFilename();
 //
-//			// ´Ù¸¥ °øÁö±ÛÀÇ Ã·ºÎÆÄÀÏ°ú ÆÄÀÏ¸íÀÌ Áßº¹µÇ¾î µ¤¾î¾²±â µÇ´Â °ÍÀ» ¸·±â À§ÇØ
-//			// ÆÄÀÏ¸íÀ» º¯°æÇØ¼­ Æú´õ¿¡ ÀúÀåÇÏ´Â ¹æ½ÄÀ» »ç¿ëÇÒ ¼ö ÀÖÀ½
-//			// º¯°æ ÆÄÀÏ¸í : ³â¿ùÀÏ½ÃºÐÃÊ.È®ÀåÀÚ
+//			// ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ ï¿½ßºï¿½ï¿½Ç¾ï¿½ ï¿½ï¿½ï¿½î¾²ï¿½ï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+//			// ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+//			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ : ï¿½ï¿½ï¿½ï¿½Ï½Ãºï¿½ï¿½ï¿½.È®ï¿½ï¿½ï¿½ï¿½
 //			if (fileName != null && fileName.length() > 0) {
-//				// ¹Ù²Ü ÆÄÀÏ¸í¿¡ ´ëÇÑ ¹®ÀÚ¿­ ¸¸µé±â
+//				// ï¿½Ù²ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
 //
 //				String renameFileName = FileNameChange.change(fileName, "yyyyMMddHHmmss");
 //
-//				logger.info("Ã·ºÎ ÆÄÀÏ¸í È®ÀÎ : " + fileName + ", " + renameFileName);
+//				logger.info("Ã·ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ È®ï¿½ï¿½ : " + fileName + ", " + renameFileName);
 //
-//				// ÆÄÀÏ °´Ã¼ ¸¸µé±â
+//				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½
 //				File renameFile = new File(savePath + "\\" + renameFileName);
 //
-//				// Æú´õ¿¡ ÀúÀå Ã³¸®
+//				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 //				try {
 //					mfile.transferTo(renameFile);
 //				} catch (Exception e) {
 //					e.printStackTrace();
-//					model.addAttribute("message", "Ã·ºÎÆÄÀÏ ÀúÀå ½ÇÆÐ");
+//					model.addAttribute("message", "Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 //					return "common/error";
 //				}
 //
-//				// board °´Ã¼¿¡ Ã·ºÎÆÄÀÏ Á¤º¸ ±â·Ï ÀúÀå
+//				// board ï¿½ï¿½Ã¼ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //				board.setBoard_original_filename(fileName);
 //				board.setBoard_rename_filename(renameFileName);
-//			} // ÀÌ¸§ ¹Ù²Ù±â
-//		} // »õ·Î¿î Ã·ºÎÆÄÀÏÀÌ ÀÖÀ» ¶§
+//			} // ï¿½Ì¸ï¿½ ï¿½Ù²Ù±ï¿½
+//		} // ï¿½ï¿½ï¿½Î¿ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 //
 //		if (boardService.insertBoard(board) > 0) {
-//			// °Ô½Ã±Û µî·Ï ¼º°ø½Ã ¸ñ·Ï º¸±â ÆäÀÌÁö·Î ÀÌµ¿
+//			// ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
 //			return "redirect:blist.do";
 //		} else {
-//			model.addAttribute("message", "»õ °Ô½Ã±Û µî·Ï ½ÇÆÐ");
+//			model.addAttribute("message", "ï¿½ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 //			return "common/error";
 //		}
 //	}
@@ -372,7 +372,7 @@ public class NoticeController {
 //	public String boardDeleteMethod(Board board, HttpServletRequest request, Model model) {
 //
 //		if (boardService.deleteBoard(board) > 0) {
-//			// ±Û»èÁ¦°¡ ¼º°øÇÏ¸é ÀúÀåÆú´õ¿¡ ÀÖ´Â Ã·ºÎÆÄÀÏµµ »èÁ¦ Ã³¸®
+//			// ï¿½Û»ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 //			if (board.getBoard_rename_filename() != null) {
 //				new File(request.getSession().getServletContext().getRealPath("resources/board_upfiles") + "/"
 //						+ board.getBoard_rename_filename()).delete();
@@ -380,16 +380,16 @@ public class NoticeController {
 //			return "redirect:blist.do?page=1";
 //
 //		} else {
-//			model.addAttribute("message", board.getBoard_num() + "¹ø ±Û »èÁ¦ ½ÇÆÐ");
+//			model.addAttribute("message", board.getBoard_num() + "ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 //			return "common/error";
 //		}
 //	}
 //
-//	// ¼öÁ¤ÆäÀÌÁö·Î ÀÌµ¿ Ã³¸®¿ë
+//	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ Ã³ï¿½ï¿½ï¿½ï¿½
 //	@RequestMapping("bupview.do")
 //	public String moveBoardUpdateView(@RequestParam("board_num") int board_num, @RequestParam("page") int currentPage,
 //			Model model) {
-//		// ¼öÁ¤ÆäÀÌÁö·Î º¸³¾ board °´Ã¼ Á¤º¸ Á¶È¸
+//		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ board ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸
 //		Board board = boardService.selectBoard(board_num);
 //
 //		if (board != null) {
@@ -398,92 +398,92 @@ public class NoticeController {
 //
 //			return "board/boardUpdateForm";
 //		} else {
-//			model.addAttribute("message", board_num + "¹ø ±Û ¼öÁ¤ÆäÀÌÁö·Î ÀÌµ¿ ½ÇÆÐ");
+//			model.addAttribute("message", board_num + "ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½");
 //
 //			return "common/error";
 //		}
 //	}
 //
-//	// °øÁö±Û ¼öÁ¤ ¿äÃ» Ã³¸®¿ë (ÆÄÀÏ ¾÷·Îµå ±â´É »ç¿ë)
+//	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» Ã³ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½)
 //	@RequestMapping(value = "boriginup.do", method = RequestMethod.POST)
 //	public String boardUpdateMethod(Board board, Model model, HttpServletRequest request,
 //			@RequestParam("page") int page, @RequestParam(name = "delflag", required = false) String delFlag,
 //			@RequestParam(name = "upfile", required = false) MultipartFile mfile) {
-//		// °øÁö»çÇ× Ã·ºÎÆÄÀÏ ÀúÀå Æú´õ °æ·Î ÁöÁ¤
+//		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //		String savePath = request.getSession().getServletContext().getRealPath("resources/board_upfiles");
 //
-//		// Ã·ºÎÆÄÀÏÀÌ ¼öÁ¤ Ã³¸®µÈ °æ¿ì -------------------------
-//		// 1. ¿ø·¡ Ã·ºÎÆÄÀÏÀÌ ÀÖ´Âµ¥ 'ÆÄÀÏ»èÁ¦'¸¦ ¼±ÅÃÇÑ °æ¿ì
+//		// Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ -------------------------
+//		// 1. ï¿½ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Âµï¿½ 'ï¿½ï¿½ï¿½Ï»ï¿½ï¿½ï¿½'ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 //		if (board.getBoard_original_filename() != null && delFlag != null && delFlag.equals("yes")) {
-//			// ÀúÀå Æú´õ¿¡ ÀÖ´Â ÆÄÀÏÀ» »èÁ¦
+//			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //			new File(savePath + "\\" + board.getBoard_rename_filename()).delete();
-//			// notice ÀÇ ÆÄÀÏ Á¤º¸µµ Á¦°Å
+//			// notice ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //			board.setBoard_original_filename(null);
 //			board.setBoard_rename_filename(null);
 //		}
 //
-//		// 2. °øÁö±Û Ã·ºÎÆÄÀÏÀº 1°³¸¸ °¡´ÉÇÑ °æ¿ì
-//		// »õ·Î¿î Ã·ºÎÆÄÀÏÀÌ ÀÖÀ» ¶§
+//		// 2. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+//		// ï¿½ï¿½ï¿½Î¿ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 //		if (!mfile.isEmpty()) {
-//			// 2-1. ÀÌÀü Ã·ºÎÆÄÀÏÀÌ ÀÖÀ» ¶§
+//			// 2-1. ï¿½ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 //			if (board.getBoard_original_filename() != null) {
-//				// ÀúÀå Æú´õ¿¡ ÀÖ´Â ÀÌÀü ÆÄÀÏÀ» »èÁ¦
+//				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //				new File(savePath + "\\" + board.getBoard_rename_filename()).delete();
-//				// noticeÀÇ ÀÌÀü ÆÄÀÏ Á¤º¸ Á¦°Å
+//				// noticeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //				board.setBoard_original_filename(null);
 //				board.setBoard_rename_filename(null);
 //			}
 //
-//			// 2-2. ÀÌÀü Ã·ºÎÆÄÀÏÀÌ ¾øÀ» ¶§
-//			// Àü¼Û ¿Â ÆÄÀÏÀÌ¸§ ÃßÃâ
+//			// 2-2. ï¿½ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+//			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 //			String fileName = mfile.getOriginalFilename();
 //
-//			// ´Ù¸¥ °øÁö±ÛÀÇ Ã·ºÎÆÄÀÏ°ú ÆÄÀÏ¸íÀÌ Áßº¹µÇ¾î µ¤¾î¾²±â µÇ´Â °ÍÀ» ¸·±â À§ÇØ
-//			// ÆÄÀÏ¸íÀ» º¯°æÇØ¼­ Æú´õ¿¡ ÀúÀåÇÏ´Â ¹æ½ÄÀ» »ç¿ëÇÒ ¼ö ÀÖÀ½
-//			// º¯°æ ÆÄÀÏ¸í : ³â¿ùÀÏ½ÃºÐÃÊ.È®ÀåÀÚ
+//			// ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ ï¿½ßºï¿½ï¿½Ç¾ï¿½ ï¿½ï¿½ï¿½î¾²ï¿½ï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+//			// ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+//			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ : ï¿½ï¿½ï¿½ï¿½Ï½Ãºï¿½ï¿½ï¿½.È®ï¿½ï¿½ï¿½ï¿½
 //			if (fileName != null && fileName.length() > 0) {
-//				// ¹Ù²Ü ÆÄÀÏ¸í¿¡ ´ëÇÑ ¹®ÀÚ¿­ ¸¸µé±â
-//				// °øÁö±Û µî·Ï ¶Ç´Â ¼öÁ¤ ¿äÃ» ½ÃÁ¡ÀÇ ³¯Â¥½Ã°£Á¤º¸¸¦ ÀÌ¿ë
+//				// ï¿½Ù²ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
+//				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ï¿½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½
 //				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-//				// º¯°æÇÒ ÆÄÀÏ¸í ¸¸µé±â
+//				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
 //				String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis()));
 //
-//				// ¿øº» ÆÄÀÏÀÇ È®ÀåÀÚ¸¦ ÃßÃâÇØ¼­ º¯°æ ÆÄÀÏ¸í¿¡ ºÙ¿©ÁÜ
+//				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½Ù¿ï¿½ï¿½ï¿½
 //				renameFileName += "." + fileName.substring(fileName.lastIndexOf(".") + 1);
 //
-//				logger.info("º¯°æ ÆÄÀÏ¸í : " + renameFileName);
+//				logger.info("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ : " + renameFileName);
 //
-//				// ÆÄÀÏ °´Ã¼ ¸¸µé±â
+//				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½
 //				File renameFile = new File(savePath + "/" + renameFileName);
 //
-//				// Æú´õ¿¡ ÀúÀå Ã³¸®
+//				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 //				try {
 //					mfile.transferTo(renameFile);
 //				} catch (Exception e) {
 //					e.printStackTrace();
-//					model.addAttribute("message", "Ã·ºÎÆÄÀÏ ÀúÀå ½ÇÆÐ");
+//					model.addAttribute("message", "Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 //					return "common/error";
 //				}
 //
-//				// notice °´Ã¼¿¡ Ã·ºÎÆÄÀÏ Á¤º¸ ±â·Ï ÀúÀå
+//				// notice ï¿½ï¿½Ã¼ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //				board.setBoard_original_filename(fileName);
 //				board.setBoard_rename_filename(renameFileName);
-//			} // ÀÌ¸§ ¹Ù²Ù±â
-//		} // »õ·Î¿î Ã·ºÎÆÄÀÏÀÌ ÀÖÀ» ¶§
+//			} // ï¿½Ì¸ï¿½ ï¿½Ù²Ù±ï¿½
+//		} // ï¿½ï¿½ï¿½Î¿ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 //
 //		if (boardService.updateBoard(board) > 0) {
-//			// °Ô½Ã¿ø±Û ¼öÁ¤ ¼º°ø½Ã »ó¼¼ º¸±â ÆäÀÌÁö·Î ÀÌµ¿
+//			// ï¿½Ô½Ã¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
 //			model.addAttribute("page", page);
 //			model.addAttribute("board_num", board.getBoard_num());
 //
 //			return "redirect:bdetail.do";
 //		} else {
-//			model.addAttribute("message", board.getBoard_num() + "¹ø °øÁö ¼öÁ¤ ½ÇÆÐ");
+//			model.addAttribute("message", board.getBoard_num() + "ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 //			return "common/error";
 //		}
 //	}
 //
-//	// »ç¿ëÀÚ
+//	// ï¿½ï¿½ï¿½ï¿½ï¿½
 //
 //	public String moveListPage() {
 //	}
@@ -494,7 +494,7 @@ public class NoticeController {
 //	public String moveQnAPage() {
 //	}
 //
-//	// °ü¸®ÀÚ
+//	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //	public String moveWritePage() {
 //	}
 //

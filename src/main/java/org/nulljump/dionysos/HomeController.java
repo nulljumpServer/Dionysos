@@ -7,6 +7,8 @@ import java.util.Locale;
 
 import org.nulljump.dionysos.product.model.service.ProductService;
 import org.nulljump.dionysos.product.model.vo.Product;
+//import org.nulljump.dionysos.users.model.service.UsersService;
+//import org.nulljump.dionysos.users.model.vo.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,46 +23,43 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class HomeController {
-	
+
 	@Autowired
 	private ProductService productService;
-	
+
+//	@Autowired
+//	private UsersService usersService;
+
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	
+
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
-		
+
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
+
 		String formattedDate = dateFormat.format(date);
-		
-		model.addAttribute("serverTime", formattedDate );
-		
+
+		model.addAttribute("serverTime", formattedDate);
+
 		return "home";
 	}
 
-	//index.jsp °¡ À£ÄÄµÉ ¶§ Æ÷¿öµùµÈ ¿äÃ»À» ¹Ş¾Æ¼­ main.jsp
-	//common/main.jsp ¸¦ ³»º¸³»±â À§ÇØ ¸®ÅÏÇÏ´Â ¸Ş¼Òµå
-	@RequestMapping("main.do")
+	// index.jsp ê°€ ì›°ì»´ë  ë•Œ í¬ì›Œë”©ëœ ìš”ì²­ì„ ë°›ì•„ì„œ main.jsp
+	// common/main.jsp ë¥¼ ë‚´ë³´ë‚´ê¸° ìœ„í•´ ë¦¬í„´í•˜ëŠ” ë©”ì†Œë“œ
+	@RequestMapping(value = "main.do")
 	public ModelAndView forwardMainView(ModelAndView mv) {
 		ArrayList<Product> list1 = productService.selectNew4();
 		ArrayList<Product> list2 = productService.selectTop4();
+		mv.addObject("list1", list1);
+		mv.addObject("list2", list2);
 
-		if (list1 != null) {
-			mv.addObject("list1", list1);
-			mv.setViewName("common/main");
-		}
-		
-		if (list2 != null) {
-			mv.addObject("list2", list2);
-			mv.setViewName("common/main");
-		}
-		
+		mv.setViewName("common/main");
+
 		return mv;
 	}
 }

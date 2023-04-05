@@ -25,7 +25,7 @@ public class FaqController {
 	@Autowired
 	private FaqService faqservice;
 
-	// ÀÚÁÖÇÏ´ÂÁú¹® ÀüÃ¼ ¸ñ·Ï Ãâ·Â
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	@RequestMapping("flist.do")
 	public String faqListMethod(Model model) {
 		ArrayList<Faq> list = faqservice.selectFaq();
@@ -34,17 +34,17 @@ public class FaqController {
 			model.addAttribute("list", list);
 			return "faq/faqListView";
 		} else {
-			model.addAttribute("message", "µî·ÏµÈ Á¤º¸°¡ ¾ø½À´Ï´Ù.");
+			model.addAttribute("message", "ï¿½ï¿½Ïµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 			return "common/error";
 		}
 	}
 	
 	
-	// ÀÚÁÖÇÏ´ÂÁú¹® »ó¼¼º¸±â 
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ó¼¼ºï¿½ï¿½ï¿½ 
 	@RequestMapping("fdetail.do")
 	public String faqDetailMethod(@RequestParam("faqno") int faq_no, Model model, HttpSession session) {
-		// °ü¸®ÀÚ¿ë »ó¼¼º¸±â ÆäÀÌÁö¿Í ÀÏ¹ÝÈ¸¿ø ¶Ç´Â ºñÈ¸¿ø »ó¼¼º¸±â ÆäÀÌÁö ±¸ºÐ
-		// HttpSession À» ¸Å°³º¯¼ö¿¡ Ãß°¡
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½ó¼¼ºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï¹ï¿½È¸ï¿½ï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ó¼¼ºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		// HttpSession ï¿½ï¿½ ï¿½Å°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 
 		Faq faq = faqservice.selectList(faq_no);
 
@@ -53,49 +53,49 @@ public class FaqController {
 
 			Users loginUsers = (Users) session.getAttribute("loginUsers");
 			if (loginUsers != null && loginUsers.getAdmin().equals("Y")) {
-				// ·Î±×ÀÎÇÑ °ü¸®ÀÚ°¡ ¿äÃ»Çß´Ù¸é
+				// ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½ï¿½Ã»ï¿½ß´Ù¸ï¿½
 				return "faq/faqAdminDetailView";
 			} else {
-				// °ü¸®ÀÚ°¡ ¾Æ´Ñ ¶Ç´Â ·Î±×ÀÎÇÏÁö ¾ÊÀº »óÅÂ¿¡¼­ÀÇ ¿äÃ»ÀÌ¶ó¸é
+				// ï¿½ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½Æ´ï¿½ ï¿½Ç´ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½Ì¶ï¿½ï¿½
 				return "faq/faqDetailView";
 			}
 		} else {
-			model.addAttribute("message", faq_no + "¹ø »ó¼¼º¸±â Á¶È¸ ½ÇÆÐ");
+			model.addAttribute("message", faq_no + "ï¿½ï¿½ ï¿½ó¼¼ºï¿½ï¿½ï¿½ ï¿½ï¿½È¸ ï¿½ï¿½ï¿½ï¿½");
 			return "common/error";
 		}
 	}
 	
-	//ÀÚÁÖÇÏ´Â Áú¹® µî·Ï ÆäÀÌÁö·Î ÀÌµ¿ 
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ 
 	@RequestMapping("fwform.do")
 	public String moveFaqWriteForm() {
 		return "faq/faqWriteForm";
 	}
 	
-	//ÀÚÁÖÇÏ´Â Áú¹® µî·Ï
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	@RequestMapping(value = "finsert.do", method = RequestMethod.POST)
 	public String faqInsertMethod(Faq faq, Model model, HttpServletRequest request,
 			@RequestParam(name = "upfile", required = false) MultipartFile mfile) {
 		
 		if (faqservice.insertFaq(faq) > 0) {
-			// °øÁö±Û µî·Ï ¼º°ø½Ã ¸ñ·Ï º¸±â ÆäÀÌÁö·Î ÀÌµ¿
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
 			return "redirect:flist.do";
 		} else {
-			model.addAttribute("message", "»õ °øÁö µî·Ï ½ÇÆÐ");
+			model.addAttribute("message", "ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 			return "common/error";
 		}
 	}
 	
 	
-	//ÀÚÁÖÇÏ´Â Áú¹® »èÁ¦
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	
 	
-	//ÀÚÁÖÇÏ´Â Áú¹® ¼öÁ¤
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	
 	
 	
 	
 
-	// »ç¿ëÀÚ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½
 //	public String faqListMethod(String page, ModelAndView mv, Model model, HttpSession session) {}
 //	
 //	public String faqDetailMethod(Model model, int faq_no, HttpSession session) {}
@@ -105,7 +105,7 @@ public class FaqController {
 //	public String moveNoticePage() {}
 //
 //		
-//	//°ü¸®ÀÚ
+//	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //	public String moveWritePage() {}
 //	
 //	public String moveUpdatePage() {}

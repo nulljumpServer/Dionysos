@@ -11,9 +11,9 @@ public class MiniGameController {
 	private static final Logger logger = LoggerFactory.getLogger(MiniGameController.class);
 	 
 	
-	//ºäÆäÀÌÁö ÀÌµ¿ Ã³¸®¿ë ---------------------------------------------
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ ---------------------------------------------
 	
-	//miniGameView ÀÌµ¿Ã³¸®¿ë
+	//miniGameView ï¿½Ìµï¿½Ã³ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value="minigame.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String moveMiniGameView() {  
 		return "minigame/miniGameView";
