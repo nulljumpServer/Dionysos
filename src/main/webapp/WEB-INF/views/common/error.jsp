@@ -14,14 +14,13 @@
    jsp 내장객체인 exception 객체를 사용할 수 있게됨
 --%>
 <%-- 다른 jsp 페이지에서 발생된 에러가 넘어오는 경우 --%>
-<c:set var="e" value="<%= exception %>" />
-<c:if test="${ !empty e }">
-        <h1>jsp 페이지 오류 : ${ message }</h1>
+<c:if test="${ not empty exception }">
+        <h2>jsp 페이지 오류 : ${ exception.message }</h2>
 </c:if>
 
 <%-- 컨트롤러에서 에러 메세지와 내보낼 페이지로 리턴한 경우 --%>
-<c:if test="${ !empty e }">
-        <h1>컨트롤러 요청 실패 메세지 : ${ message }</h1>
+<c:if test="${ not empty message }">
+        <h2>컨트롤러 요청 실패 메세지 : ${ message }</h2>
 </c:if>
 <hr>
 <%-- 링크(연결) 정보를 미리 변수로 지정함 

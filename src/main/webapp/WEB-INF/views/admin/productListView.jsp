@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>admin - productList</title>
+<title>Dionysos - ADMIN</title>
 <script type="text/javascript"
 	src="${pageContext.servletContext.contextPath}/resources/js/jquery-3.6.3.min.js"></script>
 <script type="text/javascript">
@@ -61,12 +61,6 @@
 								</div>
 							</div>
 							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-								<div class="breadcomb-report">
-									<button data-toggle="tooltip" data-placement="left"
-										title="Download Report" class="btn">
-										<i class="icon nalika-download"></i>
-									</button>
-								</div>
 							</div>
 						</div>
 					</div>
@@ -74,7 +68,6 @@
 			</div>
 		</div>
 	</div>
-
 	<div class="product-status mg-b-30">
 		<div class="container-fluid">
 			<div class="row">
@@ -101,8 +94,7 @@
 									<td>${product.product_id }</td>
 									<td>${product.product_name}</td>
 									<td>${product.product_ename}</td>
-
-									<td>${product.product_price}원</td>
+									<td><fmt:formatNumber type="currency" value="${product.product_price}"></fmt:formatNumber></td>
 									<td><c:url var="pupdate" value="/pupdateForm.do">
 											<c:param name="product_id" value="${product.product_id}" />
 											<c:param name="page" value="${currentPage}" />
@@ -113,16 +105,12 @@
 											<c:param name="product_id" value="${product.product_id}" />
 											<c:param name="page" value="${currentPage}" />
 										</c:url>
-										<button
-											onclick="if(confirm('정말로 삭제 하시겠습니까? 삭제 후에는 복구가 불가능합니다.')) {location.href='${pdelete}'; }"
-											data-toggle="tooltip" title="삭제" class="pd-setting-ed">삭제</button>
-
+										<button	onclick="if(confirm('정말로 삭제 하시겠습니까? 삭제 후에는 복구가 불가능합니다.')) {location.href='${pdelete}'; }"
+											data-toggle="tooltip" class="pd-setting-ed">삭제</button>
 									</td>
 								</tr>
 							</c:forEach>
-
 						</table>
-
 						<div>
 							<input type="radio" name="item" value="title" checked> 제목
 							&nbsp; &nbsp; <input type="radio" name="item" value="writer">

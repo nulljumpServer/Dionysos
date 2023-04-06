@@ -1,14 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" errorPage="error.jsp"%>
+	pageEncoding="UTF-8" %>
 <%-- <%@ page import="org.ict.first.User.model.vo.User" %> --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%
-    String admin = (String) session.getAttribute("admin");
-    if ("y".equals(admin)) {
-        response.sendRedirect("다른페이지URL");
-    }
-%>
+
 <%-- <%
 	User loginUser = (User)session.getAttribute("loginUser");
 %> --%>
@@ -21,6 +16,12 @@
 	right: 25px;
 	bottom: 25px;
 	display: none;
+	z-index: 9;
+}
+#recent {
+	position: fixed;
+	right: 5px;
+	bottom: 110px;
 	z-index: 9;
 }
 </style>
@@ -130,7 +131,7 @@
 							class="nav-link">Home</a></li>
 						<li class="nav-item"><a href="about.html" class="nav-link">와인사전</a></li>
 						<li class="nav-item dropdown"><a
-							class="nav-link dropdown-toggle" href="#" id="dropdown04"
+							class="nav-link dropdown-toggle" href="plistView.do" id="dropdown04"
 							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">상품</a>
 							<div class="dropdown-menu" aria-labelledby="dropdown04">
 								<a class="dropdown-item" href="plistView.do">전체상품 목록</a> <a
@@ -220,12 +221,12 @@
 			</div>
 		</div>
 	
-	<section class="ftco-section ftco-no-pb">
+	<section id="recent" class="ftco-section ftco-no-pb">
 				최근 본 상품
-				
+				<c:forEach var="product" items="${recentProducts}">
 		<div class="container">
 			<div class="row">
-				<c:forEach var="product" items="${recentProducts}">
+				
 				<c:url var="pdetail" value="pdetail.do">
 					<c:param name="product_id" value="${product.product_id}" />
 				</c:url>
@@ -234,15 +235,12 @@
 					<div class="sort w-100 text-center ftco-animate">
 					<a href="${pdetail}">
 							<div class="img" style="background-image: url('${pageContext.servletContext.contextPath}${product.product_image}');"></div>
-							<h3>${product.product_name}</h3>
 							</a>
 						</div>
-						
 					</div>
-				</c:forEach>
-			</div>
+				</div>
 		</div>
-		
+		</c:forEach>
 	</section>
 
 

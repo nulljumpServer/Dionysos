@@ -94,13 +94,17 @@ public class ProductDao {
 		return (ArrayList<Product>)list;
 	}
 
-	public ArrayList<Product> selectSearchProductOrigin(String keyword) {
-		List<Product> list = session.selectList("productMapper.selectSearchProduct", keyword);
+	public ArrayList<Product> selectSearchWineOrigin(String keyword) {
+		List<Product> list = session.selectList("productMapper.selectSearchWineOrigin", keyword);
 		return (ArrayList<Product>)list;
 	}
 
-	public ArrayList<Product> selectSearchProductType(String keyword) {
-		List<Product> list = session.selectList("productMapper.selectSearchProduct", keyword);
+	public ArrayList<Product> selectSearchWineType(String keyword) {
+		List<Product> list = session.selectList("productMapper.selectSearchWineType", keyword);
+		return (ArrayList<Product>)list;
+	}
+	public ArrayList<Product> selectSearchGrapeType(String keyword) {
+		List<Product> list = session.selectList("productMapper.selectSearchGrapeType", keyword);
 		return (ArrayList<Product>)list;
 	}
 

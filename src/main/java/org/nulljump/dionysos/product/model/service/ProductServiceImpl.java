@@ -93,13 +93,18 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public ArrayList<Product> selectSearchProductOrigin(String keyword) {
-		return productDao.selectSearchProductOrigin(keyword);
+	public ArrayList<Product> selectSearchWineOrigin(String keyword) {
+		return productDao.selectSearchWineOrigin(keyword);
 	}
 
 	@Override
-	public ArrayList<Product> selectSearchProductType(String keyword) {
-		return productDao.selectSearchProductType(keyword);
+	public ArrayList<Product> selectSearchWineType(String keyword) {
+		return productDao.selectSearchWineType(keyword);
+	}
+	
+	@Override
+	public ArrayList<Product> selectSearchGrapeType(String keyword) {
+		return productDao.selectSearchGrapeType(keyword);
 	}
 	
 	@Override

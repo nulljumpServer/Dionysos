@@ -58,7 +58,7 @@ public class ProductController {
 			currentPage = Integer.parseInt(page);
 		}
 
-		// 한 페이지에 게시글 10개씩 출력되게 하는 경우 :
+		
 		// 페이징 계산 처리 - 별도의 클래스로 작성해서 이용해도 됨
 		int limit = 10; // 한 페이지에 출력할 목록 갯수
 		// 총 페이지 수 계산을 위해 게시글 총 갯수 조회해 옴
@@ -74,7 +74,7 @@ public class ProductController {
 
 			mv.setViewName("product/productListView");
 		} else {
-			mv.addObject("message", currentPage + " ������ ��� ��ȸ ����!");
+			mv.addObject("message", currentPage + " 출력 실패!");
 			mv.setViewName("common/error");
 		}
 
@@ -119,9 +119,11 @@ public class ProductController {
 	@RequestMapping(value = "psearch.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String productSearchMethod(HttpServletRequest request, Model model) {
 		String action = request.getParameter("action");
-		logger.info(action);
+		logger.info("action : " + action);
+		
 		String keyword = null;
 		keyword = request.getParameter("keyword");
+		logger.info("keyword : " + keyword);
 		ArrayList<Product> list = null;
 
 		switch (action) {
@@ -152,11 +154,14 @@ public class ProductController {
 		case "product_tannin":
 			list = productService.selectSearchProductTannin(Integer.parseInt(keyword));
 			break;
-		case "product_origin":
-			list = productService.selectSearchProductOrigin(keyword);
+		case "wine_origin":
+			list = productService.selectSearchWineOrigin(keyword);
 			break;
 		case "wine_type":
-			list = productService.selectSearchProductType(keyword);
+			list = productService.selectSearchWineType(keyword);
+			break;
+		case "grape_type":
+			list = productService.selectSearchGrapeType(keyword);
 			break;
 		} // switch
 
@@ -258,7 +263,7 @@ public class ProductController {
 
 				mv.setViewName("admin/productListView");
 			} else {
-				mv.addObject("message", currentPage + " ������ ��� ��ȸ ����!");
+				mv.addObject("message", currentPage + " 출력 실패");
 				mv.setViewName("common/error");
 			}
 
@@ -348,7 +353,7 @@ public class ProductController {
 
 			return "product/productUpdateForm";
 		} else {
-			model.addAttribute("message", product_id + "��ǰ ������������ �̵� ����!");
+			model.addAttribute("message", product_id + "번 상품 정보 수정 실패!");
 
 			return "common/error";
 		}

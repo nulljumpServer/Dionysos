@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -347,8 +348,16 @@ public class UsersController {
 	}
 	
 	@RequestMapping(value = "admin.do", method = { RequestMethod.GET, RequestMethod.POST })
-	public String moveAdmin() {
-		return "admin/admin";
+	public ModelAndView moveAdmin(Users users, ModelAndView mv) {
+		Users loginUsers = usersService.selectUsers(users.getUser_id());
+		if(loginUsers == null || loginUsers.getAdmin().equals("N")) {
+			String message = "관리자만 접근 가능한 페이지입니다. 메인 화면으로 이동합니다.";
+			mv.addObject("alertMessage", message);
+			mv.setViewName("common/main");
+		} else {
+			mv.setViewName("admin/admin");
+		}
+		return mv;
 	}
 
 }

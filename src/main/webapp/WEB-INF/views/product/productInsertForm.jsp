@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Dionysos - ADMIN</title>
 <script type="text/javascript"
 	src="${pageContext.servletContext.contextPath}/resources/js/jquery-3.6.3.min.js"></script>
 <!-- 이미지 미리보기 -->
@@ -76,14 +76,6 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-								<div class="breadcomb-report">
-									<button data-toggle="tooltip" data-placement="left"
-										title="Download Report" class="btn">
-										<i class="icon nalika-download"></i>
-									</button>
-								</div>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -103,7 +95,7 @@
 								<li class="active"><a href="#description"><i
 										class="icon nalika-edit" aria-hidden="true"></i> 새 상품정보 추가</a></li>
 								<li><a href="#IMAGES"><i class="icon nalika-picture"
-										aria-hidden="true"></i> 이미지 </a></li>
+										aria-hidden="true"></i> 이미지 추가</a></li>
 								
 							</ul>
 							<!-- 상품 정보 추가 form -->
@@ -237,7 +229,7 @@
 														</div>
 
 														<div class="input-group">
-															<span class="input-group-addon">상품 이미지 : </span>
+															<span class="input-group-addon">상세 이미지 : </span>
 															<div class="form-group">
 																<input class="form-control form-control-user"
 																	type="file" name="upfile2" id="wine_detail"

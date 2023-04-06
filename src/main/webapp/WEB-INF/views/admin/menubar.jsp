@@ -110,7 +110,6 @@
                             <ul class="submenu-angle" aria-expanded="false">
                                 <li><a title="Inbox" href="adminplistView.do"><span class="mini-sub-pro">상품통합관리</span></a></li>
                                 <li><a title="View Mail" href="mailbox-view.html"><span class="mini-sub-pro">리뷰관리</span></a></li>
-                                <li><a title="Compose Mail" href="mailbox-compose.html"><span class="mini-sub-pro">재고관리</span></a></li>
                             </ul>
                         </li>
                         

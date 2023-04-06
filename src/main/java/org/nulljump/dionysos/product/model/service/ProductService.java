@@ -26,8 +26,9 @@ public interface ProductService {
 	ArrayList<Product> selectSearchProductSweetness(int keyword);
 	ArrayList<Product> selectSearchProductBody(int keyword);
 	ArrayList<Product> selectSearchProductTannin(int keyword);
-	ArrayList<Product> selectSearchProductOrigin(String keyword);
-	ArrayList<Product> selectSearchProductType(String keyword);
+	ArrayList<Product> selectSearchWineOrigin(String keyword);
+	ArrayList<Product> selectSearchWineType(String keyword);
+	ArrayList<Product> selectSearchGrapeType(String keyword);
 	
 	// 관리자 상품 추가, 수정, 삭제
 	int insertProduct(Product product);           //��ǰ �߰�
