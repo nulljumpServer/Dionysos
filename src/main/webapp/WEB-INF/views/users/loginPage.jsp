@@ -123,7 +123,9 @@
 	padding: 0 20px;
 	width: 100vh;
 	height: 100vh;
+
 	background: url(resources/images/users/bg_6.jpg) center no-repeat;
+
 	background-size: 100% 100%;
 }
 

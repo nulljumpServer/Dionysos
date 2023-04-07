@@ -2,7 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <c:set var="url" value="nlist.do" />
+
 <c:set var="listCount" value="${requestScope.paging.listCount}" />
 <c:set var="currentPage" value="${ requestScope.paging.currentPage }" />
 <!DOCTYPE html>
@@ -82,7 +84,9 @@
 	목록</button>
 </center>
 <br>
+
 <center>
+
 <table align="center" width="500" border="1" cellspacing="0" cellpadding="1">
 	<tr>
 		<th>번호</th>
@@ -109,7 +113,9 @@
 		</tr>
 	</c:forEach>
 </table>
+
 </center>
+
 <!-- 페이징 처리 -->
 <c:import url="/WEB-INF/views/common/paging.jsp" />
 <hr>
