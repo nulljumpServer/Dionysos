@@ -214,7 +214,7 @@
 															<span class="input-group-addon">상품 이미지 : </span>
 															<div class="form-group">
 																<input class="form-control form-control-user"
-																	type="file" name="upfile1" id="product_image"
+																	type="file" accept="image/*" name="upfile1" id="product_image"
 																	onchange="setThumbnail1(event);">
 															</div>
 														</div>
@@ -232,7 +232,7 @@
 															<span class="input-group-addon">상세 이미지 : </span>
 															<div class="form-group">
 																<input class="form-control form-control-user"
-																	type="file" name="upfile2" id="wine_detail"
+																	type="file" accept="image/*" name="upfile2" id="wine_detail"
 																	onchange="setThumbnail2(event);">
 															</div>
 														</div>

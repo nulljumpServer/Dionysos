@@ -34,13 +34,16 @@ public class ProductServiceImpl implements ProductService {
 	public int selectListCount() {
 		return productDao.selectListCount();
 	}
-
-
+	
 	@Override
 	public Product selectProduct(int product_id) {
 		return productDao.selectProduct(product_id);
 	}
-
+	
+	@Override
+	public ArrayList<Product> selectSearchProduct(String action, String keyword, Paging page) {
+		return productDao.selectSearchProduct(action, keyword, page);
+	}
 
 	@Override
 	public ArrayList<Product> selectFilterProductList() {
@@ -133,6 +136,13 @@ public class ProductServiceImpl implements ProductService {
 			int product_price, int sweetness, int acidity, int body, int tannin) {
 		return productDao.selectFilter(wine_type, wine_origin, product_price, sweetness, acidity, body, tannin);
 	}
+
+	@Override
+	public int selectSearchProductCount(String action, String keyword) {
+		return productDao.selectSearchProductCount(action, keyword);
+	}
+
+
 
 
 	

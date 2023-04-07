@@ -10,14 +10,15 @@ public class Paging {
 	private int maxPage; // 총 페이지 수
 	private int startPage; //페이지그룹의 시작값
 	private int endPage;  //페이지그룹의 끝값
-
+	private String url; // 페이지 view url
 	//기본생성자 없음
 	
 	//매개변수 있는 생성자
-	public Paging(int listCount, int currentPage, int limit) {
+	public Paging(int listCount, int currentPage, int limit, String url) {
 		this.listCount = listCount;
 		this.currentPage = currentPage;
 		this.limit = limit;
+		this.url = url;
 	}
 
 	public void calculator() {
@@ -39,6 +40,14 @@ public class Paging {
 		// 끝행을 계산
 		startRow = (currentPage - 1) * limit + 1;
 		endRow = startRow + limit - 1;		
+	}
+	
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public int getStartRow() {
@@ -109,7 +118,7 @@ public class Paging {
 	public String toString() {
 		return "Paging [startRow=" + startRow + ", endRow=" + endRow + ", listCount=" + listCount + ", limit=" + limit
 				+ ", currentPage=" + currentPage + ", maxPage=" + maxPage + ", startPage=" + startPage + ", endPage="
-				+ endPage + "]";
+				+ endPage +  ", url=" + url + "]";
 	}
 	
 	

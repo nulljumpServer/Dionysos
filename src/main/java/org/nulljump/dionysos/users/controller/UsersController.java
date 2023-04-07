@@ -20,8 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,14 +42,14 @@ public class UsersController {
 		return "users/loginPage";
 	}
 
-	// ȸ������ ������ ��������
-	@RequestMapping(value = "enrollPage.do", method = { RequestMethod.GET, RequestMethod.POST })
+	// 회원가입 페이지 내보내기
+	@RequestMapping("enrollPage.do")
 	public String moveEnrollPage() {
 		return "users/enrollPage";
 	}
 
-	// ȸ������ ���������� ��������
-	@RequestMapping(value = "moveup.do", method = { RequestMethod.GET, RequestMethod.POST })
+	// 회원정보 수정페이지 내보내기
+	@RequestMapping("moveup.do")
 	public String moveUpdatePage(@RequestParam("user_id") String user_id, Model model) {
 		Users users = usersService.selectUsers(user_id);
 
@@ -59,36 +57,36 @@ public class UsersController {
 			model.addAttribute("users", users);
 			return "users/updatePage";
 		} else {
-			model.addAttribute("message", user_id + " : ȸ�� ��ȸ ����!");
+			model.addAttribute("message", user_id + " : 회원 조회 실패!");
 			return "common/error";
 		}
 	}
 
-	// �α��� ó����
-	@RequestMapping(value = "login.do", method = { RequestMethod.GET, RequestMethod.POST })
+	// 로그인 처리용
+	@RequestMapping(value = "login.do", method = RequestMethod.POST)
 	public String loginMethod(Users users, HttpSession session, SessionStatus status, Model model) {
 		logger.info("login.do : " + users);
 
 		Users loginUsers = usersService.selectUsers(users.getUser_id());
 		if (loginUsers == null) {
-			// ���� ó��
-			model.addAttribute("message", "�α��� ���� : �������� �ʴ� ������Դϴ�.");
+			// 예외 처리
+			model.addAttribute("message", "로그인 실패 : 존재하지 않는 사용자입니다.");
 			return "common/error";
 		} else if (loginUsers.getEmail() == null) {
-			// ���� ó��
-			model.addAttribute("message", "�α��� ���� : �̸��� ������ �����ϴ�.");
+			// 예외 처리
+			model.addAttribute("message", "로그인 실패 : 이메일 정보가 없습니다.");
 			return "common/error";
-		} else if (this.bcryptPasswordEncoder.matches(users.getPassword(), loginUsers.getPassword())) {
+		}   else if (this.bcryptPasswordEncoder.matches(users.getPassword(), loginUsers.getPassword())) {
 			session.setAttribute("loginUsers", loginUsers);
 			status.setComplete();
 			if(loginUsers.getAdmin().equals("Y")) {
-				return "redirect:admin.do";
+				return "admin/admin";
 			} else {
-				return "redirect:main.do";
+				return "common/main";
 			}
 			
 		} else {
-			model.addAttribute("message", "�α��� ���� : ���̵� ��ȣ Ȯ���ϼ���.");
+			model.addAttribute("message", "로그인 실패 : 아이디나 암호 확인하세요.");
 			return "common/error";
 		}
 	}
@@ -103,12 +101,12 @@ public class UsersController {
 			session.invalidate();
 			return "redirect:main.do";
 		} else {
-			model.addAttribute("message", "�α��� ������ �������� �ʽ��ϴ�");
+			model.addAttribute("message", "로그인 세션이 존재하지 않습니다");
 			return "common/error";
 		}
 	}
 
-	// ajax ������� ���̵� �ߺ�Ȯ�� ��û
+	// ajax 통신으로 아이디 중복확인 요청
 	@RequestMapping(value = "idchk.do", method = RequestMethod.POST)
 	public void dupCheckIdMethod(@RequestParam("user_id") String user_id, HttpServletResponse response)
 			throws IOException {
@@ -128,22 +126,22 @@ public class UsersController {
 		out.close();
 	}
 
-	// ȸ������ ��û
+	// 회원가입 요청
 	@RequestMapping(value = "enroll.do", method = RequestMethod.POST)
 	public String usersInsertMethod(Users users, Model model) {
 		logger.info("enroll.do : " + users);
 
-		// �н����� ��ȣȭ ó��
+		// 패스워드 암호화 처리
 		users.setPassword(bcryptPasswordEncoder.encode(users.getPassword()));
 		logger.info("after encode : " + users.getPassword());
 		logger.info("length : " + users.getPassword().length());
 
 		if (usersService.insertUsers(users) > 0) {
-			// ȸ�� ���� ����
-			return "redirect:main:do";
+			// 회원 가입 성공
+			return "common/main";
 		} else {
-			// ȸ�� ���� ����
-			model.addAttribute("message", "ȸ�� ���� ����!");
+			// 회원 가입 실패
+			model.addAttribute("message", "회원 가입 실패!");
 			return "common/error";
 		}
 	}
@@ -156,14 +154,14 @@ public class UsersController {
 			mv.addObject("users", users);
 			mv.setViewName("users/myinfoPage");
 		} else {
-			mv.addObject("message", user_id + " : ȸ�� ���� ��ȸ ����!");
+			mv.addObject("message", user_id + " : 회원 정보 조회 실패!");
 			mv.setViewName("common/error");
 		}
 
 		return mv;
 	}
 
-	// ȸ�� Ż��(����) ��û
+	// 회원 탈퇴(삭제) 요청
 	@RequestMapping("mdel.do")
 	public String usersDeleteMethod(@RequestParam("user_id") String user_id, Model model) {
 		logger.info("mdel.do : " + user_id);
@@ -171,23 +169,23 @@ public class UsersController {
 		if (usersService.deleteUsers(user_id) > 0) {
 			return "redirect:logout.do";
 		} else {
-			model.addAttribute("message", user_id + " : ȸ�� ���� ����!");
+			model.addAttribute("message", user_id + " : 회원 삭제 실패!");
 			return "common/error";
 		}
 	}
 
-	// ȸ�� ���� Ż��
+	// 회원 탈퇴(삭제) 요청
 	@RequestMapping("eviction.do")
 	public String EvictionMethod(@RequestParam("user_id") String user_id, Model model) {
-		if (usersService.evictionUsers(user_id)>0) {
+		if (usersService.evictionUsers(user_id) > 0) {
 			return "redirect:mlist.do";
 		} else {
-			model.addAttribute("message", user_id + " : ȸ�� ���� ����!");
+			model.addAttribute("message", user_id + " : 회원 삭제 실패!");
 			return "common/error";
 		}
 	}
 
-	// ȸ������ ���� ó��
+	// 회원정보 수정 처리
 	@RequestMapping(value = "mupdate.do", method = RequestMethod.POST)
 	public String usersUpdateMethod(Users users, Model model, @RequestParam("origin_password") String originUserpwd) {
 		logger.info("mupdate.do : " + users);
@@ -205,12 +203,12 @@ public class UsersController {
 
 			return "redirect:myinfo.do?user_id=" + users.getUser_id();
 		} else {
-			model.addAttribute("message", users.getUser_id() + " : ȸ�� ���� ���� ����!");
+			model.addAttribute("message", users.getUser_id() + " : 유저 정보 수정 실패!");
 			return "common/error";
 		}
 	}
 
-	// ȸ�������� ȸ����ü��� ��ȸ ó��
+	// 회원관리용 회원전체목록 조회 처리
 	@RequestMapping("mlist.do")
 	public String usersListViewMethod(Model model) {
 		ArrayList<Users> list = usersService.selectList();
@@ -219,15 +217,15 @@ public class UsersController {
 			model.addAttribute("list", list);
 			return "users/userListView";
 		} else {
-			model.addAttribute("message", "ȸ�� ������ �������� �ʽ��ϴ�.");
+			model.addAttribute("message", "회원 전체 목록 조회 실패.");
 			return "common/error";
 		}
 	}
 
-	// ȸ�� �˻� ó����
+	// 회원 검색 처리용
 	@RequestMapping(value = "msearch.do", method = RequestMethod.POST)
 	public String usersSearchMethod(HttpServletRequest request, Model model) {
-		// ���ۿ� �� ������
+		// 전송온 값 꺼내기
 		String action = request.getParameter("action");
 		String keyword = null, beginDate = null, endDate = null;
 
@@ -264,13 +262,13 @@ public class UsersController {
 		}
 	}
 
-	// ���̵� ã��(��������)
+	// 아이디 찾기(페이지로)
 	@RequestMapping(value = "findid_form.do")
 	public String findid() throws Exception {
 		return "users/findIdPage";
 	}
 
-	// ���̵� ã��
+	// 아이디 찾기
 	@RequestMapping(value = "find_id.do", method = RequestMethod.POST)
 	public String findid(@RequestParam("email") String email, Model model) throws Exception {
 		String user_id = usersService.find_id(email);
@@ -284,25 +282,25 @@ public class UsersController {
 		}
 	}
 
-	// ��й�ȣ ã��(��������)
+	// 비밀번호 찾기(페이지로)
 	@RequestMapping(value = "findpw_form.do")
 	public String findpw() throws Exception {
 		return "users/findPwPage";
 	}
 
 	public void send_mail(Users users) {
-		// ���� ����
+		// 서버 설정
 		String charSet = "utf-8";
 		String hostSMTP = "smtp.naver.com";
-		String hostSMTPid = "wlstjr2234@naver.com"; // �̸��� �Է�
-		String hostSMTPpwd = ""; // ��й�ȣ �Է�
-		// ������ ��� ����
-		String fromEmail = "wlstjr2234@naver.com"; // �̸��� �Է�
+		String hostSMTPid = "wlstjr2234@naver.com"; // 이메일 입력
+		String hostSMTPpwd = ""; // 비밀번호 입력
+		// 보내는 사람 정보
+		String fromEmail = "wlstjr2234@naver.com"; // 이메일 입력
 		String fromName = "Dionysos";
-		String subject = "�ӽ� ��й�ȣ �Դϴ�";
-		String msg = users.getPassword() + "�Դϴ�";
+		String subject = "임시 비밀번호 입니다";
+		String msg = users.getPassword() + "입니다";
 
-		// �޴� ��� E-Mail �ּ�
+		// 받는 사람 E-Mail 주소
 		String mail = users.getEmail();
 		try {
 			HtmlEmail email = new HtmlEmail();
@@ -324,7 +322,7 @@ public class UsersController {
 		}
 	}
 
-	// ��й�ȣ ã��
+	// 비밀번호 찾기
 	@RequestMapping(value = "find_pw.do", method = RequestMethod.POST)
 	public String find_pw(Users user, HttpServletResponse response, Model model) {
 		response.setContentType("text/html;charset=utf-8");
@@ -341,16 +339,16 @@ public class UsersController {
 
 			return "redirect:main.do";
 		} else {
-			model.addAttribute("message", "���̵�� �̸����� �� �� �Է��ϼ̽��ϴ�");
+			model.addAttribute("message", "비밀번호 전송 실패");
 			return "common/error";
 		}
 
 	}
-	
+
 	@RequestMapping(value = "admin.do", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView moveAdmin(Users users, ModelAndView mv) {
-		Users loginUsers = usersService.selectUsers(users.getUser_id());
-		if(loginUsers == null || loginUsers.getAdmin().equals("N")) {
+	public ModelAndView moveAdmin(Users users, ModelAndView mv, HttpSession session) {
+		Users loginUsers = (Users) session.getAttribute("loginUsers");
+		if (loginUsers == null || loginUsers.getAdmin().equals("N")) {
 			String message = "관리자만 접근 가능한 페이지입니다. 메인 화면으로 이동합니다.";
 			mv.addObject("alertMessage", message);
 			mv.setViewName("common/main");

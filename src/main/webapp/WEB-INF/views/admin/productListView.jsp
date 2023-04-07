@@ -22,21 +22,16 @@
 	}); //document.ready
 	function showDiv() {
 		if ($('input[name=item]').eq(0).is(':checked')) {
-			$('#titleDiv').css('display', 'block');
-			$('#writerDiv').css('display', 'none');
-			$('#dateDiv').css('display', 'none');
+			$('#nameDiv').css('display', 'block');
+			$('#eNameDiv').css('display', 'none');
+			
 		}
 		if ($('input[name=item]').eq(1).is(':checked')) {
-			$('#titleDiv').css('display', 'none');
-			$('#writerDiv').css('display', 'block');
-			$('#dateDiv').css('display', 'none');
+			$('#nameDiv').css('display', 'none');
+			$('#eNameDiv').css('display', 'block');
+			
 		}
-		if ($('input[name=item]').eq(2).is(':checked')) {
-			$('#titleDiv').css('display', 'none');
-			$('#writerDiv').css('display', 'none');
-			$('#dateDiv').css('display', 'block');
-		}
-	}
+			}
 </script>
 </head>
 <body>
@@ -111,35 +106,30 @@
 								</tr>
 							</c:forEach>
 						</table>
+						<div align="center">
 						<div>
-							<input type="radio" name="item" value="title" checked> 제목
+							<input type="radio" name="item" value="title" checked> 상품명
 							&nbsp; &nbsp; <input type="radio" name="item" value="writer">
-							작성자 &nbsp; &nbsp; <input type="radio" name="item" value="date">
-							날짜
+							상풍 영문명 &nbsp; &nbsp; 
 						</div>
-						<div id="titleDiv">
-							<form action="psearch.do" method="post">
+						<div id="nameDiv">
+							<form action="admpsearch.do" method="post">
 							<input type="hidden" name="action" value="product_name">
 								<label>검색할 상품명을 입력하세요 : <input type="search"
 									name="keyword">
-								</label> <input type="submit" value="검색">
+								</label> <input type="submit" class="btn btn-primary" value="검색">
 							</form>
 						</div>
-						<div id="writerDiv">
-							<form action="psearch.do" method="post">
+						<div id="eNameDiv">
+							<form action="admpsearch.do" method="post">
 							<input type="hidden" name="action" value="product_ename">
 								<label>검색할 상품 영문명을 입력하세요 :  <input type="search"
 									name="keyword">
-								</label> <input type="submit" value="검색">
+								</label>
+								<input type="submit" class="btn btn-primary" value="검색">
+								
 							</form>
 						</div>
-						<div id="dateDiv">
-							<form action="psearch.do" method="post">
-							
-								<label>검색할 등록날짜를 입력하세요 : <input type="date" name="begin">
-									~ <input type="date" name="end">
-								</label> <input type="submit" value="검색">
-							</form>
 						</div>
 						<c:import url="/WEB-INF/views/admin/paging.jsp" />
 

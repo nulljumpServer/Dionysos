@@ -63,7 +63,8 @@ public class ProductController {
 		int limit = 10; // 한 페이지에 출력할 목록 갯수
 		// 총 페이지 수 계산을 위해 게시글 총 갯수 조회해 옴
 		int listCount = productService.selectListCount();
-		Paging paging = new Paging(listCount, currentPage, limit);
+		String url = "plistView.do";
+		Paging paging = new Paging(listCount, currentPage, limit, url);
 		paging.calculator();
 
 		ArrayList<Product> list = productService.selectProductList(paging);
@@ -115,63 +116,45 @@ public class ProductController {
 		}
 	}
 
-	// 상품 검색기능 메소드(현재 상품 이름 검색 기능만 사용중)
+	// 사용자 상품검색기능 메소드 (페이징 적용)
 	@RequestMapping(value = "psearch.do", method = { RequestMethod.GET, RequestMethod.POST })
-	public String productSearchMethod(HttpServletRequest request, Model model) {
+	public ModelAndView productSearchMethod(ModelAndView mv, HttpServletRequest request,
+			@RequestParam(value = "page", required = false) String page) {
 		String action = request.getParameter("action");
 		logger.info("action : " + action);
 		
 		String keyword = null;
 		keyword = request.getParameter("keyword");
 		logger.info("keyword : " + keyword);
-		ArrayList<Product> list = null;
-
-		switch (action) {
-
-//		case "id": list = productService.selectSearchProductId(Integer.parseInt(keyword));
-//					break;
-		case "product_name":
-			list = productService.selectSearchProductName(keyword);
-			break;
-		case "product_ename":
-			list = productService.selectSearchProductEname(keyword);
-			break;
-		case "product_price":
-			list = productService.selectSearchProductPrice(Integer.parseInt(keyword));
-			break;
-		case "product_acidity":
-			list = productService.selectSearchProductAcidity(Integer.parseInt(keyword));
-			break;
-		case "product_alcohol":
-			list = productService.selectSearchProductAlcohol(Float.parseFloat(keyword));
-			break;
-		case "product_sweetness":
-			list = productService.selectSearchProductSweetness(Integer.parseInt(keyword));
-			break;
-		case "product_body":
-			list = productService.selectSearchProductBody(Integer.parseInt(keyword));
-			break;
-		case "product_tannin":
-			list = productService.selectSearchProductTannin(Integer.parseInt(keyword));
-			break;
-		case "wine_origin":
-			list = productService.selectSearchWineOrigin(keyword);
-			break;
-		case "wine_type":
-			list = productService.selectSearchWineType(keyword);
-			break;
-		case "grape_type":
-			list = productService.selectSearchGrapeType(keyword);
-			break;
-		} // switch
+		
+		
+		int currentPage = 1;
+		if (page != null) {
+			currentPage = Integer.parseInt(page);
+		}
+		String url = "psearch.do";
+		int limit = 10;
+		int listCount = productService.selectSearchProductCount(action, keyword);
+		logger.info("paging : " + listCount + ", " + currentPage + ", " + limit + ", " +  url);
+		Paging paging = new Paging(listCount, currentPage, limit, url);
+		
+		paging.setListCount(listCount);
+		paging.calculator();
+		
+		ArrayList<Product> list = productService.selectSearchProduct(action, keyword, paging);
 
 		if (list != null && list.size() > 0) {
-			model.addAttribute("list", list);
-			return "product/productListView";
+			mv.addObject("list", list);
+			mv.addObject("action", action);
+			mv.addObject("keyword", keyword);
+			mv.addObject("paging", paging);
+			mv.setViewName("product/productListView");
+			
 		} else {
-			model.addAttribute("message", action + " 검색 결과가 없습니다.");
-			return "common/error";
+			mv.addObject("message", action + " 검색 결과가 없습니다.");
+			mv.setViewName("common/error");
 		}
+		return mv;
 	}
 	
 	//필터링 검색 기능
@@ -184,16 +167,7 @@ public class ProductController {
 			@RequestParam(value = "body", required = false) String bd,
 			@RequestParam(value = "tannin", required = false) String ta,
 			@RequestParam(value = "page", required = false) String page, Model model) {
-//		int currentPage = 1;
-//		if (page != null) {
-//			currentPage = Integer.parseInt(page);
-//		}
-//
-//		int limit = 10;
-//
-//		int listCount = productService.selectListCount();
-//		Paging paging = new Paging(listCount, currentPage, limit);
-//		paging.calculator();
+		
 		//RequestParam으로 int 값을 받을 때 해당 값이 존재하지 않으면 null로 인식하지 못해 에러 발생
 		// 그래서 아래 별도 처리 사용
 		int product_price = -1;
@@ -218,10 +192,22 @@ public class ProductController {
 		}
 		ArrayList<Product> list = productService.selectFilter(wine_type, wine_origin, product_price, sweetness, acidity,
 				body, tannin);
+		
+		int currentPage = 1;
+		if (page != null) {
+			currentPage = Integer.parseInt(page);
+		}
+
+		int limit = 10;
+
+		int listCount = list.size();
+		String url = "advsearch.do";
+		Paging paging = new Paging(listCount, currentPage, limit, url);
+		paging.calculator();
 
 		if (list != null && list.size() > 0) {
 			model.addAttribute("list", list);
-//			model.addAttribute("paging", paging);
+			model.addAttribute("paging", paging);
 			return "product/productListView";
 		} else {
 			model.addAttribute("message", "검색 결과가 없거나 실패");
@@ -234,6 +220,48 @@ public class ProductController {
 	
 
 	//관리자 기능
+	
+	
+	// 관리자 상품검색기능 메소드 (페이징 적용)
+		@RequestMapping(value = "admpsearch.do", method = { RequestMethod.GET, RequestMethod.POST })
+		public ModelAndView adminProductSearchMethod(ModelAndView mv, HttpServletRequest request,
+				@RequestParam(value = "page", required = false) String page) {
+			String action = request.getParameter("action");
+			logger.info("action : " + action);
+			
+			String keyword = null;
+			keyword = request.getParameter("keyword");
+			logger.info("keyword : " + keyword);
+			
+			
+			int currentPage = 1;
+			if (page != null) {
+				currentPage = Integer.parseInt(page);
+			}
+			String url = "admpsearch.do";
+			int limit = 10;
+			int listCount = productService.selectSearchProductCount(action, keyword);
+			logger.info("paging : " + listCount + ", " + currentPage + ", " + limit + ", " +  url);
+			Paging paging = new Paging(listCount, currentPage, limit, url);
+			
+			paging.setListCount(listCount);
+			paging.calculator();
+			
+			ArrayList<Product> list = productService.selectSearchProduct(action, keyword, paging);
+
+			if (list != null && list.size() > 0) {
+				mv.addObject("list", list);
+				mv.addObject("action", action);
+				mv.addObject("keyword", keyword);
+				mv.addObject("paging", paging);
+				mv.setViewName("admin/productListView");
+				
+			} else {
+				mv.addObject("message", action + " 검색 결과가 없습니다.");
+				mv.setViewName("common/error");
+			}
+			return mv;
+		}
 	
 	
 	
@@ -252,7 +280,8 @@ public class ProductController {
 			int limit = 10;  // 한 페이지에 출력할 목록 갯수
 			// 총 페이지 수 계산을 위해 게시글 총 갯수 조회해 옴
 			int listCount = productService.selectListCount();
-			Paging paging = new Paging(listCount, currentPage, limit);
+			String url = "adminplistView.do";
+			Paging paging = new Paging(listCount, currentPage, limit, url);
 			paging.calculator();
 
 			ArrayList<Product> list = productService.selectProductList(paging);

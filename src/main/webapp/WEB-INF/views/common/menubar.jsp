@@ -214,7 +214,7 @@
 				<div class="col-md-8 ftco-animate d-flex align-items-end">
 					<div class="text w-100 text-center">
 						<h1 class="mb-4">
-							Dionysos <span>Wine</span> Shop<span> & </span> Dictionary
+							Dionysos <span>Wine</span> Shop<span>
 						</h1>
 					</div>
 				</div>
@@ -254,10 +254,6 @@
 		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.min.js"></script>
 	<script
 		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery-migrate-3.0.1.min.js"></script>
-	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/users/popper.min.js"></script>
-	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/users/bootstrap.min.js"></script>
 	<script
 		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.easing.1.3.js"></script>
 	<script

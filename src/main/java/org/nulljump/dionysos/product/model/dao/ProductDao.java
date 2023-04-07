@@ -33,13 +33,23 @@ public class ProductDao {
 		return (ArrayList<Product>)list;
 	}
 	
-	//상품 갯수 조회
+	//기본 상품 갯수 조회
 	public int selectListCount() {
 		return session.selectOne("productMapper.selectListCount");
 	}
 	// 상품 아이디로 검색 (상품 객체 전달)
-	public Product selectProduct(int product_id) {
-		return session.selectOne("productMapper.selectProduct", product_id);
+		public Product selectProduct(int product_id) {
+			return session.selectOne("productMapper.selectProduct", product_id);
+		}
+	
+	// 상품 일반 검색기능(페이징)
+	public ArrayList<Product> selectSearchProduct(String action, String keyword, Paging page) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("action", action);
+		paramMap.put("keyword", keyword);
+		paramMap.put("page", page);
+		List<Product> list = session.selectList("productMapper.selectSearchProduct", paramMap);
+		return (ArrayList<Product>) list;
 	}
 
 	
@@ -129,7 +139,7 @@ public class ProductDao {
 	// 필터링 검색
 	public ArrayList<Product> selectFilter(List<String> wine_type, List<String> wine_origin,
 			int product_price, int sweetness, int acidity, int body, int tannin) {
-		 Map<String, Object> paramMap = new HashMap<>();
+		 Map<String, Object> paramMap = new HashMap<String, Object>();
 		    paramMap.put("wine_type", wine_type);
 		    paramMap.put("wine_origin", wine_origin);
 		    paramMap.put("product_price", product_price);
@@ -138,13 +148,16 @@ public class ProductDao {
 		    paramMap.put("body", body);
 		    paramMap.put("tannin", tannin);
 		    
- 		    List<Object> products = session.selectList("productMapper.selectFilter", paramMap);
- 		    ArrayList<Product> list = new ArrayList<Product>();
- 		    for(Object obj : products) {
- 		    	list.add((Product)obj);
- 		    }
- 		    return list;
+ 		    List<Product> list = session.selectList("productMapper.selectFilter", paramMap);
+ 		       return (ArrayList<Product>)list;
 		
+	}
+	public int selectSearchProductCount(String action, String keyword) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("action", action);
+		paramMap.put("keyword", keyword);
+		List<Product> list = session.selectList("selectSearchProductCount", paramMap);
+		return list.size();
 	}
 
 

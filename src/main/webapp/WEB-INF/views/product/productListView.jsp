@@ -173,7 +173,6 @@
 
 
 
-	<c:set var="url" value="plistView.do" />
 	<script	src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.min.js"></script>
 	<script	src="${pageContext.servletContext.contextPath}/resources/js/users/jquery-migrate-3.0.1.min.js"></script>
 	<script	src="${pageContext.servletContext.contextPath}/resources/js/users/popper.min.js"></script>

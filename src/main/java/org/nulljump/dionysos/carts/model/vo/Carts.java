@@ -6,10 +6,10 @@ public class Carts implements Serializable {
 
 	private static final long serialVersionUID = -3996534574803193552L;
 	
-	private int cart_id; //장바구니 번호
-    private String user_id; // 장바구니 소유자 아이디
-    private int product_id; // 상품번호
-    private int cart_quantity; // 장바구니에 담긴 수량
+	private int cart_id; 
+    private String user_id;
+    private int product_id; 
+    private int cart_quantity; 
 	
 	public Carts() {
 		super();
