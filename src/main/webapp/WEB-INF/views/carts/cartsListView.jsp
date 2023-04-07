@@ -27,7 +27,7 @@
         <div class="row no-gutters slider-text align-items-end justify-content-center">
           <div class="col-md-9 ftco-animate mb-5 text-center">
           	<p class="breadcrumbs mb-0"><span class="mr-2"><a href="main.do">Home <i class="fa fa-chevron-right"></i></a></span> <span>Cart <i class="fa fa-chevron-right"></i></span></p>
-            <h2 class="mb-0 bread">My Cart</h2>
+            <h2 class="mb-0 bread">장바구니</h2>
           </div>
         </div> 
 		&nbsp;&nbsp;
@@ -210,15 +210,14 @@
     						<span></span>
     					</p>
     				</div>
-    				<p class="text-center"><a href="checkout.do" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
+    				<p class="text-center"><a href="checkout.do" class="btn btn-primary py-3 px-4">결제하기</a></p>
     			</div>
     		</div>
     	</div>
     </section>
 
-    <footer>
      	<c:import url="/WEB-INF/views/common/footer.jsp" />
-    </footer>
+ 
     
   
 
