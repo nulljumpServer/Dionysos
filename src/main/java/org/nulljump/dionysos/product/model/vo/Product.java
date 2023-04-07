@@ -6,23 +6,23 @@ public class Product implements java.io.Serializable{
 
 	private static final long serialVersionUID = -3976524226163946467L;
 
-	private int product_id;             //»óÇ° ¹øÈ£
-	private String product_name;        //»óÇ° ÀÌ¸§
-	private String product_ename;       //»óÇ° ¿µ¹® ÀÌ¸§
-	private int product_price;          //»óÇ° °¡°İ
-	private String product_image;       //»óÇ° ÀÌ¹ÌÁö
-	private float alcohol;              //¾ËÄİ µµ¼ö
-	private int acidity;                //»êµµ
-	private int sweetness;              //´çµµ
-	private int body;                   //¹Ùµğ
-	private int tannin;                 //Å¸´Ñ
-	private String description;         //»óÇ° ¼³¸í
-	private String grape_type;          //¿ÍÀÎ Ç°Á¾
-	private String wine_detail;         //¿ÍÀÎ »ó¼¼ Á¤º¸
-	private int wine_volume;            //¿ÍÀÎ ¿ë·®
-	private String wine_origin;         //¿ø»êÁö
-	private String wine_type;           //¿ÍÀÎ Á¾·ù
-	private Date production_date;       //¿ÍÀÎ »ı»ê³¯Â¥
+	private int product_id;             //ìƒí’ˆ ë²ˆí˜¸
+	private String product_name;        //ìƒí’ˆ ì´ë¦„
+	private String product_ename;       //ìƒí’ˆ ì˜ë¬¸ ì´ë¦„
+	private int product_price;          //ìƒí’ˆ ê°€ê²©
+	private String product_image;       //ìƒí’ˆ ì´ë¯¸ì§€
+	private float alcohol;              //ì•Œì½œ ë„ìˆ˜
+	private int acidity;                //ì‚°ë„
+	private int sweetness;              //ë‹¹ë„
+	private int body;                   //ë°”ë””
+	private int tannin;                 //íƒ€ë‹Œ
+	private String description;         //ìƒí’ˆ ì„¤ëª…
+	private String grape_type;          //ì™€ì¸ í’ˆì¢…
+	private String wine_detail;         //ì™€ì¸ ìƒì„¸ ì •ë³´
+	private int wine_volume;            //ì™€ì¸ ìš©ëŸ‰
+	private String wine_origin;         //ì›ì‚°ì§€
+	private String wine_type;           //ì™€ì¸ ì¢…ë¥˜
+	private Date production_date;       //ì™€ì¸ ìƒì‚°ë‚ ì§œ
 	
 	public Product() {
 		super();

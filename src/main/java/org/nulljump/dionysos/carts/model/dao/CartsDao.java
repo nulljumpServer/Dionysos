@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository("cartsDao")
 public class CartsDao {
-	@Autowired    //root-context.xml ¿¡¼­ »ı¼ºµÈ °´Ã¼¿Í ÀÚµ¿ ¿¬°á
-	private SqlSessionTemplate session;    //ÀÇÁ¸¼º ÁÖÀÔ(DI)
+	@Autowired    //root-context.xml ì—ì„œ ìƒì„±ëœ ê°ì²´ì™€ ìë™ ì—°ê²°
+	private SqlSessionTemplate session;    //ì˜ì¡´ì„± ì£¼ì…(DI)
 
 	public int insertCarts(Carts carts) {
 		return session.selectOne("cartsMapper.insertCarts", carts);

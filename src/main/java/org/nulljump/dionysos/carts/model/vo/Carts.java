@@ -6,10 +6,10 @@ public class Carts implements Serializable {
 
 	private static final long serialVersionUID = -3996534574803193552L;
 	
-	private int cart_id; //Àå¹Ù±¸´Ï ¹øÈ£
-    private String user_id; // Àå¹Ù±¸´Ï ¼ÒÀ¯ÀÚ ¾ÆÀÌµğ
-    private int product_id; // »óÇ°¹øÈ£
-    private int cart_quantity; // Àå¹Ù±¸´Ï¿¡ ´ã±ä ¼ö·®
+	private int cart_id; //ì¥ë°”êµ¬ë‹ˆ ë²ˆí˜¸
+    private String user_id; // ì¥ë°”êµ¬ë‹ˆ ì†Œìœ ì ì•„ì´ë””
+    private int product_id; // ìƒí’ˆë²ˆí˜¸
+    private int cart_quantity; // ì¥ë°”êµ¬ë‹ˆì— ë‹´ê¸´ ìˆ˜ëŸ‰
 	
 	public Carts() {
 		super();
