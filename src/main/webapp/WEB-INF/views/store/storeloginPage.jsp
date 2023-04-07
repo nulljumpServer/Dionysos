@@ -149,17 +149,17 @@
                         <button class="btn_txt" onclick="location.href='storeloginPage.do'">매장 로그인</button>
                     </div>
                     <div class="btn_area col2">
-                        <form action="login.do" method="post" class="input_row">
-                            <input type="text" name="user_id" id="user_id" class="pos" placeholder="아이디" title="아이디" style="width: 250px; height: 50px;">
+                        <form action="storelogin.do" method="post" class="input_row">
+                             <input type="text" name="store_id" id="store_id" class="pos" placeholder="매장 아이디" title="아이디" style="width: 250px; height: 50px;">
                             <br><br>
-                            <input type="password" name="password" class="pos" placeholder="비밀번호" title="비밀번호" style="width: 250px; height: 50px;">
+                            <input type="password" name="password" class="pos" placeholder="매장 비밀번호" title="비밀번호" style="width: 250px; height: 50px;">
                             <br><br>
-                            <input type="submit" value="로그인" class="btn_txt btn_black">
+                            <input type="submit" value="매장 로그인" class="btn_txt btn_black">
                              <br>
-                            <div class="btn_area">
-                            <a href="${pageContext.servletContext.contextPath}/findpw_form.do" class="find_text">비밀번호 찾기</a>
-                            <a href="${pageContext.servletContext.contextPath}/findid_form.do" class="find_text">아이디 찾기</a>
-                            <a href="${pageContext.servletContext.contextPath}/enrollPage.do" class="find_text">회원가입</a>
+                             
+                             <div class="btn_area">
+                            
+                            <a href="${pageContext.servletContext.contextPath}/storeenrollPage.do" class="find_text">회원가입</a>
                         </div>
                         </form>
                       
@@ -171,7 +171,3 @@
     <hr>
 </body>
 </html>
-
-
-
-
