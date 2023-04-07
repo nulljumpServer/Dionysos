@@ -3,7 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<c:set var="currentPage" value="${requestScope.currentPage}" />
+<c:set var="qna_no" value="${requestScope.qna_no}" />
+<c:set var="currentPage" value="${requestScope.paging.currentPage}" />
 
 <!DOCTYPE html>
 <html>
@@ -12,6 +13,7 @@
 <title>Insert title here</title>
 <script type="text/javascript"
 	src="${pageContext.servletContext.contextPath}/resources/js/jquery-3.6.3.min.js"></script>
+
 </head>
 <body>
 	<c:import url="/WEB-INF/views/admin/menubar.jsp" />
@@ -27,7 +29,7 @@
 												<i class="icon nalika-home"></i>
 											</div>
 											<div class="breadcomb-ctn">
-												<h2>공지사항 관리 상세보기</h2>
+												<h2>1:1문의 답변 수정</h2>
 											</div>
 										</div>
                                     </div>
@@ -49,53 +51,33 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="product-status-wrap">
-                        <table align="center" width="500" border="1" cellspacing="0" cellpadding="5">
-	<tr>
-		<th>제 목</th><td>${notice.title}</td>
-	</tr>
-	<tr>
-		<th>작성자</th><td>${notice.user_id}</td>
-	</tr>
-	<tr>
-		<th>날 짜</th><td>${notice.created_at}</td>
-	</tr>
-	<tr>
-		<th>첨부파일</th>
-		<td>
-			<!-- 첨부파일이 있다면 파일명 클릭시 다운로드 실행되게 함 -->
-			<c:if test="${!empty notice.notice_original_filename}">
-			<c:url var="nfd" value="/nfdown.do">
-				<c:param name="ofile" value="${notice.notice_original_filename}" />
-				<c:param name="rfile" value="${notice.notice_rename_filename}" />
-			</c:url>
-				<a href="${nfd}">${notice.notice_original_filename}</a>
-			</c:if>
-			<!-- 첨부파일이 없다면 공백 출력 처리 -->
-			<c:if test="${empty notice.notice_original_filename}">
-				&nbsp;
-			</c:if>
-		</td>
-	</tr>
-	<tr>
-		<th>내 용</th><td>${notice.content}</td>
-	</tr>
-	<tr>
-		<th colspan="2">
-			<button style="color:black;" onclick="javascript:history.go(-1);">목록</button>
-			<!-- 수정 페이지로 이동 버튼 -->
-			<c:url var="moveup" value="/nmoveup.do">
-				<c:param name="notice_no" value="${notice.notice_no}" />
-			</c:url>
-			<button style="color:black;" onclick="javascript:location.href='${moveup}';">수정페이지로 이동</button>
-			<!-- 삭제하기 버튼 -->
-			<c:url var="ndel" value="/ndel.do">
-				<c:param name="notice_no" value="${notice.notice_no}" />
-				<c:param name="rfile" value="${notice.notice_rename_filename}" />
-			</c:url>
-			<button style="color:black;" onclick="if(confirm('정말로 삭제하시겠습니까?'))javascript:location.href='${ndel}';">공지글 삭제</button>
-		</th>
-	</tr>
-</table>
+<form action="qreplyup.do" method="post">
+	<!-- 원글 번호도 함께 숨겨서 전송 -->
+	<input type="hidden" name="qna_no" value="${qna.qna_no}">
+	<input type="hidden" name="page" value="${currentPage}">
+	
+	<table align="center" width="500" border="1" cellspacing="0" cellpadding="5">
+		<tr>
+			<th>제 목</th>
+			<td><input style="color:black;" type="text" name="title" size="100" value="${qna.title}"></td>
+		</tr>
+		<tr>
+			<th>작성자</th>
+			<td><input style="color:black;" type="text" name="user_id" value="${sessionScope.loginUsers.user_id}" readonly></td>
+		</tr>
+		<tr>
+			<th>내 용</th>
+			<td><textarea style="color:black;" name="content" rows="5" cols="100">${qna.content}</textarea></td>
+		</tr>
+		<tr>
+			<th colspan="2">
+				<input style="color:black;" type="submit" value="댓글수정"> &nbsp;
+				<input style="color:black;" type="reset" value="작성취소"> &nbsp;
+				<button style="color:black;" onclick="javascript:history.go(-1); return false;">이전 페이지로 이동</button>
+			</th>
+		</tr>
+	</table>
+</form>
 </div></div></div></div></div>
         
 

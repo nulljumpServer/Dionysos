@@ -9,50 +9,53 @@ import org.nulljump.dionysos.qna.model.vo.Qna;
 
 public interface QnaService {
 	
-	// 1:1¹®ÀÇ ÀüÃ¼ ¸ñ·Ï Ãâ·Â
+	// 1:1ë¬¸ì˜ ì „ì²´ ëª©ë¡ ì¶œë ¥
 	ArrayList<Qna> selectAllList();
 	
-	//ÇÑ ÆäÀÌÁö¿¡ Ãâ·ÂÇÒ °Ô½Ã±Û Á¶È¸¿ë
+	//í•œ í˜ì´ì§€ì— ì¶œë ¥í•  ê²Œì‹œê¸€ ì¡°íšŒìš©
 	ArrayList<Qna> selectList(Paging page);
 	
-	//ÇØ´ç °Ô½Ã±Û ¹øÈ£¿¡ ´ëÇÑ °Ô½Ã±Û »ó¼¼ Á¶È¸¿ë
+	//í•´ë‹¹ ê²Œì‹œê¸€ ë²ˆí˜¸ì— ëŒ€í•œ ê²Œì‹œê¸€ ìƒì„¸ ì¡°íšŒìš©
 	Qna selectQna(int qna_no);
 	
-	// Á¦¸ñÀ¸·Î °Ë»ö
+	// ì œëª©ìœ¼ë¡œ ê²€ìƒ‰
 	ArrayList<Qna> selectTitleSearch(String title);
 	
-	// »ç¿ëÀÚ ¾ÆÀÌµğ·Î °Ë»ö
+	// ì‚¬ìš©ì ì•„ì´ë””ë¡œ ê²€ìƒ‰
 	ArrayList<Qna> selectIdSearch(String user_id);
 	
-	// ³¯Â¥·Î °Ë»ö
+	// ë‚ ì§œë¡œ ê²€ìƒ‰
 	ArrayList<Qna> selectDateSearch(SearchDate date);
 	
-	//¿ø±Û µî·Ï¿ë
+	//ì›ê¸€ ë“±ë¡ìš©
 	int insertInquiry(Qna qna);
 	
-	//¿ø±Û ¼öÁ¤¿ë
+	//ì›ê¸€ ìˆ˜ì •ìš©
 	int updateInquiry(Qna qna);
 	
-	//°Ô½Ã±Û »èÁ¦¿ë(¿ø±Û »èÁ¦½Ã °ü·Ã ´ñ±Û °°ÀÌ »èÁ¦)
+	//ê²Œì‹œê¸€ ì‚­ì œìš©(ì›ê¸€ ì‚­ì œì‹œ ê´€ë ¨ ëŒ“ê¸€ ê°™ì´ ì‚­ì œ)
 	int deleteInquiry(Qna qna);
 	
-	//´ñ±Û µî·Ï¿ë
+	//ëŒ“ê¸€ ë“±ë¡ìš©
 	int insertReply(Qna reply);
 	
-	//´ñ±Û ¼öÁ¤¿ë
+	//ëŒ“ê¸€ ìˆ˜ì •ìš©
 	int updateReply(Qna reply);
 	
-	// ´äº¯ »èÁ¦
+	// ë‹µë³€ ì‚­ì œ
 	int deleteReply(Qna reply);
 	
 		
-	//ÃÑ °Ô½Ã±Û °¹¼ö Á¶È¸¿ë (ÆäÀÌÁö ¼ö °è»ê¿ë)
+	//ì´ ê²Œì‹œê¸€ ê°¯ìˆ˜ ì¡°íšŒìš© (í˜ì´ì§€ ìˆ˜ ê³„ì‚°ìš©)
 	int selectListCount();
 	
 
-	//´ñ±Û µî·Ï½Ã ±âÁ¸ ´ñ±ÛÀÇ ¼ø¹øÀ» 1Áõ°¡ Ã³¸®(ÃÖ½Å ´ñ±ÛÀÌ ¼ø¹ø 1ÀÌ µÇ°ÔÇÔ)
+	//ëŒ“ê¸€ ë“±ë¡ì‹œ ê¸°ì¡´ ëŒ“ê¸€ì˜ ìˆœë²ˆì„ 1ì¦ê°€ ì²˜ë¦¬(ìµœì‹  ëŒ“ê¸€ì´ ìˆœë²ˆ 1ì´ ë˜ê²Œí•¨)
 	int updateReplySeq(Qna reply);
 		
+	
+	//ë¬¸ì˜ìƒíƒœ ì¦ê°€ì‹œí‚¤ê¸°
+	int updateState(Qna qna);
 	
 
 
