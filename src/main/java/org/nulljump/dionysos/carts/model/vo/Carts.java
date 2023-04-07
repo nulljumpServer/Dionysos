@@ -3,13 +3,12 @@ package org.nulljump.dionysos.carts.model.vo;
 import java.io.Serializable;
 
 public class Carts implements Serializable {
+	private static final long serialVersionUID = 1448575061880259758L;
+	private int cart_id; // 카트 아이디
+	private String user_id; // 유저 아이디
+	private int product_id; // 상품 아이디
+	private int cart_quantity; // 상품 수량
 
-	private static final long serialVersionUID = -3996534574803193552L;
-	
-	private int cart_id; //장바구니 번호
-    private String user_id; // 장바구니 소유자 아이디
-    private int product_id; // 상품번호
-    private int cart_quantity; // 장바구니에 담긴 수량
 	
 	public Carts() {
 		super();
@@ -64,5 +63,5 @@ public class Carts implements Serializable {
 		return "Carts [cart_id=" + cart_id + ", user_id=" + user_id + ", product_id=" + product_id + ", cart_quantity="
 				+ cart_quantity + "]";
 	}
-	
+
 }
