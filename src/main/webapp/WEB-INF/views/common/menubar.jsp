@@ -249,7 +249,7 @@
    </c:if>
 
    <div class="hero-wrap"
-      style="background-image: url('resources/images/users/bg_5.jpg');">
+      style="background-image: url('resources/images/users/bg_5.jpg'); height:500px;">
       <div class="overlay"></div>
       <div class="container">
          <div

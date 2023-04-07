@@ -116,18 +116,7 @@ public class ProductServiceImpl implements ProductService {
 		return productDao.deleteProduct(product);
 	}
 
-	@Override
-	public ArrayList<Product> selectSearchWineType(String wine_type) {
-		return productDao.selectSearchWineType(wine_type);
-	}
-
 
 	
-
-	
-
-
-
-
 	
 }

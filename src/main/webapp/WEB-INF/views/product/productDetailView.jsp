@@ -36,6 +36,27 @@
 <link rel="stylesheet"
 	href="${pageContext.servletContext.contextPath}/resources/css/users/style.css">
 
+<style>
+  .slist {
+    width: 100%;
+    border-top: 1px solid #444444;
+    border-collapse: collapse;
+  }
+  .slist th {
+    border-bottom: 1px solid #444444;
+    padding: 10px;
+  }
+  
+  .rlist {
+    width: 100%;
+    border-top: 1px solid #444444;
+    border-collapse: collapse;
+  }
+  .rlist th {
+    border-bottom: 1px solid #444444;
+    padding: 10px;
+  }
+</style>
 
 </head>
 <body>
@@ -69,7 +90,8 @@
 						class="img-fluid" alt="Colorlib Template"></a>
 				</div>
 				<div class="col-lg-6 product-details pl-md-5 ftco-animate">
-					<h1>${ product.product_name }</h1>
+					<h2>${ product.product_name }</h2>
+					<h4><div style="color : #ad393a">${ product.product_ename }</div></h4>
 					<h6>${product.description}</h6>
 					<div class="rating d-flex">
 						<p class="text-left mr-4">
@@ -169,50 +191,45 @@
 						<div class="tab-pane fade" id="v-pills-2" role="tabpanel"
 							aria-labelledby="v-pills-day-2-tab">
 							<div class="p-4">
-								<!--  <h3 class="mb-4">Manufactured By Liquor Store</h3> -->
-								<table>
-									<tr align="center">
+								<table align="center" class="slist">
+									<tr align="center" style="color : #ad393a">
 										<th>매장명</th>
 										<th>주소</th>
 										<th>전화번호</th>
-										<th>재고량</th>
 									</tr>
-									<tr th:each="stock : ${stockList}">
-										<td th:text="${stock.storeName}">한국</td>
-										<td th:text="${stock.address}">서울시 마포구</td>
-										<td th:text="${stock.phone}">01099998888</td>
-										<td th:text="${stock.stockAmount}">22</td>
-									</tr>
+									<c:forEach items="${requestScope.slist}" var="s">
+													<tr align="center">
+														<th>${s.store_name}</th>
+														<th>${s.address}</th>
+														<th>${s.phone}</th>
+													</tr>
+												</c:forEach>
+									
 								</table>
 							</div>
 						</div>
 						<div class="tab-pane fade" id="v-pills-3" role="tabpanel"
 							aria-labelledby="v-pills-day-3-tab">
 							<div class="row p-4">
-								<div class="col-md-7">
-									<h3 class="mb-4">${ review.product_id } Reviews</h3>
-									<div class="review">
-										<div class="desc">
+							
+							<button>
+								<c:url var="rr" value="/rwriteForm.do">
+								    <c:param name="product_id" value="${product.product_id}"/>
+								</c:url>
+								<a href="${rr}">리뷰 쓰기</a>
+							</button>
 											<div class="review" style="display:none;">
-											<table align="center" class="rlist" width="500" border="1" cellspacing="0" cellpadding="1">
-
+											<table align="center" class="rlist">
 												<c:forEach items="${requestScope.rlist}" var="r">
-													<tr>
-														<c:url var="rdt" value="/rdetail.do">
-															<c:param name="review_id" value="${r.review_id}" />
-														</c:url>
-														<td><a href="${rdt}">${r.review_title}</a></td>
-														<td>${r.user_id}</td>
-														<td>${r.review_score}</td>
-														<td><fmt:formatDate value="${r.created_at}" pattern="yyyy-MM-dd" /></td>
+													<tr align="center">
+														<th style="color : #90001f"><a href="${pageContext.servletContext.contextPath}/rdetailView.do">${r.review_title}</a></th>
+														<th>${r.user_id}</th>
+														<th>${r.review_score}</th>
+														<th><fmt:formatDate value="${r.created_at}" pattern="yyyy-MM-dd" /></th>
 													</tr>
 												</c:forEach>
 											</table> 
 											</div>
-											 
-										</div>
-									</div>
-								</div>
 							</div>
 						</div>
 	</section>

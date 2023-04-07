@@ -9,11 +9,11 @@ import org.nulljump.dionysos.product.model.vo.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-@Repository("productDao")  //xml¿¡ ÀÚµ¿ µî·ÏµÊ
+@Repository("productDao")  //xmlì— ìë™ ë“±ë¡ë¨
 public class ProductDao {
 
 	@Autowired
-	private SqlSessionTemplate session;   //ÀÇÁ¸¼º ÁÖÀÔ
+	private SqlSessionTemplate session;   //ì˜ì¡´ì„± ì£¼ì…
 	
 	public ArrayList<Product> selectProductList(Paging page) {
 		List<Product> list = session.selectList("productMapper.selectProductList", page);
@@ -30,7 +30,7 @@ public class ProductDao {
 		return (ArrayList<Product>)list;
 	}
 	
-	//»óÇ° ¸ñ·ÏÀÇ ÃÑ °¹¼ö Á¶È¸
+	//ìƒí’ˆ ëª©ë¡ì˜ ì´ ê°¯ìˆ˜ ì¡°íšŒ
 	public int selectListCount() {
 		return session.selectOne("productMapper.selectListCount");
 	}
@@ -39,13 +39,13 @@ public class ProductDao {
 		return session.selectOne("productMapper.selectProduct", product_id);
 	}
 
-	//Æ¯Á¤ ¹üÀ§¿¡ ÇØ´çÇÏ´Â »óÇ° ¸ñ·Ï Á¶È¸
+	//íŠ¹ì • ë²”ìœ„ì— í•´ë‹¹í•˜ëŠ” ìƒí’ˆ ëª©ë¡ ì¡°íšŒ
 	public ArrayList<Product> selectFilterProductList() {
 		List<Product> list = session.selectList("productMapper.selectFilterProductList");
 		return (ArrayList<Product>) list;
 	}
 
-	//°Ë»ö Ã³¸®¿ë
+	//ê²€ìƒ‰ ì²˜ë¦¬ìš©
 	public ArrayList<Product> selectSearchProductId(int keyword) {
 		List<Product> list = session.selectList("productMapper.selectSearchProduct", keyword);
 		return (ArrayList<Product>)list;
@@ -101,7 +101,7 @@ public class ProductDao {
 		return (ArrayList<Product>)list;
 	}
 
-	//°ü¸®ÀÚ
+	//ê´€ë¦¬ì
 	public int insertProduct(Product product) {
 		return session.selectOne("productMapper.insertProduct", product);
 	}
@@ -114,10 +114,6 @@ public class ProductDao {
 		return session.selectOne("productMapper.deleteProduct", product);
 	}
 
-	public ArrayList<Product> selectSearchWineType(String wine_type) {
-		List<Product> list = session.selectList("productMapper.selectSearchProduct", wine_type);
-		return (ArrayList<Product>)list;
-	}
 
 
 }

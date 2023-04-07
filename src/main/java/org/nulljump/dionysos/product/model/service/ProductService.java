@@ -7,14 +7,16 @@ import org.nulljump.dionysos.product.model.vo.Product;
 
 public interface ProductService {
 
-	int selectListCount();               				 //»óÇ° ¸ñ·ÏÀÇ ÃÑ °¹¼ö Á¶È¸   
-	ArrayList<Product> selectProductList(Paging page);  //»óÇ° ¸ñ·Ï Á¶È¸  
-	ArrayList<Product> selectTop4();				// °¡Àå ¸¹ÀÌ ÆÈ¸° 4°³ Á¶È¸
-	ArrayList<Product> selectNew4();                 //½Å»óÇ° 4°³ Á¶È¸
-	Product selectProduct(int product_id);           //Æ¯Á¤ »óÇ° id¿¡ ÇØ´çÇÏ´Â »óÇ° Á¶È¸     
-	ArrayList<Product> selectFilterProductList();    //Æ¯Á¤ ¹üÀ§¿¡ ÇØ´çÇÏ´Â »óÇ° ¸ñ·Ï Á¶È¸
+	int selectListCount();               				  //ìƒí’ˆ ëª©ë¡ì˜ ì´ ê°¯ìˆ˜ ì¡°íšŒ   	
+	ArrayList<Product> selectProductList(Paging page);  //ìƒí’ˆ ëª©ë¡ ì¡°íšŒ  
+	ArrayList<Product> selectTop4();				// ê°€ì¥ ë§ì´ íŒ”ë¦° 4ê°œ ì¡°íšŒ
+	ArrayList<Product> selectNew4();                 //ì‹ ìƒí’ˆ 4ê°œ ì¡°íšŒ
+	Product selectProduct(int product_id);           //íŠ¹ì • ìƒí’ˆ idì— í•´ë‹¹í•˜ëŠ” ìƒí’ˆ ì¡°íšŒ     
+	ArrayList<Product> selectFilterProductList();    //íŠ¹ì • ë²”ìœ„ì— í•´ë‹¹í•˜ëŠ” ìƒí’ˆ ëª©ë¡ ì¡°íšŒ
 	
-	//°Ë»öÀ» À§ÇÑ ¸Ş¼Òµå
+	
+	
+	//ï¿½Ë»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ş¼Òµï¿½
 	ArrayList<Product> selectSearchProductId(int keyword);
 	ArrayList<Product> selectSearchProductName(String keyword);
 	ArrayList<Product> selectSearchProductEname(String keyword);
@@ -27,12 +29,11 @@ public interface ProductService {
 	ArrayList<Product> selectSearchProductOrigin(String keyword);
 	ArrayList<Product> selectSearchProductType(String keyword);
 	
-	//°ü¸®ÀÚ
-	int insertProduct(Product product);           //»óÇ° Ãß°¡
-	int updateProduct(Product product);           //»óÇ° ¼öÁ¤
-	int deleteProduct(Product product);           //»óÇ° »èÁ¦
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	int insertProduct(Product product);            //ìƒí’ˆ ì¶”ê°€
+	int updateProduct(Product product);           //ìƒí’ˆ ìˆ˜ì •
+	int deleteProduct(Product product);           //ìƒí’ˆ ì‚­ì œ
 
-	ArrayList<Product> selectSearchWineType(String wine_type);
 
 	
 }

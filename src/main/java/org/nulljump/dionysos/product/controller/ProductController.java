@@ -4,9 +4,11 @@ package org.nulljump.dionysos.product.controller;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.nulljump.dionysos.common.FileNameChange;
 import org.nulljump.dionysos.common.Paging;
@@ -14,6 +16,8 @@ import org.nulljump.dionysos.product.model.service.ProductService;
 import org.nulljump.dionysos.product.model.vo.Product;
 import org.nulljump.dionysos.review.model.service.ReviewService;
 import org.nulljump.dionysos.review.model.vo.Review;
+import org.nulljump.dionysos.store.model.service.StoreService;
+import org.nulljump.dionysos.store.model.vo.Store;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +40,26 @@ public class ProductController {
 	private ReviewService reviewService;
 	
 	@Autowired
-	private ProductController(ProductService productService, ReviewService reviewService) {
+	private StoreService storeService;
+	
+	@Autowired
+	private ProductController(ProductService productService, ReviewService reviewService, StoreService storeService) {
 		this.productService = productService;
 		this.reviewService = reviewService;
+		this.storeService = storeService;
 	}
+	
+	//상품 목록의 총 갯수 보여줌
+		@RequestMapping("pcount.do")
+		public int getProductListCountMethod(@RequestParam(required = false) Integer product_id) {
+		    int count;
+		    if (product_id != null) {
+		        count = productService.selectListCount();
+		    } else {
+		        count = productService.selectListCount(); // get count of all products
+		    }
+		    return count;
+		}
 
 
 	//목록 페이지 단위로 목록보기 요청 처리용 메소드
@@ -205,11 +225,11 @@ public class ProductController {
 	
 	@RequestMapping("pdetail.do")
 	public String productDetailMethod(
-			@RequestParam("product_id") int product_id, Model model) {
+			@RequestParam("product_id") int product_id, Model model, HttpSession session) {
 		
 		Product product = productService.selectProduct(product_id);
 		
-		logger.info("product_id :" +product_id);
+		logger.info("product_id :" + product_id);
 		
 		int rlistcount = reviewService.getListCount(product_id);
 		
@@ -218,9 +238,30 @@ public class ProductController {
 		
 		ArrayList<Review> rlist = reviewService.selectReviewList(paging);
 		
+		ArrayList<Store> slist = storeService.selectStoreList(product_id);
+		
+		// HttpSession에 최근 본 상품 정보를 저장합니다.
+	    List<Product> recentProducts = (List<Product>)session.getAttribute("recentProducts");
+	    if (recentProducts == null) {
+	        recentProducts = new ArrayList<Product>();
+	    }
+	    Iterator<Product> it = recentProducts.iterator();
+	    while (it.hasNext()) {
+	        Product p = it.next();
+	        if (p.getProduct_id() == product_id) {
+	            it.remove();
+	        }
+	    }
+	    recentProducts.add(0, product);
+	    if (recentProducts.size() > 3) {
+	        recentProducts.remove(3);
+	    }
+		
 		if(product != null) {
 			model.addAttribute("product", product);
 			model.addAttribute("rlist", rlist);
+			model.addAttribute("slist", slist);
+			session.setAttribute("recentProducts", recentProducts);
 			return "product/productDetailView";
 		}else {
 			model.addAttribute("message", product + " 상품이 품절 혹은 존재하지 않습니다.");
@@ -271,7 +312,7 @@ public class ProductController {
 			model.addAttribute("list", list);
 			return "product/productListView";
 		}else {
-			model.addAttribute("message", action + "상품이 품절 혹은 존재하지 않습니다.");
+			model.addAttribute("message", action + "검색 결과가 없습니다.");
 			return "common/error";
 		}
 	}
@@ -326,7 +367,7 @@ public class ProductController {
 		
 		if(product != null) {
 			model.addAttribute("product", product);
-//			model.addAttribute("currentPage", currentPage);
+			model.addAttribute("currentPage", currentPage);
 			
 			return "product/productUpdateForm";
 		}else {
@@ -401,25 +442,17 @@ public class ProductController {
 	public String productDeleteMethod(Product product, HttpServletRequest request, Model model) {
     	if(productService.deleteProduct(product) > 0) {
     		//글 삭제가 성공하면, 저장폴더에 있는 첨부파일도 삭제 처리
-    			new File(request.getSession().getServletContext().getRealPath("resources/product_upfiles") + "/" + product.getProduct_image()).delete();
-    			return "redirect:plistView.do?page=1";	
-    	}else {
-    		model.addAttribute("message", product.getProduct_id() + "상품 삭제 실패!");
-    		return "common/error";
-    	}
+    		new File(request.getSession().getServletContext().getRealPath("resources/images/product_single") + "/"
+					+ product.getProduct_image()).delete();
+			new File(request.getSession().getServletContext().getRealPath("resources/images/product_detail") + "/"
+					+ product.getWine_detail()).delete();
+			return "redirect:adminplistView.do?page=1";
+		} else {
+			model.addAttribute("message", product.getProduct_id() + "상품 삭제 실패!");
+			return "common/error";
+		}
     }
 	
-	 @RequestMapping(value="advsearch.do", method=RequestMethod.POST) 
-	 public String advancedSearchMethod(@RequestParam("wine_type") List<String> wine_type, 
-			 						     @RequestParam("wine_origin") List<String> wine_origin,
-			 						    @RequestParam("product_price") List<String> product_price,
-			 						   @RequestParam("sweetness") int sweetness,
-			 						  @RequestParam("acidity") int acidity,
-			 						 @RequestParam("body") int body,
-			 						@RequestParam("tannin") int tannin, Model model) {
-		 
-		 return "redirect:product/productList";
-	 }	
 		
 
 	
