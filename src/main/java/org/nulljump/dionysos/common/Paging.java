@@ -1,7 +1,6 @@
 package org.nulljump.dionysos.common;
 
 public class Paging {
-		// 한 페이지에 출력할 시작행과 끝행을 저장하는 객체
 	// 한 페이지에 출력할 시작행과 끝행을 저장하는 객체
 	private int startRow;
 	private int endRow;
@@ -11,17 +10,29 @@ public class Paging {
 	private int maxPage; // 총 페이지 수
 	private int startPage; //페이지그룹의 시작값
 	private int endPage;  //페이지그룹의 끝값
+	private int product_id;
 
-	//생성자 없음
+
+	public Paging() {
+		super();
+	}
 
 	public Paging(int listCount, int currentPage, int limit) {
 		this.listCount = listCount;
 		this.currentPage = currentPage;
 		this.limit = limit;
 	}
+	
+	//매개변수 있는 생성자
+		public Paging(int listCount, int currentPage, int limit, int product_id) {
+			this.listCount = listCount;
+			this.currentPage = currentPage;
+			this.limit = limit;
+			this.product_id = product_id;
+		}
+
 
 	public void calculator() {
-
 		// 페이지 수 계산
 		// 주의 : 목록이 11개이면 페이지 수는 2페이지가 됨
 		// 나머지 목록 1개도 한 페이지가 필요함
@@ -29,18 +40,15 @@ public class Paging {
 		// 현재 페이지가 포함된 페이지 그룹의 시작값과 끝값 계산
 		// => 뷰 페이지 아래쪽에 표시할 페이지 숫자를 10개 한다면
 		// 현재 페이지가 95라면 91과 100 을 계산해 냄
-
-		startPage = ((currentPage - 1) / 10) * 10 + 1;
+		startPage = ((currentPage - 1) /10) * 10 + 1;
 		endPage = startPage + 10 - 1;
 
 		if (maxPage < endPage) {
 			endPage = maxPage;
 		}
 
-
 		// 쿼리문에 전달할 현재 페이지에 출력할 목록의 시작행과
 		// 끝행을 계산
-
 		startRow = (currentPage - 1) * limit + 1;
 		endRow = startRow + limit - 1;		
 	}
@@ -108,13 +116,23 @@ public class Paging {
 	public void setEndPage(int endPage) {
 		this.endPage = endPage;
 	}
+	
+	public int getProduct_id() {
+		return product_id;
+	}
+
+	public void setProduct_id(int product_id) {
+		this.product_id = product_id;
+	}
 
 	@Override
 	public String toString() {
 		return "Paging [startRow=" + startRow + ", endRow=" + endRow + ", listCount=" + listCount + ", limit=" + limit
 				+ ", currentPage=" + currentPage + ", maxPage=" + maxPage + ", startPage=" + startPage + ", endPage="
-				+ endPage + "]";
+				+ endPage + ", product_id=" + product_id + "]";
 	}
+
+	
 	
 	
 
