@@ -99,7 +99,58 @@
                    <p style="color: #000;">재고 : ${ stock.stock_amount }</p>
                 </div>
              </div>
-             <p><a href="clistView.do" class="btn btn-primary py-3 px-5 mr-2">장바구니</a><a href="cart.html" class="btn btn-primary py-3 px-5">바로 구매</a></p>
+             <p><a href<span class="input-group-btn ml-2">
+                      <button type="button" class="quantity-right-plus btn" data-type="plus" data-field="">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                   </span>
+                  <script type="text/javascript">
+					function updateCartQuantity() {
+					    // 현재 수량 값을 가져옵니다.
+					    var quantity = parseInt($('#quantity').val());
+				
+					    // 새로운 수량 값을 cart_quantity에 전달합니다.
+					    $('.cart_quantity').val(quantity);
+				}
+				</script>
+                </div>
+                <div class="w-100"></div>
+                <div class="col-md-12">
+                   <p style="color: #000;">재고 : ${ stock.stock_amount }</p>
+                </div>
+             </div>
+             <p>
+          <button class="btn-cart" >장바구니</button>
+		  <script type="text/javascript">
+			$(function() {
+			    $(".btn-cart").click(function() {
+			        var product_id = '${product.product_id}';
+			        $.ajax({
+			            type: "POST",
+			            url: "insertCart.do",
+			            data: {
+			                product_id : product_id,
+			            },
+			            success: function(result) {
+			                if (result.trim() == "add_success") {
+			                    var check = confirm("카트에 등록되었습니다.");
+			                    if (check) {
+			                        location.href = "${pageContext.servletContext.contextPath}/cart.do?product_id=" + product_id;
+			                    }
+			                } else if (result.trim() == "already_existed") {
+			                    alert("이미 카트에 등록된 상품입니다.");
+			                }
+			            }
+			        });
+			    });
+			});
+			</script>
+             <c:url var = "confirmOrder" value="detailOrder.do">
+             	<c:param name="product_id" value="${product.product_id }" />
+             </c:url>
+             <a href="${confirmOrder}" class="btn btn-primary py-3 px-5">바로 구매</a></p>
+             </div>
+          </div>="clistView.do" class="btn btn-primary py-3 px-5 mr-2">장바구니</a><a href="cart.html" class="btn btn-primary py-3 px-5">바로 구매</a></p>
              </div>
           </div>
 
