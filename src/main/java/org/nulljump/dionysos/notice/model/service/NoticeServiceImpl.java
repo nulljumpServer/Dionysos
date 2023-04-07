@@ -65,14 +65,14 @@ public class NoticeServiceImpl implements NoticeService {
 
 	@Override
 	public int deleteNotice(int notice_no) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return noticeDao.deleteNotice(notice_no);
 	}
 
 	@Override
 	public int getListCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return noticeDao.getListCount();
 	}
 
 	

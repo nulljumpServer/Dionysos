@@ -100,6 +100,14 @@ public class QnaServiceImpl implements QnaService {
 
 	}
 
+	@Override
+	public int updateState(Qna qna) {
+		
+		return qnaDao.updateState(qna);
+	}
+
+
+
 
 	
 }

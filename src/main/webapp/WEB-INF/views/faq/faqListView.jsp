@@ -395,32 +395,8 @@ ul {
 
 </head>
 <body>
-	<!-- 상대경로로 대상 파일의 위치를 지정한 경우 -->
 	<c:import url="../common/menubar.jsp" />
-	<!-- jstl 에서 절대경로 표기 : "/WEB-INF/views/common/menubar.jsp -->
-	<hr>
-	<br>
-	<br>
-	<br>
 	<h1 align="center">자주하는 질문</h1>
-	<!-- 관리자만 공지글 등록할 수 있도록 처리 
-	=> 관리자가 로그인하면 '공지글 등록' 버튼이 보이게 함 -->
-	<center>
-		<div>
-			<c:if test="${sessionScope.loginUsers.admin eq 'Y'}">
-				<button onclick="javascript:location.href='movewrite.do';">새
-					공지글 등록</button>
-			</c:if>
-	</center>
-	<br>
-
-	<!-- 목록 출력 영역 -->
-	<%-- 	<center>
-		<button
-			onclick="javascript:location.href='${pageContext.servletContext.contextPath}/flist.do';">
-			목록</button>
-	</center> --%>
-
 	<section id="wrapper">
 		<div class="container">
 			<ul class="accordion">

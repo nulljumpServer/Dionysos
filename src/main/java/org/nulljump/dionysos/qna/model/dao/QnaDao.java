@@ -16,42 +16,42 @@ public class QnaDao {
 	@Autowired
 	private SqlSessionTemplate session;
 
-	// »ç¿ëÀÚ
-	// 1:1¹®ÀÇ ÀüÃ¼ ¸ñ·Ï Ãâ·Â
+	// ì‚¬ìš©ì
+	// 1:1ë¬¸ì˜ ì „ì²´ ëª©ë¡ ì¶œë ¥
 	public ArrayList<Qna> selectAllList() {
 		List<Qna> list = session.selectList("qnaMapper.selectAllList");
 
 		return (ArrayList<Qna>) list;
 	}
 
-	// ÆäÀÌÂ¡Ã³¸® Ãß°¡
+	// í˜ì´ì§•ì²˜ë¦¬ ì¶”ê°€
 	public ArrayList<Qna> selectList(Paging page) {
 		List<Qna> list = session.selectList("qnaMapper.selectList", page);
 
 		return (ArrayList<Qna>) list;
 	}
 
-	// 1:1¹®ÀÇ »ó¼¼º¸±â 
+	// 1:1ë¬¸ì˜ ìƒì„¸ë³´ê¸° 
 	public Qna selectQna(int qna_no) {
 
 		return session.selectOne("qnaMapper.selectQna", qna_no);
 	}
 
-	// Á¦¸ñÀ¸·Î °Ë»ö
+	// ì œëª©ìœ¼ë¡œ ê²€ìƒ‰
 	public ArrayList<Qna> selectTitleSearch(String title) {
 		List<Qna> list = session.selectList("qnaMapper.selectTitleSearch", title);
 		
 		return (ArrayList<Qna>)list;
 	}
 
-	// »ç¿ëÀÚ ¾ÆÀÌµğ·Î °Ë»ö
+	// ì‚¬ìš©ì ì•„ì´ë””ë¡œ ê²€ìƒ‰
 	public ArrayList<Qna> selectIdSearch(String user_id) {
 		List<Qna> list = session.selectList("qnaMapper.selectIdSearch", user_id);
 		
 		return (ArrayList<Qna>)list;
 	}
 
-	// ³¯Â¥·Î °Ë»ö
+	// ë‚ ì§œë¡œ ê²€ìƒ‰
 	public ArrayList<Qna> selectDateSearch(SearchDate date) {
 		List<Qna> list = session.selectList("qnaMapper.selectDateSearch", date);
 		
@@ -59,57 +59,61 @@ public class QnaDao {
 	}
 	
 	
-	// 1:1¹®ÀÇ µî·Ï
+	// 1:1ë¬¸ì˜ ë“±ë¡
 	public int insertInquiry(Qna qna) {
 		
 		return session.insert("qnaMapper.insertInquiry", qna);
 	}
 
-	// 1:1¹®ÀÇ ¼öÁ¤
+	// 1:1ë¬¸ì˜ ìˆ˜ì •
 	public int updateInquiry(Qna qna) {
 		
 		return session.update("qnaMapper.updateInquiry", qna);
 	}
 
-	// 1:1¹®ÀÇ »èÁ¦
+	// 1:1ë¬¸ì˜ ì‚­ì œ
 	public int deleteInquiry(Qna qna) {
 		
 		return session.delete("qnaMapper.deleteInquiry", qna);
 	}
 
-	// °ü¸®ÀÚ
-	// ´äº¯ µî·Ï
+	// ê´€ë¦¬ì	
+	// ë‹µë³€ ë“±ë¡
 	public int insertReply(Qna reply) {
 		
 		return session.insert("qnaMapper.insertReply", reply);
 	}
 
-	// ´äº¯ ¼öÁ¤
+	// ë‹µë³€ ìˆ˜ì •
 	public int updateReply(Qna reply) {
 		
 		return session.update("qnaMapper.updateReply", reply);
 	}
 
-	// ´äº¯ »èÁ¦
+	// ë‹µë³€ ì‚­ì œ
 	public int deleteReply(Qna reply) {
 		
 		return session.delete("qnaMapper.deleteReply", reply);
 	}
 
-	// ÀüÃ¼ °Ô½Ã±Û ¸ñ·Ï °¹¼ö °¡Á®¿À±â
+	// ì „ì²´ ê²Œì‹œê¸€ ëª©ë¡ ê°¯ìˆ˜ ê°€ì ¸ì˜¤ê¸°
 	public int selectListCount() {
 		
 		return session.selectOne("qnaMapper.selectListCount");
 	}
 
-	//´ñ±Û ·¹º§ Áõ°¡½ÃÅ°±â
+	//ëŒ“ê¸€ ë ˆë²¨ ì¦ê°€ì‹œí‚¤ê¸°
 	public int updateReplySeq(Qna reply) {
 		
 		return session.update("qnaMapper.updateReplySeq", reply);
 	}
 
-	
 
+	//ë¬¸ì˜ìƒíƒœ ì¦ê°€ì‹œí‚¤ê¸°
+	public int updateState(Qna qna) {
+		
+		return session.update("qnaMapper.updateState", qna);
+	}
 	
 
 	
