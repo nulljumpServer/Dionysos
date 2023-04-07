@@ -107,7 +107,9 @@
 	padding: 0 20px;
 	width: 100%;
 	height: 100vh;
-	background: url(resources/images/bg_6.jpg) center no-repeat;
+
+	background: url(resources/images/users/bg_6.jpg) center no-repeat;
+
 	background-size: 100% 100%
 }
 
@@ -185,15 +187,17 @@
 	 */
 	function setAdult() {
 
-		//Csrf.Set(_CSRF_NAME_); //토큰 초기화
+
 		$.ajax({
 			type : "POST",
 			url : "main.do",
 			data : {},
-			success : function(res) {
+
+			success : function(data) {
 				location.href = 'main.do';
 			},
-			error : function(res) {
+			error : function(data) {
+
 				console.log(res.responseText);
 			}
 		});
@@ -207,7 +211,9 @@
 			<div class="txt_area">
 				<div class="inner_box">
 					<h2 class="logo">
-						<a href="#"><img src="resources/images/logo.png"></a>
+
+						<a href="#"><img src="resources/images/users/logo.png"></a>
+
 					</h2>
 					<p class="txt">
 						만 19세 이상 <br class="pc_hidden">음주 가능한 연령입니까 ?

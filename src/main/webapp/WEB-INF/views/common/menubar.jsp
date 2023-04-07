@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" %>
 <%-- <%@ page import="org.ict.first.User.model.vo.User" %> --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <%-- <%
 	User loginUser = (User)session.getAttribute("loginUser");
 %> --%>
@@ -15,6 +16,12 @@
 	right: 25px;
 	bottom: 25px;
 	display: none;
+	z-index: 9;
+}
+#recent {
+	position: fixed;
+	right: 5px;
+	bottom: 110px;
 	z-index: 9;
 }
 </style>
@@ -41,31 +48,33 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/resources/css/font-awesome.min.css">
+	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/resources/css/animate.css">
+	href="${pageContext.servletContext.contextPath}/resources/css/users/animate.css">
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/resources/css/owl.carousel.min.css">
+	href="${pageContext.servletContext.contextPath}/resources/css/users/owl.carousel.min.css">
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/resources/css/owl.theme.default.min.css">
+	href="${pageContext.servletContext.contextPath}/resources/css/users/owl.theme.default.min.css">
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/resources/css/magnific-popup.css">
+	href="${pageContext.servletContext.contextPath}/resources/css/users/magnific-popup.css">
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/resources/css/flaticon.css">
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
+
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/resources/css/style.css">
+	href="${pageContext.servletContext.contextPath}/resources/css/users/flaticon.css">
+<link rel="stylesheet"
+	href="${pageContext.servletContext.contextPath}/resources/css/users/style.css">
 </head>
 <body>
 	<div class="wrap">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-6 d-flex align-items-center">
-					<div align="center" class="top-total-sch main-sch-section">
-						<form action="psearchName.do" class="input-box">
-							<input type="text" size="20" id="Search" name="product_name"
-								placeholder="상품검색">
-							<!-- <p class="input-box"><input type="text" id="wingSearch" placeholder="통합검색" onkeydown="onInputSearchKeyDown(event);" value=""> -->
-							<input type='submit' class='btn-search' value="검색">
+					<div class="top-total-sch main-sch-section">
+						<form action="psearch.do" class="input-box">
+						<input type="hidden" name="action" value="product_name">
+						<input type="search" size="20" name="keyword" placeholder="상품검색">
+						<input type='submit' class='btn-search' value="검색">
 						</form>
 					</div>
 				</div>
@@ -81,7 +90,7 @@
 								<a href="${pageContext.servletContext.contextPath}/loginPage.do">Log
 									In</a>
 							</c:if>
-							<c:if test="${!empty loginUsers and loginUsers.admin ne 'Y'}">
+							<c:if test="${!empty loginUsers}">
 		        	 		${loginUsers.name}님 &nbsp;
 		        	 		<a
 									href="${pageContext.servletContext.contextPath}/logout.do">Log
@@ -122,10 +131,10 @@
 							class="nav-link">Home</a></li>
 						<li class="nav-item"><a href="about.html" class="nav-link">와인사전</a></li>
 						<li class="nav-item dropdown"><a
-							class="nav-link dropdown-toggle" href="#" id="dropdown04"
-							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">추천상품</a>
+							class="nav-link dropdown-toggle" href="plistView.do" id="dropdown04"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">상품</a>
 							<div class="dropdown-menu" aria-labelledby="dropdown04">
-								<a class="dropdown-item" href="product.html">와인 종류</a> <a
+								<a class="dropdown-item" href="plistView.do">전체상품 목록</a> <a
 									class="dropdown-item" href="product-single.html">원산지</a> <a
 									class="dropdown-item" href="cart.html">가격대</a> <a
 									class="dropdown-item" href="checkout.html">특성</a>
@@ -136,7 +145,7 @@
 							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">고객센터</a>
 							<div class="dropdown-menu" aria-labelledby="dropdown04">
 								<a class="dropdown-item"
-									href="${pageContext.servletContext.contextPath}/nlist.do">공지사항</a>
+									href="${pageContext.servletContext.contextPath}/nplist.do">공지사항</a>
 								<a class="dropdown-item"
 									href="${pageContext.servletContext.contextPath}/flist.do">자주하는
 									질문</a> <a class="dropdown-item"
@@ -149,60 +158,13 @@
 		</nav>
 	</c:if>
 	<!-- 로그인(일반 유저) -->
-	<c:if test="${!empty loginUsers and loginUsers.admin eq 'N'}">
+	<c:if test="${!empty loginUsers}">
 		<nav
 			class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light"
 			id="ftco-navbar">
 			<div class="container">
-				<a class="navbar-brand" href="main.do">Liquor <span>store</span></a>
-				<div class="order-lg-last btn-group">
-					<a href="#" class="btn-cart dropdown-toggle dropdown-toggle-split"
-						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<span class="flaticon-shopping-bag"></span>
-						<div class="d-flex justify-content-center align-items-center">
-							<small>3</small>
-						</div>
-					</a>
-					<div class="dropdown-menu dropdown-menu-right">
-						<div class="dropdown-item d-flex align-items-start" href="#">
-							<div class="img"
-								style="background-image: url(images/prod-1.jpg);"></div>
-							<div class="text pl-3">
-								<h4>Bacardi 151</h4>
-								<p class="mb-0">
-									<a href="#" class="price">$25.99</a><span class="quantity ml-3">Quantity:
-										01</span>
-								</p>
-							</div>
-						</div>
-						<div class="dropdown-item d-flex align-items-start" href="#">
-							<div class="img"
-								style="background-image: url(images/prod-2.jpg);"></div>
-							<div class="text pl-3">
-								<h4>Jim Beam Kentucky Straight</h4>
-								<p class="mb-0">
-									<a href="#" class="price">$30.89</a><span class="quantity ml-3">Quantity:
-										02</span>
-								</p>
-							</div>
-						</div>
-						<div class="dropdown-item d-flex align-items-start" href="#">
-							<div class="img"
-								style="background-image: url(images/prod-3.jpg);"></div>
-							<div class="text pl-3">
-								<h4>Citadelle</h4>
-								<p class="mb-0">
-									<a href="#" class="price">$22.50</a><span class="quantity ml-3">Quantity:
-										01</span>
-								</p>
-							</div>
-						</div>
-						<a class="dropdown-item text-center btn-link d-block w-100"
-							href="cart.html"> View All <span
-							class="ion-ios-arrow-round-forward"></span>
-						</a>
-					</div>
-				</div>
+				<a class="navbar-brand" href="main.do">Dionysos <span>store</span></a>
+
 
 				<button class="navbar-toggler" type="button" data-toggle="collapse"
 					data-target="#ftco-nav" aria-controls="ftco-nav"
@@ -217,9 +179,9 @@
 						<li class="nav-item"><a href="about.html" class="nav-link">와인사전</a></li>
 						<li class="nav-item dropdown"><a
 							class="nav-link dropdown-toggle" href="#" id="dropdown04"
-							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">추천상품</a>
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">상품</a>
 							<div class="dropdown-menu" aria-labelledby="dropdown04">
-								<a class="dropdown-item" href="product.html">와인 종류</a> <a
+								<a class="dropdown-item" href="plistView.do">전체상품 목록</a> <a
 									class="dropdown-item" href="product-single.html">원산지</a> <a
 									class="dropdown-item" href="cart.html">가격대</a> <a
 									class="dropdown-item" href="checkout.html">특성</a>
@@ -230,7 +192,7 @@
 							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">고객센터</a>
 							<div class="dropdown-menu" aria-labelledby="dropdown04">
 								<a class="dropdown-item"
-									href="${pageContext.servletContext.contextPath}/nlist.do">공지사항</a>
+									href="${pageContext.servletContext.contextPath}/nplist.do">공지사항</a>
 								<a class="dropdown-item"
 									href="${pageContext.servletContext.contextPath}/flist.do">자주하는
 									질문</a> <a class="dropdown-item"
@@ -244,48 +206,74 @@
 	</c:if>
 
 	<div class="hero-wrap"
-		style="background-image: url('resources/images/bg_5.jpg');">
+		style="background-image: url('resources/images/users/bg_5.jpg');">
 		<div class="overlay"></div>
-		<div class="container">
+		
 			<div
 				class="row no-gutters slider-text align-items-center justify-content-center">
 				<div class="col-md-8 ftco-animate d-flex align-items-end">
 					<div class="text w-100 text-center">
 						<h1 class="mb-4">
-							Dionysos <span>Wine</span> Shop<span>&</span> Dictionary
+							Dionysos <span>Wine</span> Shop<span> & </span> Dictionary
 						</h1>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	
+	<section id="recent" class="ftco-section ftco-no-pb">
+				최근 본 상품
+				<c:forEach var="product" items="${recentProducts}">
+		<div class="container">
+			<div class="row">
+				
+				<c:url var="pdetail" value="pdetail.do">
+					<c:param name="product_id" value="${product.product_id}" />
+				</c:url>
+					
+					<div class="col-lg-2 col-md-4 ">
+					<div class="sort w-100 text-center ftco-animate">
+					<a href="${pdetail}">
+							<div class="img" style="background-image: url('${pageContext.servletContext.contextPath}${product.product_image}');"></div>
+							</a>
+						</div>
+					</div>
+				</div>
+		</div>
+		</c:forEach>
+	</section>
+
+
+
+
+
 	<img id="topBtn"
-		src="${pageContext.servletContext.contextPath}/resources/images/top.png"
+		src="${pageContext.servletContext.contextPath}/resources/images/users/top.png"
 		align="right">
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery-migrate-3.0.1.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery-migrate-3.0.1.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/popper.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/popper.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/bootstrap.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/bootstrap.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery.easing.1.3.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.easing.1.3.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery.waypoints.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.waypoints.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery.stellar.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.stellar.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/owl.carousel.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/owl.carousel.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery.magnific-popup.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.magnific-popup.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/jquery.animateNumber.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.animateNumber.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/scrollax.min.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/scrollax.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/main.js"></script>
+		src="${pageContext.servletContext.contextPath}/resources/js/users/main.js"></script>
 
 </body>
 

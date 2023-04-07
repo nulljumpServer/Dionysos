@@ -1,6 +1,8 @@
 package org.nulljump.dionysos.product.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
+
 
 import org.nulljump.dionysos.common.Paging;
 import org.nulljump.dionysos.product.model.dao.ProductDao;
@@ -92,13 +94,20 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public ArrayList<Product> selectSearchProductOrigin(String keyword) {
-		return productDao.selectSearchProductOrigin(keyword);
+
+	public ArrayList<Product> selectSearchWineOrigin(String keyword) {
+		return productDao.selectSearchWineOrigin(keyword);
 	}
 
 	@Override
-	public ArrayList<Product> selectSearchProductType(String keyword) {
-		return productDao.selectSearchProductType(keyword);
+	public ArrayList<Product> selectSearchWineType(String keyword) {
+		return productDao.selectSearchWineType(keyword);
+	}
+	
+	@Override
+	public ArrayList<Product> selectSearchGrapeType(String keyword) {
+		return productDao.selectSearchGrapeType(keyword);
+
 	}
 	
 	@Override
@@ -116,9 +125,17 @@ public class ProductServiceImpl implements ProductService {
 		return productDao.deleteProduct(product);
 	}
 
+
 	@Override
-	public ArrayList<Product> selectSearchWineType(String wine_type) {
-		return productDao.selectSearchWineType(wine_type);
+	public int selectLastProductId() {
+		return productDao.selectLastProductId();
+	}
+
+	@Override
+	public ArrayList<Product> selectFilter(List<String> wine_type, List<String> wine_origin,
+			int product_price, int sweetness, int acidity, int body, int tannin) {
+		return productDao.selectFilter(wine_type, wine_origin, product_price, sweetness, acidity, body, tannin);
+
 	}
 
 
