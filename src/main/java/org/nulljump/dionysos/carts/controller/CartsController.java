@@ -3,6 +3,7 @@ package org.nulljump.dionysos.carts.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.nulljump.dionysos.carts.model.service.CartsService;
@@ -71,6 +72,7 @@ public class CartsController {
 	@RequestMapping("insertCart.do")
 	@ResponseBody
 	public String insertCart(@RequestParam("product_id") int product_id,
+			HttpServletRequest request,
 			HttpSession session) {
 		Users users = (Users) session.getAttribute("loginUsers");
 		Carts carts = new Carts();
@@ -100,6 +102,8 @@ public class CartsController {
 		users = usersService.selectUsers(users.getUser_id());
 		Product product = productService.selectProduct(product_id);
 	
+		 ArrayList<Carts> cartList = cartsService.listCarts(users.getUser_id());
+		 model.addAttribute("cartList", cartList);
 		// 현재 카트에 상품이 있는는 경우, 해당 수량을 모델에 추가
 		if (cart_quantity != null) {
 			model.addAttribute("cart_quantity", cart_quantity);

@@ -16,7 +16,7 @@ public interface ProductService {
 	
 	
 	
-	//�˻��� ���� �޼ҵ�
+
 	ArrayList<Product> selectSearchProductId(int keyword);
 	ArrayList<Product> selectSearchProductName(String keyword);
 	ArrayList<Product> selectSearchProductEname(String keyword);
@@ -29,7 +29,6 @@ public interface ProductService {
 	ArrayList<Product> selectSearchProductOrigin(String keyword);
 	ArrayList<Product> selectSearchProductType(String keyword);
 	
-	//������
 	int insertProduct(Product product);            //상품 추가
 	int updateProduct(Product product);           //상품 수정
 	int deleteProduct(Product product);           //상품 삭제

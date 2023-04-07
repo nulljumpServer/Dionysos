@@ -238,7 +238,7 @@ public class ProductController {
 		
 		ArrayList<Review> rlist = reviewService.selectReviewList(paging);
 		
-		ArrayList<Store> slist = storeService.selectStoreList(product_id);
+		//ArrayList<Store> slist = storeService.selectStoreList(product_id);
 		
 		// HttpSession에 최근 본 상품 정보를 저장합니다.
 	    List<Product> recentProducts = (List<Product>)session.getAttribute("recentProducts");
@@ -260,7 +260,7 @@ public class ProductController {
 		if(product != null) {
 			model.addAttribute("product", product);
 			model.addAttribute("rlist", rlist);
-			model.addAttribute("slist", slist);
+			//model.addAttribute("slist", slist);
 			session.setAttribute("recentProducts", recentProducts);
 			return "product/productDetailView";
 		}else {

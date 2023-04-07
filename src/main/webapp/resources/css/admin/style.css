@@ -79,9 +79,9 @@ body {}
 @font-face {
   font-family: 'nalika';
   src:
-    url(../fonts/admin/nalika.ttf?nukgc0) format('truetype'),
-    url(../fonts/admin/nalika.woff?nukgc0) format('woff'),
-    url(../fonts/admin/nalika.svg?nukgc0#nalika) format('svg');
+    url(../../fonts/admin/nalika.ttf?nukgc0) format('truetype'),
+    url(../../fonts/admin/nalika.woff?nukgc0) format('woff'),
+    url(../../fonts/admin/nalika.svg?nukgc0#nalika) format('svg');
   font-weight: normal;
   font-style: normal;
 }

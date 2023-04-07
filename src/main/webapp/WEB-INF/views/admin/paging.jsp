@@ -3,14 +3,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 
 <c:set var="startPage" value="${ requestScope.paging.startPage }" />
+<c:set var="currentPage" value="${requestScope.paging.currentPage}" />
 <c:set var="endPage" value="${ requestScope.paging.endPage }" />
 <c:set var="maxPage" value="${ requestScope.paging.maxPage }" />
+<c:set var="url" value="${requestScope.url }" />
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
 </head>
 <body>
 <!-- 페이징 처리 -->
@@ -20,13 +21,13 @@
 	
 	<c:if test="${ currentPage eq 1 }">
 	<li class="page-item">
-		[맨처음] &nbsp;
+		<a class="page-link">[맨처음]</a> &nbsp;
 		</li>
 	</c:if>
 		
 	<c:if test="${ currentPage > 1 }">
 	<li class="page-item">
-		<c:url var="p1" value="/adminplistView.do">
+		<c:url var="p1" value="${url}">
 			<c:param name="page" value="1" />
 		</c:url>
 		<a class="page-link" href="${ p1 }">[맨처음]</a> &nbsp;
@@ -34,15 +35,15 @@
 	</c:if>
 
 	<!-- 이전 페이지그룹으로 이동하는 버튼 -->
-	<c:if test="${ !((currentPage - 10) < startPage and (currentPage - 10) > 1) }">
+	<c:if test="${ !((currentPage - 10) <= startPage and (currentPage - 10) >= 1) }">
 	<li class="page-item">	
 	<a class="page-link">[이전그룹]</a> &nbsp;
 	</li>
 	</c:if>
-	<c:if test="${ (currentPage - 10) < startPage and (currentPage - 10) > 1 }">
+	<c:if test="${ (currentPage - 10) <= startPage and (currentPage - 10) >= 1 }">
 	<li class="page-item">
-		<c:url var="pbefore" value="/adminplistView.do">
-			<c:param name="page" value="${ startPage - 10 }" />
+		<c:url var="pbefore" value="${url}">
+			<c:param name="page" value="${ maxPage - 10 }" />
 		</c:url>
 		<a class="page-link" href="${ pbefore }">[이전그룹]</a> &nbsp;
 		</li>
@@ -54,12 +55,12 @@
 	<c:forEach var="p" begin="${ startPage }" end="${ endPage }" step="1">
 		<c:if test="${ p eq currentPage }">
 		<li class="page-item">
-			<font size="4" color="red"><a class="page-link">[${ p }]</a></font>
+			<a class="page-link"><font color="red">[${ p }]</font></a>
 			</li>
 		</c:if>
 		<c:if test="${ p ne currentPage }">
 		<li class="page-item">
-			<c:url var="pp" value="/adminplistView.do">
+			<c:url var="pp" value="${url}">
 				<c:param name="page" value="${ p }" />
 			</c:url>
 			<a class="page-link" href="${ pp }">${ p }</a>
@@ -70,15 +71,15 @@
 	
 	<!-- 다음 페이지그룹으로 이동하는 버튼 -->
 	
-	<c:if test="${ !((currentPage + 10) > endPage and (currentPage + 10) < maxPage) }">
+	<c:if test="${ !((currentPage + 10) >= endPage and (currentPage + 10) <= maxPage) }">
 	<li class="page-item">
 	<a class="page-link">[다음그룹]</a> &nbsp;
 	</li>
 	</c:if>
-	<c:if test="${ (currentPage + 10) > endPage and (currentPage + 10) < maxPage }">
+	<c:if test="${ (currentPage + 10) >= endPage and (currentPage + 10) <= maxPage }">
 	<li class="page-item">
-		<c:url var="pafter" value="/adminplistView.do">
-			<c:param name="page" value="${ endPage + 10 }" />
+		<c:url var="pafter" value="${url}">
+			<c:param name="page" value="${ startPage + 10 }" />
 		</c:url>
 		<a class="page-link" href="${ pafter }">[다음그룹]</a> &nbsp;
 		</li>
@@ -93,7 +94,7 @@
 	</c:if>
 	<c:if test="${ currentPage < maxPage }">
 	<li class="page-item">
-		<c:url var="pmax" value="/adminplistView.do">
+		<c:url var="pmax" value="${url}">
 			<c:param name="page" value="${ maxPage }" />
 		</c:url>
 		<a class="page-link" href="${ pmax }">[맨끝]</a>
