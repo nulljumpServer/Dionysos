@@ -1,26 +1,26 @@
+
 package org.nulljump.dionysos.carts.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.nulljump.dionysos.carts.model.service.CartsService;
 import org.nulljump.dionysos.carts.model.vo.Carts;
+import org.nulljump.dionysos.product.model.service.ProductService;
+import org.nulljump.dionysos.product.model.vo.Product;
+import org.nulljump.dionysos.users.model.service.UsersService;
 import org.nulljump.dionysos.users.model.vo.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class CartsController {
@@ -29,131 +29,166 @@ public class CartsController {
 	@Autowired
 	private CartsService cartsService;
 
+	@Autowired
+	private UsersService usersService;
+
+	@Autowired
+	private ProductService productService;
+
+//	@RequestMapping(value="cart.do")
+//	public @ResponseBody String addProductCart(@PathVariable("product_id") int product_id, HttpSession session) {
+//		Users users = (Users) session.getAttribute("loginUsers");
+//		String user_id = users.getUser_id();
+//		
+//		Carts carts = new Carts();
+//		
+//		carts.setUser_id(user_id);
+//		carts.setProduct_id(product_id);
+//		
+//		boolean isExisted = cartsService.findCartProduct(carts);
+//		
+//		System.out.println("isExisted : " + isExisted);
+//		
+//		if(isExisted) {
+//			return "already_existed";
+//		}else {
+//			cartsService.addProductCart(carts);;
+//			return "add_success";
+//		}
+//	}
+
+//  @RequestMapping("insertCart.do")	  
+//  @ResponseBody
+//  	public String insertCart(Carts carts) {
+//	    boolean isCartAdded = cartsService.insertCarts(carts);
+//	    if (isCartAdded) {
+//	      return "add_success";
+//	    } else {
+//	      return "already_existed";
+//	    }
+//	  }
+
+	@RequestMapping("insertCart.do")
+	@ResponseBody
+	public String insertCart(@RequestParam("product_id") int product_id,
+			HttpSession session) {
+		Users users = (Users) session.getAttribute("loginUsers");
+		Carts carts = new Carts();
+		// int i = (int)(Math.random() * 100000000)+1;  seq ë§Œë“¤
+		
+		carts.setUser_id(users.getUser_id());
+		carts.setProduct_id(product_id);
+		carts.setCart_id(0);
+		int cart_quantity = Integer.parseInt(request.getParameter("cart_quantity"));
+		carts.setCart_quantity(cart_quantity);
+		boolean isCartAdded= cartsService.insertCarts(carts);
+		if (isCartAdded) {
+			return "add_success";
+		} else {
+			return "already_existed";
+		}
+	}
+
+	@RequestMapping(value = "cart.do", method = { RequestMethod.POST, RequestMethod.GET })
+	public String detailOrder(HttpSession session, Model model, @RequestParam("product_id") int product_id,
+			@RequestParam(value = "cart_quantity", required = false) Integer cart_quantity) {
+		logger.info("cart_quantity : ", cart_quantity);
+		
+		logger.info("porduct_id: ", product_id);
+		
+		Users users = (Users) session.getAttribute("loginUsers");
+		users = usersService.selectUsers(users.getUser_id());
+		Product product = productService.selectProduct(product_id);
 	
-	 //Àå¹Ù±¸´Ï ÆäÀÌÁö ÀÌµ¿
-    @RequestMapping("clistView.do")
-    public String moveReviewDetailView() {
-    	return "carts/cartsListView";
-    }
-    
-    // Àå¹Ù±¸´Ï ÆäÀÌÁö·Î ÀÌµ¿ÇÏ±â
-    @RequestMapping(value="clist.do" , method={ RequestMethod.GET , RequestMethod.POST })
-    public String movecartsListPage(@RequestParam("cart_id") int cart_id, HttpSession session,
-                                   @RequestParam("cart_quantity") int number, Model model) {
+		// í˜„ì¬ ì¹´íŠ¸ì— ìƒí’ˆì´ ìˆëŠ”ëŠ” ê²½ìš°, í•´ë‹¹ ìˆ˜ëŸ‰ì„ ëª¨ë¸ì— ì¶”ê°€
+		if (cart_quantity != null) {
+			model.addAttribute("cart_quantity", cart_quantity);
+		}
 
-        // 1. ·Î±×ÀÎµÈ »ç¿ëÀÚÀÎÁö Ã¼Å© : ÇöÀç ¼¼¼Ç¿¡ ÀúÀåµÈ »ç¿ëÀÚ Á¤º¸¸¦ °¡Á®¿È
-        Users loginUser = (Users) session.getAttribute("loginUser");
+		model.addAttribute("users", users);
+		model.addAttribute("product", product);
 
-        // 2. ·Î±×ÀÎµÇ¾î ÀÖÁö ¾ÊÀº °æ¿ì, ·Î±×ÀÎ ÆäÀÌÁö·Î ÀÌµ¿
-        if (loginUser == null) {
+		
+		
+		return "carts/cartPage";
+	}
 
-            return "redirect:/users/loginPage.do";
-        }
+	@RequestMapping("clist.do")
+	public String carsListViewMethod(Model model, @RequestParam("user_id") String user_id) {
+		ArrayList<Carts> clist = cartsService.listCarts(user_id);
+		
+		if(clist != null && clist.size() > 0) {
+			model.addAttribute("clist", clist);
+			return "cart/cartPage";
+		}else {
+			return "common/error";
+		}
+	}
 
-    // 3. ·Î±×ÀÎµÈ »ç¿ëÀÚÀÇ Àå¹Ù±¸´Ï ¸ñ·ÏÀ» °¡Á®¿À±â : »ç¿ëÀÚÀÇ ÀÌ¸ŞÀÏ·Î Àå¹Ù±¸´Ï ¸ñ·ÏÀ» °¡Á®¿È
-        ArrayList<Carts> cartsList = cartsService.getcartsList(loginUser.getUser_email());
+	
+//  @RequestMapping(value="cart.do", method = {RequestMethod.POST, RequestMethod.GET})
+//  public String detailOrder(HttpSession session, Model model,
+//     @RequestParam(value = "product_id", required = false) Integer product_id,
+//     @RequestParam(value = "cart_quantity", required = false) Integer cart_quantity) {
+//
+//     if (product_id == null) {
+//        // ì˜ˆì™¸ ì²˜ë¦¬
+//        model.addAttribute("message", "ìƒí’ˆ ì •ë³´ê°€ ì—†ìŠµë‹ˆë‹¤.");
+//        return "common/error";
+//     }
+//
+//     Users users = (Users) session.getAttribute("loginUsers");
+//     users = usersService.selectUsers(users.getUser_id());
+//     Product product = productService.selectProduct(product_id);
+//
+//     // í˜„ì¬ ì¹´íŠ¸ì— ìƒí’ˆì´ ì—†ëŠ” ê²½ìš°, í•´ë‹¹ ìˆ˜ëŸ‰ì„ ëª¨ë¸ì— ì¶”ê°€
+//     if (cart_quantity == null) {
+//        model.addAttribute("cart_quantity", cart_quantity);
+//     }
+//
+//     model.addAttribute("users", users);
+//     model.addAttribute("product", product);
+//
+//     return "carts/cartPage";
+//  }
 
-        // 4. Àå¹Ù±¸´Ï¿¡ »óÇ°ÀÌ ÀÖ´ÂÁö Ã¼Å©
-        if (cartsList != null && !cartsList.isEmpty()) {
-            // 5. »óÇ°ÀÌ Á¸ÀçÇÏ¸é ¸ğµ¨¿¡ Ãß°¡ÇÏ°í Àå¹Ù±¸´Ï ÆäÀÌÁö ¹İÈ¯
-            model.addAttribute("cartsList", cartsList);
-            return "carts/cartsListView";
-        } else {
-            // 6. »óÇ°ÀÌ ¾øÀ¸¸é ¿À·ù ¸Ş½ÃÁö¸¦ Ç¥½ÃÇÏ°í È¨ÆäÀÌÁö·Î ¸®´ÙÀÌ·ºÆ®
-            model.addAttribute("message", "Àå¹Ù±¸´Ï¿¡ »óÇ°ÀÌ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù!");
-            return "redirect:/";
-        }
-    }
-
-    
-	 
-    @RequestMapping("carts.do")
-    public ModelAndView list(HttpSession session, ModelAndView mav) {
-        Map<String, Object> map=new HashMap<>();
- 
-//hashmapÀº map(key,value)·Î ÀÌ·ïÁ® ÀÖ°í,
-//key°ªÀº Áßº¹ÀÌ ºÒ°¡´É ÇÏ°í value´Â Áßº¹ÀÌ °¡´ÉÇÏ´Ù.
-//value¿¡ null°ªµµ »ç¿ëÀÌ °¡´ÉÇÏ´Ù.
- //Àü´ŞÇÒ Á¤º¸°¡ ¸¹À» °æ¿ì¿¡´Â HashMap<>À» »ç¿ëÇÏ´Â °ÍÀÌ ÁÁ´Ù.
- //Àå¹Ù±¸´Ï¿¡ ´ãÀ» °ªµéÀÌ ¸¹±â ¶§¹®¿¡ ¿©±â¼± HashMap<>¸¦ »ç¿ëÇÑ´Ù.
- 
- 
-        String user_id=(String)session.getAttribute("user_id");
- 
-//session¿¡ ÀúÀåµÈ userid¸¦ getAttribute()¸Ş¼Òµå¸¦ »ç¿ëÇØ¼­ ¾ò¾î¿À°í ¿ÀºêÁ§Æ® Å¸ÀÔÀÌ±â ¶§¹®¿¡
-//String Å¸ÀÔÀ¸·Î Å¸ÀÔº¯È¯ÇÑ´Ù.
- 
-        if(user_id != null) { 
- //·Î±×ÀÎÇÑ »óÅÂÀÌ¸é ½ÇÇà
-            ArrayList<Carts> list=cartsService.listCarts(user_id);//Àå¹Ù±¸´Ï ¸ñ·Ï
-            int sumMoney=cartsService.sumMoney(user_id);//±İ¾× ÇÕ°è
-            
- 
- //hasp map¿¡ Àå¹Ù±¸´Ï¿¡ ³ÖÀ» °¢Á¾ °ªµéÀ» ÀúÀåÇÔ
-            map.put("sumMoney", sumMoney);
-            map.put("list", list); //Àå¹Ù±¸´Ï ¸ñ·Ï
-            map.put("count", list.size()); //·¹ÄÚµå °¹¼ö
- 
- //ModelAndView mav¿¡ ÀÌµ¿ÇÒ ÆäÀÌÁöÀÇ ÀÌ¸§°ú µ¥ÀÌÅÍ¸¦ ÀúÀåÇÑ´Ù.
- 
-            mav.setViewName("carts/cartsDetailView"); //ÀÌµ¿ÇÒ ÆäÀÌÁöÀÇ ÀÌ¸§
-            mav.addObject("map", map); //µ¥ÀÌÅÍ ÀúÀå
- 
-            return mav; //È­¸é ÀÌµ¿
- 
-        }else { //·Î±×ÀÎÇÏÁö ¾ÊÀº »óÅÂ
- 
-            return new ModelAndView("member/login", "", null);
-//·Î±×ÀÎÀ» ÇÏÁö ¾Ê¾ÒÀ¸¸é ·Î±×ÀÎ ÆäÀÌÁö·Î ÀÌµ¿½ÃÅ²´Ù.
-        }
-    }
-
-	@RequestMapping("cartsInsert.do") //¼¼ºÎÀûÀÎ url mapping
-	 
-    public String insertCarts(@ModelAttribute Carts carts, 
-            HttpSession session) {
- 
-        //@ModelAttribute´Â sumitµÈ formÀÇ ³»¿ëÀ» ÀúÀåÇØ¼­ Àü´Ş¹Ş°Å³ª, ´Ù½Ã ºä·Î ³Ñ°Ü¼­ Ãâ·ÂÇÏ±â À§ÇØ »ç¿ëµÇ´Â ¿ÀºêÁ§Æ® ÀÌ´Ù.
- 
-        //µµ¸ŞÀÎ ¿ÀºêÁ§Æ®³ª DTOÀÇ ÇÁ·ÎÆÛÆ¼¿¡ ¿äÃ» ÆÄ¶ó¹ÌÅÍ¸¦ ¹ÙÀÎµùÇØ¼­ ÇÑ¹ø¿¡ ¹ŞÀ¸¸é @ModelAttribute ¶ó°í º¼ ¼ö ÀÖ´Ù.
- 
-        //@ModelAttribute´Â ÄÁÆ®·Ñ·¯°¡ ¸®ÅÏÇÏ´Â ¸ğµ¨¿¡ ÆÄ¶ó¹ÌÅÍ·Î Àü´ŞÇÑ ¿ÀºêÁ§Æ®¸¦ ÀÚµ¿À¸·Î Ãß°¡ÇØÁØ´Ù.
-        
-        
-        //·Î±×ÀÎ ¿©ºÎ¸¦ Ã¼Å©ÇÏ±â À§ÇØ ¼¼¼Ç¿¡ ÀúÀåµÈ ¾ÆÀÌµğ È®ÀÎ
- 
-        String user_id=(String)session.getAttribute("user_id");
-        if(user_id == null) { 
- 
- //·Î±×ÀÎÇÏÁö ¾ÊÀº »óÅÂÀÌ¸é ·Î±×ÀÎ È­¸éÀ¸·Î ÀÌµ¿
- 
-            return "redirect:/member/login.do";
-        }
-        User.setUserId(user_id);
-        cartsService.insertCarts(carts); //Àå¹Ù±¸´Ï Å×ÀÌºí¿¡ ÀúÀåµÊ
-        return "redirect:carts.do"; //Àå¹Ù±¸´Ï ¸ñ·ÏÀ¸·Î ÀÌµ¿
-    }
-
-
-	@PostMapping("updateCarts.do")
+//	
+//	@RequestMapping(value="cart.do", method = {RequestMethod.POST, RequestMethod.GET})
+//	public String detailOrder(HttpSession session, Model model,
+//		@RequestParam("product_id") int product_id,
+//		@RequestParam(value = "cart_quantity", required = false) Integer cart_quantity) {
+//		
+//		Users users = (Users) session.getAttribute("loginUsers");
+//		users = usersService.selectUsers(users.getUser_id());
+//		Product product = productService.selectProduct(product_id);
+//		
+//		// í˜„ì¬ ì¹´íŠ¸ì— ìƒí’ˆì´ ì—†ëŠ” ê²½ìš°, í•´ë‹¹ ìˆ˜ëŸ‰ì„ ëª¨ë¸ì— ì¶”ê°€
+//		if (cart_quantity == null) {
+//			model.addAttribute("cart_quantity", cart_quantity);
+//		}
+//		
+//		model.addAttribute("users", users);
+//		model.addAttribute("product", product);
+//	
+//		return "carts/cartPage";
+//	}
+//	
+//	@RequestMapping("insertsCarts.do")
+//	public String insertCart(@ModelAttribute("carts") Carts carts, String userId) {
+//		cartsService.insertCarts(carts);
+//		return "redirect:cart.do";
+//	}
+	@RequestMapping("updateCarts.do")
 	public String updateCart(@ModelAttribute("carts") Carts carts, String userId) {
 		cartsService.updateCarts(carts);
-		return "redirect:carts.do";
+		return "redirect:cart.do";
 	}
 
 	@RequestMapping("deleteCarts.do")
-    public String deleteCarts(@RequestParam int cart_id) {
-        cartsService.deleteCarts(cart_id);
-        return "redirect:carts.do";
-    }
+	public String deleteCarts(@RequestParam int cart_id) {
+		cartsService.deleteCarts(cart_id);
+		return "redirect:cart.do";
+	}
 	
-	@RequestMapping("deleteAllCarts.do")
-    public String deleteAllCarts(HttpSession session) {
-        String user_id=(String)session.getAttribute("user_id");
-        if(user_id != null) {
-            cartsService.deleteAllCarts(user_id);
-        }
-        return "redirect:carts.do";
-    }
 
 }

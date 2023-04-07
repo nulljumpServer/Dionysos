@@ -6,11 +6,13 @@ import org.nulljump.dionysos.carts.model.vo.Carts;
 
 
 public interface CartsService {
-    int insertCarts(Carts carts);				    //Àå¹Ù±¸´Ï Ãß°¡
-    ArrayList<Carts> listCarts(String user_id);     //Àå¹Ù±¸´Ï ¸ñ·Ï
-    int deleteCarts(int cart_id);				    //Àå¹Ù±¸´Ï °³º° »èÁ¦
-    int deleteAllCarts(String user_id); 		    //Àå¹Ù±¸´Ï ºñ¿ì±â
-    int updateCarts(Carts carts); 				    //Àå¹Ù±¸´Ï ¼ö·® ¼öÁ¤
-    int totalPrice(String user_id); 				    //Àå¹Ù±¸´Ï ±İ¾× ÇÕ°è
-  //int countCarts(String user_id, int product_id); //Àå¹Ù±¸´Ï »óÇ° °¹¼ö
+    boolean insertCarts(Carts carts);				    //  ìƒí’ˆ ì‚½ì…
+    ArrayList<Carts> listCarts(String user_id);     // ìƒí’ˆ ì „ì²´ ì¡°íšŒ
+    int deleteCarts(int cart_id);				    // ìƒí’ˆ ì‚­ì œ
+    int updateCarts(Carts carts); 				    // ìƒí’ˆ ì—…ë°ì´íŠ¸
+//    boolean findCartProduct(Carts carts); // ìƒí’ˆ ì°¾ê¸°
+//    void addProductCart(Carts carts); // ì¹´íŠ¸ì— ìƒí’ˆ ì¶”ê°€
+//	boolean addCart(int product_id, String user_id);
+    
+  //int countCarts(String user_id, int product_id); //ï¿½ï¿½Ù±ï¿½ï¿½ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½
 }
