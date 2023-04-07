@@ -6,11 +6,13 @@ import org.nulljump.dionysos.carts.model.vo.Carts;
 
 
 public interface CartsService {
-    int insertCarts(Carts carts);				    //장바구니 추가
-    ArrayList<Carts> listCarts(String user_id);     //장바구니 목록
-    int deleteCarts(int cart_id);				    //장바구니 개별 삭제
-    int deleteAllCarts(String user_id); 		    //장바구니 비우기
-    int updateCarts(Carts carts); 				    //장바구니 수량 수정
-    int totalPrice(String user_id); 				    //장바구니 금액 합계
-  //int countCarts(String user_id, int product_id); //장바구니 상품 갯수
+    boolean insertCarts(Carts carts);				    //  상품 삽입
+    ArrayList<Carts> listCarts(String user_id);     // 상품 전체 조회
+    int deleteCarts(int cart_id);				    // 상품 삭제
+    int updateCarts(Carts carts); 				    // 상품 업데이트
+//    boolean findCartProduct(Carts carts); // 상품 찾기
+//    void addProductCart(Carts carts); // 카트에 상품 추가
+//	boolean addCart(int product_id, String user_id);
+    
+  //int countCarts(String user_id, int product_id); //��ٱ��� ��ǰ ����
 }
