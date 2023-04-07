@@ -86,30 +86,31 @@
 		<button style="color:black;" onclick="javascript:location.href='qlist.do?page=${currentPage}';">목록</button>
 		&nbsp;
 		<!-- 관리자일 경우 댓글달기 버튼 -->
-		<c:if test="${sessionScope.loginUsers.admin eq 'Y'}">
+		<c:if test="${qna.qna_lev == 1}">
 			<c:url var="qrf" value="/qreplyform.do">
 				<c:param name="qna_no" value="${qna.qna_no}" />
 				<c:param name="qna_ref" value="${qna.qna_ref}" />
 				<c:param name="qna_lev" value="${qna.qna_lev}" />
 				<c:param name="page" value="${currentPage}" />
 			</c:url>
-			<a href="${qrf}">[댓글달기]</a> &nbsp;
+			<button style="color:black;" onclick="javascript:location.href='${qrf}';">댓글달기</button>
 		</c:if>
-		<!-- 관리자일 경우 수정과 삭제 기능 제공 -->
 		
 		<!-- 본인이 등록한 게시글일 때는 수정과 삭제 기능 제공 -->
-			<c:url var="qup" value="/qupview.do">
-				<c:param name="qna_no" value="${qna.qna_no}" />
-				<c:param name="page" value="${currentPage}" />
-			</c:url>
-			<a href="${qup}">[수정페이지로 이동]</a> &nbsp;
+		<c:if test="${qna.qna_lev == 2}">
+		<c:url var="qup" value="/qreplyupview.do">
+			<c:param name="qna_no" value="${qna.qna_no}" />
+			<c:param name="page" value="${currentPage}" />
+		</c:url>
+			<button style="color:black;" onclick="javascript:location.href='${qup}';">수정페이지로 이동</button>
+		</c:if>
 			
-			<c:url var="qdel" value="/qdel.do">
-				<c:param name="qna_no" value="${qna.qna_no}" />
-				<c:param name="qna_lev" value="${qna.qna_lev}" />
-				<c:param name="qna_rename_filename" value="${qna.qna_rename_filename}" />
-			</c:url>
-			<a href="${qdel}">[글삭제]</a> &nbsp;
+		<c:url var="qdel" value="/qdel.do">
+			<c:param name="qna_no" value="${qna.qna_no}" />
+			<c:param name="qna_lev" value="${qna.qna_lev}" />
+			<c:param name="qna_rename_filename" value="${qna.qna_rename_filename}" />
+		</c:url>
+			<button style="color:black;" onclick="if(confirm('정말로 삭제하시겠습니까?'))javascript:location.href='${qdel}';">글삭제</button>
 
 	</th></tr>
 </table>

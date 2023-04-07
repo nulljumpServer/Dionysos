@@ -52,7 +52,7 @@
 <table align="center" width="500" border="1" cellspacing="0" cellpadding="5">
 	<tr>
 		<th>제 목</th>
-		<td><input style="color:black;" type="text" name="title"></td>
+		<td><input style="color:black;" type="text" name="title" size="100"></td>
 	</tr>
 	<tr>
 		<th>작성자</th>
@@ -66,7 +66,7 @@
 	</tr>
 	<tr>
 		<th>내 용</th>
-		<td><textarea style="color:black;" name="content" rows="5" cols="50"></textarea></td>
+		<td><textarea style="color:black;" name="content" rows="5" cols="100"></textarea></td>
 	</tr>
 	<tr>
 		<th colspan="2">

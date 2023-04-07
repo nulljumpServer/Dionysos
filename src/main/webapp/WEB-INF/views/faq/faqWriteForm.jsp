@@ -56,11 +56,11 @@
 	</tr>
 	<tr>
 		<th>질 문</th>
-		<td><textarea style="color:black;" name="question" rows="3" cols="30"></textarea></td>
+		<td><textarea style="color:black;" name="question" rows="3" cols="100"></textarea></td>
 	</tr>
 	<tr>
 		<th>답 변</th>
-		<td><textarea style="color:black;" name="answer" rows="5" cols="50"></textarea></td>
+		<td><textarea style="color:black;" name="answer" rows="5" cols="100"></textarea></td>
 	</tr>
 	<tr>
 		<th colspan="2">

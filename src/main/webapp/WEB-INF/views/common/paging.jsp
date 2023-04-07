@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 
 <c:set var="startPage" value="${ requestScope.paging.startPage }" />
-<c:set var="currentPage" value="${requestScope.paging.currentPage}" />
 <c:set var="endPage" value="${ requestScope.paging.endPage }" />
 <c:set var="maxPage" value="${ requestScope.paging.maxPage }" />
 <c:set var="url" value="${requestScope.url }" />
@@ -31,12 +30,12 @@
       <a href="${ p1 }">처음</a></li>&nbsp;
    </c:if>
    <!-- 이전 페이지그룹으로 이동하는 버튼 -->
-   <c:if test="${ !((currentPage - 10) < startPage and (currentPage - 10) > 1) }">
+   <c:if test="${ !((currentPage - 10) <= startPage and (currentPage - 10) >= 1) }">
       <li><a>&lt;&lt;</a></li> &nbsp;
    </c:if>
-   <c:if test="${ (currentPage - 10) < startPage and (currentPage - 10) > 1 }">
+   <c:if test="${ (currentPage - 10) <= startPage and (currentPage - 10) >= 1 }">
       <c:url var="pbefore" value="${url}">
-         <c:param name="page" value="${ startPage - 10 }" />
+         <c:param name="page" value="${ maxPage - 10 }" />
       </c:url><li>
       <a href="${ pbefore }">&lt;&lt;</a></li> &nbsp;
    </c:if>
@@ -55,12 +54,12 @@
    </c:forEach>
    
    <!-- 다음 페이지그룹으로 이동하는 버튼 -->
-   <c:if test="${ !((currentPage + 10) > endPage and (currentPage + 10) < maxPage) }">
+   <c:if test="${ !((currentPage + 10) >= endPage and (currentPage + 10) <= maxPage) }">
       <li><a>&gt;&gt;</a></li> &nbsp;
    </c:if>
-   <c:if test="${ (currentPage + 10) > endPage and (currentPage + 10) < maxPage }">
+   <c:if test="${ (currentPage + 10) >= endPage and (currentPage + 10) <= maxPage }">
       <c:url var="pafter" value="${url}">
-         <c:param name="page" value="${ endPage + 10 }" />
+         <c:param name="page" value="${ startPage + 10 }" />
       </c:url>
       <li>
       <a href="${ pafter }">&gt;&gt;</a></li> &nbsp;

@@ -142,13 +142,22 @@ public class QnaController {
 
 	// 제목으로 검색
 	@RequestMapping(value = "qsearchTitle.do", method = RequestMethod.POST)
-	public String qnaSearchTitleMethod(@RequestParam("title") String title, Model model) {
+	public String qnaSearchTitleMethod(@RequestParam("title") String title, Model model, HttpSession session) {
 
 		ArrayList<Qna> list = qnaservice.selectTitleSearch(title);
+		
+		logger.info(title);
 
 		if (list != null && list.size() > 0) {
-			model.addAttribute("list", list);
-			return "qna/qnaListView";
+			Users loginUsers = (Users) session.getAttribute("loginUsers");
+			if (loginUsers != null && loginUsers.getAdmin().equals("Y")) {
+				// 로그인한 관리자가 요청했다면
+				model.addAttribute("list", list);
+				return "qna/qnaAdminListView";
+			}else {
+				model.addAttribute("list", list);
+				return "qna/qnaListView";
+			}
 		} else {
 			model.addAttribute("message", title + "로 검색된 정보가 없습니다.");
 			return "common/error";
@@ -158,13 +167,20 @@ public class QnaController {
 
 	// 사용자 아이디로 검색
 	@RequestMapping(value = "qsearchId.do", method = RequestMethod.POST)
-	public String qnaSearchIdMethod(String user_id, Model model) {
+	public String qnaSearchIdMethod(String user_id, Model model, HttpSession session) {
 
 		ArrayList<Qna> list = qnaservice.selectIdSearch(user_id);
 
 		if (list != null && list.size() > 0) {
-			model.addAttribute("list", list);
-			return "qna/qnaListView";
+			Users loginUsers = (Users) session.getAttribute("loginUsers");
+			if (loginUsers != null && loginUsers.getAdmin().equals("Y")) {
+				// 로그인한 관리자가 요청했다면
+				model.addAttribute("list", list);
+				return "qna/qnaAdminListView";
+			}else {
+				model.addAttribute("list", list);
+				return "qna/qnaListView";
+			}
 		} else {
 			model.addAttribute("message", "해당 날짜로 등록된 정보가 없습니다.");
 			return "common/error";
@@ -173,13 +189,20 @@ public class QnaController {
 
 	// 날짜로 검색
 	@RequestMapping(value = "qsearchDate.do", method = RequestMethod.POST)
-	public String qnaSearchDateMethod(SearchDate date, Model model) {
+	public String qnaSearchDateMethod(SearchDate date, Model model, HttpSession session) {
 
 		ArrayList<Qna> list = qnaservice.selectDateSearch(date);
 
 		if (list != null && list.size() > 0) {
-			model.addAttribute("list", list);
-			return "qna/qnaListView";
+			Users loginUsers = (Users) session.getAttribute("loginUsers");
+			if (loginUsers != null && loginUsers.getAdmin().equals("Y")) {
+				// 로그인한 관리자가 요청했다면
+				model.addAttribute("list", list);
+				return "qna/qnaAdminListView";
+			}else {
+				model.addAttribute("list", list);
+				return "qna/qnaListView";
+			}
 		} else {
 			model.addAttribute("message", "해당 날짜로 등록된 정보가 없습니다.");
 			return "common/error";
@@ -234,7 +257,7 @@ public class QnaController {
 
 		if (qnaservice.insertInquiry(qna) > 0) {
 			// 게시글 등록 성공시 목록 보기 페이지로 이동
-			return "redirect:qalist.do";
+			return "redirect:qlist.do";
 		} else {
 			model.addAttribute("message", "새 게시글 등록 실패");
 			return "common/error";
@@ -322,7 +345,7 @@ public class QnaController {
 			model.addAttribute("page", page);
 			model.addAttribute("qna_no", qna.getQna_no());
 
-			return "redirect:qalist.do";
+			return "redirect:qlist.do";
 		} else {
 			model.addAttribute("message", qna.getQna_no() + "번 공지 수정 실패");
 			return "common/error";
@@ -339,7 +362,7 @@ public class QnaController {
 				new File(request.getSession().getServletContext().getRealPath("resources/qna_upfiles") + "/"
 						+ qna.getQna_rename_filename()).delete();
 			}
-			return "redirect:qalist.do";
+			return "redirect:qlist.do";
 
 		} else {
 			model.addAttribute("message", qna.getQna_no() + "번 글 삭제 실패");
@@ -360,12 +383,11 @@ public class QnaController {
 
 	// 답변 등록
 	@RequestMapping(value = "qreply.do", method = RequestMethod.POST)
-	public String replyInsertMethod(Qna reply, @RequestParam("page") String page, Model model) {
+	public String replyInsertMethod(Qna reply, Model model) {
 		// 해당 댓글에 대한 원글을 조회
-		logger.info("reply: " + reply);
-		Qna origin = qnaservice.selectQna(reply.getQna_ref());
 
-		logger.info("origin: " + origin);
+		Qna origin = qnaservice.selectQna(reply.getQna_no());
+
 		// 현재 등록할 댓글의 레벨을 설정
 		reply.setQna_lev(origin.getQna_lev() + 1);
 		
@@ -382,10 +404,10 @@ public class QnaController {
 		// 기존의 댓글 또는 대댓글의 순번을 모두 1 증가 처리
 		qnaservice.updateReplySeq(reply);
 		// 문의상태 1증가처리해서 처리완료로 상태 변경
-		origin.setInquiry_state(origin.getInquiry_state() + 1);
+		qnaservice.updateState(origin);
 
 		if (qnaservice.insertReply(reply) > 0) {
-			return "redirect:qlist.do?page=" + page;
+			return "redirect:qlist.do";
 		} else {
 			model.addAttribute("message", reply.getQna_ref() + "번 글에 대한 댓글 등록 실패");
 			return "common/error";
@@ -394,10 +416,10 @@ public class QnaController {
 
 	// 답변 수정 이동
 	@RequestMapping("qreplyupview.do")
-	public String moveReplyUpdateView(@RequestParam("qna_reply_ref") int qna_reply_ref,
+	public String moveReplyUpdateView(@RequestParam("qna_no") int qna_no,
 			@RequestParam("page") int currentPage, Model model) {
 		// 수정페이지로 보낼 객체 정보 조회
-		Qna qna = qnaservice.selectQna(qna_reply_ref);
+		Qna qna = qnaservice.selectQna(qna_no);
 
 		if (qna != null) {
 			model.addAttribute("qna", qna);
@@ -405,7 +427,7 @@ public class QnaController {
 
 			return "qna/qnaReplyUpdateForm";
 		} else {
-			model.addAttribute("message", qna_reply_ref + "번 글 답변 수정페이지로 이동 실패");
+			model.addAttribute("message", qna_no + "번 글 답변 수정페이지로 이동 실패");
 
 			return "common/error";
 		}
@@ -413,8 +435,10 @@ public class QnaController {
 
 	// 답변 수정
 	@RequestMapping(value = "qreplyup.do", method = RequestMethod.POST)
-	public String replyUpdateMethod(Qna reply, @RequestParam("page") int page, Model model) {
+	public String replyUpdateMethod(Qna reply, @RequestParam("page") String page, Model model) {
 
+		logger.info("reply : " + reply);
+		
 		if (qnaservice.updateReply(reply) > 0) {
 			// 댓글, 대댓글 수정 성공시 다시 상세보기 페이지가 보여지게 한다면
 			model.addAttribute("qna_no", reply.getQna_no());
@@ -433,7 +457,7 @@ public class QnaController {
 	public String qnaReplyDeleteMethod(Qna qna, HttpServletRequest request, Model model) {
 
 		if (qnaservice.deleteReply(qna) > 0) {
-			return "redirect:qalist.do?page=1";
+			return "redirect:qlist.do";
 
 		} else {
 			model.addAttribute("message", qna.getQna_no() + "번 글 삭제 실패");

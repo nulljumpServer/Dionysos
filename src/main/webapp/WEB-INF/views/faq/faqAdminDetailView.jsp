@@ -72,7 +72,7 @@
 			<c:url var="fdel" value="/fdel.do">
 				<c:param name="faq_no" value="${faq.faq_no}" />
 			</c:url>
-			<button style="color:black;" onclick="javascript:location.href='${fdel}';">삭제</button>
+			<button style="color:black;" onclick="if(confirm('정말로 삭제하시겠습니까?'))javascript:location.href='${fdel}';">삭제</button>
 		</th>
 	</tr>
 </table>

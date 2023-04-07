@@ -74,9 +74,9 @@ function showDiv(){
                             <h4>공지사항 관리</h4>                                   
                             <div class="add-product">
  <!-- 검색 항목 영역 -->
- <div align="center">
+ <div style="color:white;" align="center">
 	<input type="radio" name="item" value="title" checked> 제목
-	&nbsp; &nbsp;
+	&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 	<input type="radio" name="item" value="date"> 날짜
 </div>
 <div align="center" id="titleDiv">
@@ -87,7 +87,7 @@ function showDiv(){
 </div>
 <div align="center" id="dateDiv">
 	<form action="nsearchDate.do" method="post">
-		<label>검색할 등록날짜를 입력하세요 : 
+		<label>
 			<input type="date" name="begin"> ~ 
 			<input type="date" name="end">
 		</label>

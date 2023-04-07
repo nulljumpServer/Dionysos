@@ -137,11 +137,11 @@
 							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">고객센터</a>
 							<div class="dropdown-menu" aria-labelledby="dropdown04">
 								<a class="dropdown-item"
-									href="${pageContext.servletContext.contextPath}/nlist.do">공지사항</a>
+									href="${pageContext.servletContext.contextPath}/nplist.do">공지사항</a>
 								<a class="dropdown-item"
 									href="${pageContext.servletContext.contextPath}/flist.do">자주하는
 									질문</a> <a class="dropdown-item"
-									href="${pageContext.servletContext.contextPath}/qalist.do">1:1
+									href="${pageContext.servletContext.contextPath}/qlist.do">1:1
 									문의</a>
 							</div></li>
 					</ul>
@@ -231,11 +231,11 @@
 							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">고객센터</a>
 							<div class="dropdown-menu" aria-labelledby="dropdown04">
 								<a class="dropdown-item"
-									href="${pageContext.servletContext.contextPath}/nlist.do">공지사항</a>
+									href="${pageContext.servletContext.contextPath}/nplist.do">공지사항</a>
 								<a class="dropdown-item"
 									href="${pageContext.servletContext.contextPath}/flist.do">자주하는
 									질문</a> <a class="dropdown-item"
-									href="${pageContext.servletContext.contextPath}/qalist.do">1:1
+									href="${pageContext.servletContext.contextPath}/qlist.do">1:1
 									문의</a>
 							</div></li>
 					</ul>

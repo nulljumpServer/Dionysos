@@ -81,28 +81,28 @@ function showDiv(){
                             <h4>1:1문의 관리</h4>                                   
                             <div class="add-product">
  <!-- 검색 항목 영역 -->
- <div align="center">
+ <div style="color:white;" align="center">
 	<input type="radio" name="item" value="title" checked> 제목
-	&nbsp; &nbsp;
+	&nbsp; &nbsp; &nbsp;
 	<input type="radio" name="item" value="user_id"> 작성자
-	&nbsp; &nbsp;
+	&nbsp; &nbsp; &nbsp;
 	<input type="radio" name="item" value="date"> 날짜
 </div>
-<div id="titleDiv">
+<div align="center" id="titleDiv">
 	<form action="qsearchTitle.do" method="post">
 		<input type="search" name="title" placeholder="검색어를 입력하세요.">
 		<input type="submit" value="검색">
 	</form>
 </div>
-<div id="writerDiv">
+<div align="center" id="writerDiv">
 	<form action="qsearchId.do" method="post">
 		<input type="search" name="user_id" placeholder="검색어를 입력하세요.">
 		<input type="submit" value="검색">
 	</form>
 </div>
-<div id="dateDiv">
+<div align="center" id="dateDiv">
 	<form action="qsearchDate.do" method="post">
-		<label>검색할 등록날짜를 입력하세요 : 
+		<label>
 			<input type="date" name="begin"> ~ 
 			<input type="date" name="end">
 		</label>
@@ -135,12 +135,16 @@ function showDiv(){
 				<a href="${qdt}">${q.title}</a>
 			</td>
 			<td>${q.user_id}</td>
-			<td>
-				<c:if test="${q.inquiry_state == 0}">처리 중</c:if>
-				<c:if test="${q.inquiry_state == 1}">처리 완료</c:if>
+			<td><c:if test="${q.inquiry_state == 0 && q.qna_lev eq 1}">처리 중</c:if> 
+				<c:if test="${q.inquiry_state == 1 && q.qna_lev eq 1}">처리 완료</c:if>
 			</td>
 			<td>
-				<fmt:formatDate value="${q.created_at}" pattern="yyyy-MM-dd" />
+				<c:if test="${q.qna_lev == 2}">
+					<fmt:formatDate value="${q.answered_at}" pattern="yyyy-MM-dd" />
+				</c:if>
+				<c:if test="${q.qna_lev == 1}">
+					<fmt:formatDate value="${q.created_at}" pattern="yyyy-MM-dd" />
+				</c:if>
 			</td>
 		</tr>
 	</c:forEach>

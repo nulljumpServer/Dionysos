@@ -65,13 +65,13 @@
 								</tr>
 								<tr>
 									<th>질 문</th>
-									<td><input style="color: black;" type="text"
-										name="question" value="${faq.question}"></td>
+									<td><textarea style="color:black;" name="question" rows="3" 
+									cols="100">${faq.question}</textarea></td>
 								</tr>
 								<tr>
 									<th>답 변</th>
 									<td><textarea style="color: black;" name="answer" rows="5"
-											cols="50">${faq.answer}</textarea></td>
+											cols="100">${faq.answer}</textarea></td>
 								</tr>
 								<tr>
 									<th colspan="2">

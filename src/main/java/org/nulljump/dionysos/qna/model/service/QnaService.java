@@ -54,6 +54,9 @@ public interface QnaService {
 	int updateReplySeq(Qna reply);
 		
 	
+	//문의상태 증가시키기
+	int updateState(Qna qna);
+	
 
 
 }

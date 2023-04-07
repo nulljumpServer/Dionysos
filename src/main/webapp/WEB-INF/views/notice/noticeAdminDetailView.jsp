@@ -92,7 +92,7 @@
 				<c:param name="notice_no" value="${notice.notice_no}" />
 				<c:param name="rfile" value="${notice.notice_rename_filename}" />
 			</c:url>
-			<button style="color:black;" onclick="javascript:location.href='${ndel}';">공지글 삭제</button>
+			<button style="color:black;" onclick="if(confirm('정말로 삭제하시겠습니까?'))javascript:location.href='${ndel}';">공지글 삭제</button>
 		</th>
 	</tr>
 </table>

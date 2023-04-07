@@ -88,7 +88,7 @@ public class NoticeController {
 	public String noticeDetailMethod(@RequestParam("notice_no") int notice_no, Model model, HttpSession session) {
 		// 관리자용 상세보기 페이지와 일반회원 또는 비회원 상세보기 페이지 구분
 		// HttpSession 을 매개변수에 추가
-
+				
 		Notice notice = noticeservice.selectNotice(notice_no);
 		
 		logger.info("notice_no : " + notice_no);
@@ -101,6 +101,8 @@ public class NoticeController {
 				return "notice/noticeAdminDetailView";
 			} else {
 				// 관리자가 아닌 또는 로그인하지 않은 상태에서의 요청이라면
+				// 조회수 1 증가 처리
+				noticeservice.addReadCount(notice_no);
 				return "notice/noticeDetailView";
 			}
 		} else {

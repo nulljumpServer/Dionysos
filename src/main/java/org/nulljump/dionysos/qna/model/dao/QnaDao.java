@@ -77,7 +77,7 @@ public class QnaDao {
 		return session.delete("qnaMapper.deleteInquiry", qna);
 	}
 
-	// 관리자
+	// 관리자	
 	// 답변 등록
 	public int insertReply(Qna reply) {
 		
@@ -108,8 +108,12 @@ public class QnaDao {
 		return session.update("qnaMapper.updateReplySeq", reply);
 	}
 
-	
 
+	//문의상태 증가시키기
+	public int updateState(Qna qna) {
+		
+		return session.update("qnaMapper.updateState", qna);
+	}
 	
 
 	
