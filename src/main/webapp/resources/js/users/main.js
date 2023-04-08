@@ -219,8 +219,6 @@
     fixedContentPos: false
   });
 
-  $('[data-toggle="popover"]').popover()
-	$('[data-toggle="tooltip"]').tooltip()
 
 })(jQuery);
 

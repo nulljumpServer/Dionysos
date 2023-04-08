@@ -210,9 +210,9 @@
                                         <div class="header-right-info">
                                             <ul class="nav navbar-nav mai-top-nav header-right-menu">
                                                 <li class="nav-item">
-                                                    <a href="logout.do" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
+                                                   <i class="icon nalika-user"></i><a title="Inbox" href="logout.do"><span class="mini-sub-pro">logout</span></a>
 															<i class="icon nalika-user"></i>
-															<span class="admin-name">LogOut</span></a>
+															
 															
 														
                                                    

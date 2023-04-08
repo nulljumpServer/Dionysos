@@ -175,6 +175,10 @@
 													<button type="reset"
 														class="btn btn-ctl-bt waves-effect waves-light">취소
 													</button>
+<<<<<<< Updated upstream
+=======
+													<button class="btn btn-ctl-bt waves-effect waves-light" onclick="javascript:history.go(-1); return false;">목록</button>
+>>>>>>> Stashed changes
 												</div>
 											</div>
 										</div>
@@ -200,7 +204,11 @@
 														<div class="input-group">
 															<span class="input-group-addon">상품 이미지 : </span>
 															<div class="form-group">
+<<<<<<< Updated upstream
 																<input class="form-control form-control-user" type="file" name="upfile1" id="product_image"
+=======
+																<input class="form-control form-control-user" type="file" accept="image/*" name="upfile1" id="product_image"
+>>>>>>> Stashed changes
 																	onchange="setThumbnail1(event);">
 															</div>
 														</div>
@@ -221,7 +229,11 @@
 														<div class="input-group">
 															<span class="input-group-addon">상세 이미지 : </span>
 															<div class="form-group">
+<<<<<<< Updated upstream
 																<input class="form-control form-control-user" type="file" name="upfile2" id="wine_detail"
+=======
+																<input class="form-control form-control-user" type="file" accept="image/*" name="upfile2" id="wine_detail"
+>>>>>>> Stashed changes
 																	onchange="setThumbnail2(event);">
 															</div>
 														</div>

@@ -18,7 +18,11 @@
       alert(alertMessage);
     }
 	</script>
+<<<<<<< Updated upstream
 	<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,700;0,800;1,200;1,300;1,400;1,500;1,700&display=swap"
+=======
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,700;0,800;1,200;1,300;1,400;1,500;1,700&display=swap"
+>>>>>>> Stashed changes
 	rel="stylesheet">
 <link rel="stylesheet"	href="${pageContext.servletContext.contextPath}/resources/css/users/font-awesome.min.css">
 <link rel="stylesheet"	href="${pageContext.servletContext.contextPath}/resources/css/users/animate.css">
@@ -226,10 +230,6 @@
 		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.min.js"></script>
 	<script
 		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery-migrate-3.0.1.min.js"></script>
-	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/users/popper.min.js"></script>
-	<script
-		src="${pageContext.servletContext.contextPath}/resources/js/users/bootstrap.min.js"></script>
 	<script
 		src="${pageContext.servletContext.contextPath}/resources/js/users/jquery.easing.1.3.js"></script>
 	<script

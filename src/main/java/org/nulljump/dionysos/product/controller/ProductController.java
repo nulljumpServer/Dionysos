@@ -1,17 +1,18 @@
 package org.nulljump.dionysos.product.controller;
 
-
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.nulljump.dionysos.common.FileNameChange;
 import org.nulljump.dionysos.common.Paging;
 import org.nulljump.dionysos.product.model.service.ProductService;
 import org.nulljump.dionysos.product.model.vo.Product;
+<<<<<<< Updated upstream
+=======
+import org.nulljump.dionysos.review.model.service.ReviewService;
+>>>>>>> Stashed changes
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +24,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-@Controller   //xml에 클래스를 controller로 자동 등록해 줌
+@Controller
+
 public class ProductController {
 	private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
-	
+
 	@Autowired
 	private ProductService productService;
-	
+
 	@Autowired
+<<<<<<< Updated upstream
 	private ProductController(ProductService productService) {
 		this.productService = productService;
 	}
@@ -61,18 +64,45 @@ public class ProductController {
 	//목록 페이지 단위로 목록보기 요청 처리용 메소드
 	@RequestMapping("plistView.do")
 	 public ModelAndView productListMethod(@RequestParam(name = "page", required = false) String page, ModelAndView mv) {
+=======
+	private ReviewService reviewService;
+
+//	@Autowired
+//	private StoreService storeService;
+
+//	// 페이지 카운트
+//	@RequestMapping("pcount.do")
+//	public int getProductListCountMethod(@RequestParam(required = false) Integer product_id) {
+//		int count;
+//		if (product_id != null) {
+//			count = productService.selectListCount();
+//		} else {
+//			count = productService.selectListCount(); // get count of all products
+//		}
+//		return count;
+//	}
+
+	// 목록 페이지 단위로 목록보기 요청 처리용 메소드
+	@RequestMapping("plistView.do")
+	public ModelAndView productListMethod(@RequestParam(name = "page", required = false) String page, ModelAndView mv) {
+>>>>>>> Stashed changes
 
 		int currentPage = 1;
 		if (page != null) {
 			currentPage = Integer.parseInt(page);
 		}
 
+<<<<<<< Updated upstream
 		// 한 페이지에 게시글 10개씩 출력되게 하는 경우 :
+=======
+		
+>>>>>>> Stashed changes
 		// 페이징 계산 처리 - 별도의 클래스로 작성해서 이용해도 됨
 		int limit = 10; // 한 페이지에 출력할 목록 갯수
 		// 총 페이지 수 계산을 위해 게시글 총 갯수 조회해 옴
 		int listCount = productService.selectListCount();
-		Paging paging = new Paging(listCount, currentPage, limit);
+		String url = "plistView.do";
+		Paging paging = new Paging(listCount, currentPage, limit, url);
 		paging.calculator();
 
 		ArrayList<Product> list = productService.selectProductList(paging);
@@ -83,12 +113,13 @@ public class ProductController {
 
 			mv.setViewName("product/productListView");
 		} else {
-			mv.addObject("message", currentPage + " 페이지 목록 조회 실패!");
+			mv.addObject("message", currentPage + " 출력 실패!");
 			mv.setViewName("common/error");
 		}
 
 		return mv;
 	}
+<<<<<<< Updated upstream
 //	public ModelAndView productListMethod(@RequestParam(name = "page", required = false) String page, ModelAndView mv) {
 //		
 //		int currentPage = 1;
@@ -283,9 +314,56 @@ public class ProductController {
 		String keyword = null;
 		
 		ArrayList<Product> list = null;
+=======
+
+	
+
+	
+	// 상품 상세목록페이지 이동 메소드
+	@RequestMapping("pdetail.do")
+	public String productDetailMethod(HttpSession session, @RequestParam("product_id") int product_id, Model model) {
+		Product product = productService.selectProduct(product_id);
+
+		// HttpSession에 최근 본 상품 정보를 저장(최근 본 상품 노출용)
+		List<Product> recentProducts = (List<Product>) session.getAttribute("recentProducts");
+		if (recentProducts == null) {
+			recentProducts = new ArrayList<Product>();
+		}
+		Iterator<Product> it = recentProducts.iterator();
+		while (it.hasNext()) {
+			Product p = it.next();
+			if (p.getProduct_id() == product_id) {
+				it.remove();
+			}
+		}
+		recentProducts.add(0, product);
+		if (recentProducts.size() > 3) {
+			recentProducts.remove(3);
+		}
+		if (product != null) {
+			model.addAttribute("product", product);
+			session.setAttribute("recentProducts", recentProducts);
+			return "product/productDetailView";
+		} else {
+			model.addAttribute("message", product + " ��ǰ�� ǰ�� Ȥ�� �������� �ʽ��ϴ�.");
+			return "common/error";
+		}
+	}
+
+	// 사용자 상품검색기능 메소드 (페이징 적용)
+	@RequestMapping(value = "psearch.do", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView productSearchMethod(ModelAndView mv, HttpServletRequest request,
+			@RequestParam(value = "page", required = false) String page) {
+		String action = request.getParameter("action");
+		logger.info("action : " + action);
 		
-		switch(action) {
+		String keyword = null;
+		keyword = request.getParameter("keyword");
+		logger.info("keyword : " + keyword);
+>>>>>>> Stashed changes
 		
+		
+<<<<<<< Updated upstream
 //		case "id": list = productService.selectSearchProductId(Integer.parseInt(keyword));
 //					break;
 		case "name": list = productService.selectSearchProductName(keyword);
@@ -309,16 +387,101 @@ public class ProductController {
 		case "wine_type": list = productService.selectSearchProductType(keyword);
 					break;
 		}  //switch
+=======
+		int currentPage = 1;
+		if (page != null) {
+			currentPage = Integer.parseInt(page);
+		}
+		String url = "psearch.do";
+		int limit = 10;
+		int listCount = productService.selectSearchProductCount(action, keyword);
+		logger.info("paging : " + listCount + ", " + currentPage + ", " + limit + ", " +  url);
+		Paging paging = new Paging(listCount, currentPage, limit, url);
+>>>>>>> Stashed changes
 		
-		if(list != null && list.size() > 0) {
+		paging.setListCount(listCount);
+		paging.calculator();
+		
+		ArrayList<Product> list = productService.selectSearchProduct(action, keyword, paging);
+
+		if (list != null && list.size() > 0) {
+			mv.addObject("list", list);
+			mv.addObject("action", action);
+			mv.addObject("keyword", keyword);
+			mv.addObject("paging", paging);
+			mv.setViewName("product/productListView");
+			
+		} else {
+			mv.addObject("message", action + " 검색 결과가 없습니다.");
+			mv.setViewName("common/error");
+		}
+		return mv;
+	}
+	
+	//필터링 검색 기능
+	@RequestMapping(value = "advsearch.do", method = { RequestMethod.GET, RequestMethod.POST })
+	public String advancedSearchMethod(@RequestParam(value = "wine_type", required = false) List<String> wine_type,
+			@RequestParam(value = "wine_origin", required = false) List<String> wine_origin,
+			@RequestParam(value = "product_price", required = false) String pr,
+			@RequestParam(value = "sweetness", required = false) String sw,
+			@RequestParam(value = "acidity", required = false) String ac,
+			@RequestParam(value = "body", required = false) String bd,
+			@RequestParam(value = "tannin", required = false) String ta,
+			@RequestParam(value = "page", required = false) String page, Model model) {
+		
+		//RequestParam으로 int 값을 받을 때 해당 값이 존재하지 않으면 null로 인식하지 못해 에러 발생
+		// 그래서 아래 별도 처리 사용
+		int product_price = -1;
+		int sweetness = -1;
+		int body = -1;
+		int tannin = -1;
+		int acidity = -1;
+		if (pr != null) {
+			product_price = Integer.parseInt(pr);
+		}
+		if (sw != null) {
+			sweetness = Integer.parseInt(sw);
+		}
+		if (bd != null) {
+			body = Integer.parseInt(bd);
+		}
+		if (ta != null) {
+			tannin = Integer.parseInt(ta);
+		}
+		if (ac != null) {
+			acidity = Integer.parseInt(ac);
+		}
+		ArrayList<Product> list = productService.selectFilter(wine_type, wine_origin, product_price, sweetness, acidity,
+				body, tannin);
+		
+		int currentPage = 1;
+		if (page != null) {
+			currentPage = Integer.parseInt(page);
+		}
+
+		int limit = 10;
+
+		int listCount = list.size();
+		String url = "advsearch.do";
+		Paging paging = new Paging(listCount, currentPage, limit, url);
+		paging.calculator();
+
+		if (list != null && list.size() > 0) {
 			model.addAttribute("list", list);
+			model.addAttribute("paging", paging);
 			return "product/productListView";
+<<<<<<< Updated upstream
 		}else {
 			model.addAttribute("message", action + " 상품이 품절 혹은 존재하지 않습니다.");
+=======
+		} else {
+			model.addAttribute("message", "검색 결과가 없거나 실패");
+>>>>>>> Stashed changes
 			return "common/error";
 		}
 	}
 	
+<<<<<<< Updated upstream
 	//관리자 기능
 	
 	//관리자 확인용 메소드
@@ -328,66 +491,185 @@ public class ProductController {
 	public String moveProductInsert() {
 		return "product/productInsertForm";
 	}
+=======
+	
+	
+	
+>>>>>>> Stashed changes
 
-	// 상품 등록 처리
-	@RequestMapping(value = "pinsert.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String productInsertMethod(Product product, Model model, HttpServletRequest request,
-			@RequestParam(name = "upfile", required = false) MultipartFile mfile) {
-		
-		//상품 첨부파일 저장 폴더 경로 지정
-		String savePath = request.getSession().getServletContext().getRealPath("resources/product_upfiles");
-		
-		//첨부파일
-		String fileName = mfile.getOriginalFilename();
-		
-		if(fileName != null && fileName.length() > 0) {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-			//변경할 파일명 만들기
-		    String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis()));
+	//관리자 기능
+	
+	
+	// 관리자 상품검색기능 메소드 (페이징 적용)
+		@RequestMapping(value = "admpsearch.do", method = { RequestMethod.GET, RequestMethod.POST })
+		public ModelAndView adminProductSearchMethod(ModelAndView mv, HttpServletRequest request,
+				@RequestParam(value = "page", required = false) String page) {
+			String action = request.getParameter("action");
+			logger.info("action : " + action);
 			
-		    renameFileName += "." + fileName.substring(fileName.lastIndexOf(".") + 1);
-		    logger.info("첨부 파일명 확인 : " + fileName + ", " + renameFileName);
-		    
-		    File renameFile = new File(savePath +"\\" + renameFileName);
-		    
-		    try {
-		    	mfile.transferTo(renameFile);
-		    }catch(Exception e){
-		    	e.printStackTrace();
-		    	model.addAttribute("message", "첨부파일 저장 실패!");
-		    	return "common/error";
-		    }
+			String keyword = null;
+			keyword = request.getParameter("keyword");
+			logger.info("keyword : " + keyword);
+			
+			
+			int currentPage = 1;
+			if (page != null) {
+				currentPage = Integer.parseInt(page);
+			}
+			String url = "admpsearch.do";
+			int limit = 10;
+			int listCount = productService.selectSearchProductCount(action, keyword);
+			logger.info("paging : " + listCount + ", " + currentPage + ", " + limit + ", " +  url);
+			Paging paging = new Paging(listCount, currentPage, limit, url);
+			
+			paging.setListCount(listCount);
+			paging.calculator();
+			
+			ArrayList<Product> list = productService.selectSearchProduct(action, keyword, paging);
+
+			if (list != null && list.size() > 0) {
+				mv.addObject("list", list);
+				mv.addObject("action", action);
+				mv.addObject("keyword", keyword);
+				mv.addObject("paging", paging);
+				mv.setViewName("admin/productListView");
+				
+			} else {
+				mv.addObject("message", action + " 검색 결과가 없습니다.");
+				mv.setViewName("common/error");
+			}
+			return mv;
 		}
-		if(productService.insertProduct(product) > 0) {
-			//상품 등록 성공시 목록 보기 페이지로 이동
-			return "redirect:plistView.do";
-		}else {
+	
+	
+	
+	// 관리자용 상품 관리 기능 페이지 이동 메소드(페이징)
+		@RequestMapping("adminplistView.do")
+		public ModelAndView adminProductListMethod(@RequestParam(name = "page", required = false) String page,
+				ModelAndView mv) {
+
+			int currentPage = 1;
+			if (page != null) {
+				currentPage = Integer.parseInt(page);
+			}
+
+			// 한 페이지에 게시글 10개씩 출력되게 하는 경우 :
+			// 페이징 계산 처리 - 별도의 클래스로 작성해서 이용해도 됨
+			int limit = 10;  // 한 페이지에 출력할 목록 갯수
+			// 총 페이지 수 계산을 위해 게시글 총 갯수 조회해 옴
+			int listCount = productService.selectListCount();
+			String url = "adminplistView.do";
+			Paging paging = new Paging(listCount, currentPage, limit, url);
+			paging.calculator();
+
+			ArrayList<Product> list = productService.selectProductList(paging);
+
+			if (list != null && list.size() > 0) {
+				mv.addObject("list", list);
+				mv.addObject("paging", paging);
+
+				mv.setViewName("admin/productListView");
+			} else {
+				mv.addObject("message", currentPage + " 출력 실패");
+				mv.setViewName("common/error");
+			}
+
+			return mv;
+		}
+	
+	//상품 등록 form 이동 메소드
+	@RequestMapping(value = "pinsertForm.do", method = { RequestMethod.GET, RequestMethod.POST })
+	public String moveProductInsert() {
+		return "product/productInsertForm";
+	}
+
+	// 상품 등록 처리 메소드
+	@RequestMapping(value = "pinsert.do", method = { RequestMethod.GET, RequestMethod.POST })
+	public String productInsertMethod(Product product, Model model, HttpServletRequest request,
+			@RequestParam(value = "upfile1", required = false) MultipartFile mfile1,
+			@RequestParam(value = "upfile2", required = false) MultipartFile mfile2) {
+
+		// 상품 첨부파일 저장 폴더 경로 지정
+		String savePath1 = request.getSession().getServletContext().getRealPath("resources/images/product_single");
+		String savePath2 = request.getSession().getServletContext().getRealPath("resources/images/product_detail");
+
+		// 첨부파일1
+		String fileName1 = mfile1.getOriginalFilename();
+
+		if (fileName1 != null && fileName1.length() > 0) {
+
+			// 변경할 파일명 만들기
+			String renameFileName1 = "wine_single_" + (productService.selectLastProductId() + 1);
+
+			renameFileName1 += "." + fileName1.substring(fileName1.lastIndexOf(".") + 1);
+			logger.info("첨부 파일명 확인 : " + fileName1 + ", " + renameFileName1);
+
+			File renameFile1 = new File(savePath1 + "\\" + renameFileName1);
+
+			try {
+				mfile1.transferTo(renameFile1);
+			} catch (Exception e) {
+				e.printStackTrace();
+				model.addAttribute("message", "첨부파일1 저장 실패!");
+				return "common/error";
+			}
+			product.setProduct_image("/resources/images/product_single/" + renameFileName1);
+		}
+
+		// 첨부파일2
+		String fileName2 = mfile2.getOriginalFilename();
+
+		if (fileName2 != null && fileName2.length() > 0) {
+			// 변경할 파일명 만들기
+			String renameFileName2 = "wine_detail_" + (productService.selectLastProductId() + 1);
+
+			renameFileName2 += "." + fileName2.substring(fileName2.lastIndexOf(".") + 1);
+			logger.info("첨부 파일명 확인 : " + fileName2 + ", " + renameFileName2);
+
+			File renameFile2 = new File(savePath2 + "\\" + renameFileName2);
+
+			try {
+				mfile2.transferTo(renameFile2);
+			} catch (Exception e) {
+				e.printStackTrace();
+				model.addAttribute("message", "첨부파일2 저장 실패!");
+				return "common/error";
+			}
+			product.setWine_detail("/resources/images/product_detail/" + renameFileName2);
+		}
+
+		if (productService.insertProduct(product) > 0) {
+			// 상품 등록 성공시 상품관리 - 목록 보기 페이지로 이동
+			return "redirect:adminplistView.do";
+		} else {
 			model.addAttribute("message", product.getProduct_id() + "새 상품 등록 실패!");
 			return "common/error";
 		}
 	}
-	
+
 	// 상품 수정 페이지 요청
-	@RequestMapping(value="pupdateForm.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String moveProductUpdateView(@RequestParam("product_id") int product_id, @RequestParam("page") int currentPage, Model model) {
+	@RequestMapping(value = "pupdateForm.do", method = { RequestMethod.GET, RequestMethod.POST })
+	public String moveProductUpdateView(@RequestParam("product_id") int product_id,
+			@RequestParam("page") String currentPage, Model model) {
 		//수정페이지로 보낼 product 객체 정보 조회함
 		Product product = productService.selectProduct(product_id);
-		
-		if(product != null) {
+
+		if (product != null) {
 			model.addAttribute("product", product);
 			model.addAttribute("currentPage", currentPage);
-			
+
 			return "product/productUpdateForm";
-		}else {
-			model.addAttribute("message", product_id +"상품 수정페이지로 이동 실패!");
-			
+		} else {
+			model.addAttribute("message", product_id + "번 상품 정보 수정 실패!");
+
 			return "common/error";
 		}
 	}
 
-	// 상품 수정 처리
-	@RequestMapping(value = "pupdate.do", method= {RequestMethod.GET, RequestMethod.POST})
+	// 상품 정보 수정 처리
+	@RequestMapping(value = "pupdate.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String productUpdateMethod(Product product, Model model, HttpServletRequest request,
+<<<<<<< Updated upstream
 			@RequestParam(name = "delflag", required = false) String delFlag,
 			@RequestParam(name = "upfile", required = false) MultipartFile mfile,
 			@RequestParam("page") int page) {
@@ -407,47 +689,90 @@ public class ProductController {
 			if(product.getProduct_image() != null) {
 				//저장 폴더에 있는 이전 파일 삭제함
 				new File(savePath + "/" + product.getProduct_image()).delete();
+=======
+			@RequestParam(name = "upfile1", required = false) MultipartFile mfile1,
+			@RequestParam(name = "upfile2", required = false) MultipartFile mfile2, @RequestParam("page") int page) {
+
+		// 원본 첨부파일 저장 폴더 경로 지정
+		String savePath1 = request.getSession().getServletContext().getRealPath("resources/images/product_single");
+		String savePath2 = request.getSession().getServletContext().getRealPath("resources/images/product_detail");
+
+		// 새로운 첨부파일이 있을때
+		if (!mfile1.isEmpty()) {
+			// 이전 첨부파일이 있을 때
+			if (product.getProduct_image() != null) {
+				// 저장 폴더에 있는 이전 파일을 삭제함
+				new File(product.getProduct_image()).delete();
+>>>>>>> Stashed changes
 			}
-			//2-2. 이전 첨부파일이 없을 때
-			//전송 온 파일이름 추출함
-			String fileName = mfile.getOriginalFilename();
-			
-			if(fileName != null && fileName.length() > 0) {
-				String renameFileName = FileNameChange.change(fileName, "yyyyMMddHHmmss");
-				
-				renameFileName += "." + fileName.substring(fileName.lastIndexOf(".") + 1);
-				logger.info("첨부 파일명 확인 : " + fileName + ", " + renameFileName);
-				
-				//파일 객체 만들기
-				File renameFile = new File(savePath + "/" + renameFileName);
-				
-				//폴더에 저장 처리
+
+			// 첨부파일1 파일명설정
+			String fileName1 = mfile1.getOriginalFilename();
+
+			if (fileName1 != null && fileName1.length() > 0) {
+				// 변경할 파일명 만들기
+				String renameFileName1 = "wine_single_" + (product.getProduct_id());
+
+				renameFileName1 += "." + fileName1.substring(fileName1.lastIndexOf(".") + 1);
+				logger.info("첨부 파일명 확인 : " + fileName1 + ", " + renameFileName1);
+
+				File renameFile1 = new File(savePath1 + "\\" + renameFileName1);
+
 				try {
-					mfile.transferTo(renameFile);
-				}catch(Exception e) {
+					mfile1.transferTo(renameFile1);
+				} catch (Exception e) {
 					e.printStackTrace();
-					model.addAttribute("message", "첨부파일 저장 실패!");
+					model.addAttribute("message", "첨부파일1 저장 실패!");
 					return "common/error";
 				}
+				product.setProduct_image("/resources/images/product_single/" + renameFileName1);
+			}
+
+		}
+		if (!mfile2.isEmpty()) {
+			// 이전 첨부파일이 있을 때
+			if (product.getWine_detail() != null) {
+				// 저장 폴더에 있는 이전 파일을 삭제함
+				new File(product.getWine_detail()).delete();
+			}
+			String fileName2 = mfile2.getOriginalFilename();
+
+			if (fileName2 != null && fileName2.length() > 0) {
+				// 변경할 파일명 만들기
+				String renameFileName2 = "wine_detail_" + (product.getProduct_id());
+
+				renameFileName2 += "." + fileName2.substring(fileName2.lastIndexOf(".") + 1);
+				logger.info("첨부 파일명 확인 : " + fileName2 + ", " + renameFileName2);
+
+				File renameFile2 = new File(savePath2 + "\\" + renameFileName2);
+
+				try {
+					mfile2.transferTo(renameFile2);
+				} catch (Exception e) {
+					e.printStackTrace();
+					model.addAttribute("message", "첨부파일2 저장 실패!");
+					return "common/error";
+				}
+				product.setWine_detail("/resources/images/product_detail/" + renameFileName2);
 			}
 		}
 
-		if(productService.updateProduct(product) > 0) {
-			//상품 수정 성공시 상세보기 페이지로 이동
+		if (productService.updateProduct(product) > 0) {
+			// 상품 수정 성공시 수정한 상품이 포함된 상품관리 페이지로 이동
 			model.addAttribute("page", page);
 			model.addAttribute("product_id", product.getProduct_id());
-			
-			return "redirect:pdetailView.do";
+
+			return "redirect:adminplistView.do";
 		} else {
 			model.addAttribute("message", product.getProduct_id() + "상품 수정 실패!");
 			return "common/error";
 		}
 	}
 
-
 	// 상품 삭제 처리
-	@RequestMapping(value = "pdelete.do", method= {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value = "pdelete.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String productDeleteMethod(Product product, HttpServletRequest request, Model model) {
+<<<<<<< Updated upstream
     	if(productService.deleteProduct(product) > 0) {
     		//글 삭제가 성공하면, 저장폴더에 있는 첨부파일도 삭제 처리
     			new File(request.getSession().getServletContext().getRealPath("resources/product_upfiles") + "/" + product.getProduct_image()).delete();
@@ -503,11 +828,22 @@ public class ProductController {
 //	 }
 	
 		
+=======
+		if (productService.deleteProduct(product) > 0) {
+			// 상품 삭제에 성공하면, 저장 폴더에 있는 첨부파일도 같이 삭제 처리
+			new File(request.getSession().getServletContext().getRealPath("resources/images/product_single") + "/"
+					+ product.getProduct_image()).delete();
+			new File(request.getSession().getServletContext().getRealPath("resources/images/product_detail") + "/"
+					+ product.getWine_detail()).delete();
+			return "redirect:adminplistView.do?page=1";
+		} else {
+			model.addAttribute("message", product.getProduct_id() + "상품 삭제 실패!");
+			return "common/error";
+		}
+	}
+	
+	
+>>>>>>> Stashed changes
 
-	
-	
-		
-		
-		
 }
 

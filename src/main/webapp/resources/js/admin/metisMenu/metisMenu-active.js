@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
  (function ($) {
  "use strict";
  
@@ -6,4 +7,14 @@
 })(jQuery); 
  
  
+=======
+ (function ($) {
+ "use strict";
+ 
+	$('#menu1').metisMenu();
+
+})(jQuery); 
+ 
+ 
+>>>>>>> Stashed changes
  
