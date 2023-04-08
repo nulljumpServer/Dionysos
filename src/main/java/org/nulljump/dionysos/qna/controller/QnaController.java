@@ -30,7 +30,7 @@ public class QnaController {
 	@Autowired
 	private QnaService qnaservice;
 
-	// 1:1¹®ÀÇ ÀüÃ¼ ¸ñ·Ï Ãâ·Â
+	// 1:1ë¬¸ì˜ ì „ì²´ ëª©ë¡ ì¶œë ¥
 	@RequestMapping("qalist.do")
 	public String qnaAllListMethod(Model model) {
 		ArrayList<Qna> list = qnaservice.selectAllList();
@@ -39,22 +39,23 @@ public class QnaController {
 			model.addAttribute("list", list);
 			return "qna/qnaListView";
 		} else {
-			model.addAttribute("message", "µî·ÏµÈ °øÁö»çÇ× Á¤º¸°¡ ¾ø½À´Ï´Ù.");
+			model.addAttribute("message", "ë“±ë¡ëœ ê³µì§€ì‚¬í•­ ì •ë³´ê°€ ì—†ìŠµë‹ˆë‹¤.");
 			return "common/error";
 		}
 	}
-	
-	// 1:1¹®ÀÇ ÆäÀÌÁö ´ÜÀ§·Î ¸ñ·Ïº¸±â 
+
+	// 1:1ë¬¸ì˜ í˜ì´ì§€ ë‹¨ìœ„ë¡œ ëª©ë¡ë³´ê¸°
 	@RequestMapping("qlist.do")
-	public ModelAndView qnaListMethod(@RequestParam(name = "page", required = false) String page, ModelAndView mv) {
+	public ModelAndView qnaListMethod(@RequestParam(name = "page", required = false) String page, 
+			HttpSession session, ModelAndView mv) {
 
 		int currentPage = 1;
 		if (page != null) {
 			currentPage = Integer.parseInt(page);
 		}
 
-		int limit = 10; // ÇÑ ÆäÀÌÁö¿¡ Ãâ·ÂÇÒ ¸ñ·Ï °¹¼ö
-		// ÃÑ ÆäÀÌÁö ¼ö °è»êÀ» À§ÇØ °Ô½Ã±Û ÃÑ °¹¼ö Á¶È¸ÇØ ¿È
+		int limit = 10; // í•œ í˜ì´ì§€ì— ì¶œë ¥í•  ëª©ë¡ ê°¯ìˆ˜
+		// ì´ í˜ì´ì§€ ìˆ˜ ê³„ì‚°ì„ ìœ„í•´ ê²Œì‹œê¸€ ì´ ê°¯ìˆ˜ ì¡°íšŒí•´ ì˜´
 		int listCount = qnaservice.selectListCount();
 		Paging paging = new Paging(listCount, currentPage, limit);
 		paging.calculator();
@@ -62,262 +63,412 @@ public class QnaController {
 		ArrayList<Qna> list = qnaservice.selectList(paging);
 
 		if (list != null && list.size() > 0) {
-			mv.addObject("list", list);
-			mv.addObject("paging", paging);
-
-			mv.setViewName("qna/qnaListView");
+			Users loginUsers = (Users) session.getAttribute("loginUsers");
+			if (loginUsers != null && loginUsers.getAdmin().equals("Y")) {
+				// ë¡œê·¸ì¸í•œ ê´€ë¦¬ìê°€ ìš”ì²­í–ˆë‹¤ë©´
+				mv.addObject("list", list);
+				mv.addObject("paging", paging);
+				mv.setViewName("qna/qnaAdminListView");
+			}else {
+				// ê´€ë¦¬ìê°€ ì•„ë‹Œ ë˜ëŠ” ë¡œê·¸ì¸í•˜ì§€ ì•Šì€ ìƒíƒœì—ì„œì˜ ìš”ì²­ì´ë¼ë©´
+				mv.addObject("list", list);
+				mv.addObject("paging", paging);
+				mv.setViewName("qna/qnaListView");
+			}		
 		} else {
-			mv.addObject("message", currentPage + " ÆäÀÌÁö ¸ñ·Ï Á¶È¸ ½ÇÆĞ!");
+			mv.addObject("message", currentPage + " í˜ì´ì§€ ëª©ë¡ ì¡°íšŒ ì‹¤íŒ¨!");
 			mv.setViewName("common/error");
 		}
 
 		return mv;
 	}
-	
-	// 1:1¹®ÀÇ »ó¼¼º¸±â
-	@RequestMapping("qdetail.do")
-	public String qnaDetailMethod(@RequestParam("qnano") int qna_no, Model model, HttpSession session) {
-		// °ü¸®ÀÚ¿ë »ó¼¼º¸±â ÆäÀÌÁö¿Í ÀÏ¹İÈ¸¿ø ¶Ç´Â ºñÈ¸¿ø »ó¼¼º¸±â ÆäÀÌÁö ±¸ºĞ
-		// HttpSession À» ¸Å°³º¯¼ö¿¡ Ãß°¡
 
+	// 1:1ë¬¸ì˜ ìƒì„¸ë³´ê¸°
+	@RequestMapping("qdetail.do")
+	public ModelAndView qnaDetailMethod(ModelAndView mv, HttpSession session, @RequestParam("qna_no") int qna_no,
+			@RequestParam(name = "page", required = false) String page) {
+
+		int currentPage = 1;
+//		if (page != null) {
+//			currentPage = Integer.parseInt(page);
+//		}
+
+		// í•´ë‹¹ ê²Œì‹œê¸€ ì¡°íšŒ
+		Qna qna = qnaservice.selectQna(qna_no);
+
+		// ì»¨íŠ¸ë¡¤ëŸ¬ì—ì„œ ì—¬ëŸ¬ê°œì˜ ì„œë¹„ìŠ¤ í˜¸ì¶œí•´ì„œ ëª¨ë¸ì— í•œë²ˆì— ë‹´ì•„ì„œ ë·°ì— ë³´ì—¬ì£¼ë©´ ë¨
+
+		if (qna != null) {
+			Users loginUsers = (Users) session.getAttribute("loginUsers");
+			if (loginUsers != null && loginUsers.getAdmin().equals("Y")) {
+				// ë¡œê·¸ì¸í•œ ê´€ë¦¬ìê°€ ìš”ì²­í–ˆë‹¤ë©´
+				mv.addObject("qna", qna);
+				mv.addObject("currentPage", currentPage);
+				mv.setViewName("qna/qnaAdminDetailView");
+			} else {
+				// ê´€ë¦¬ìê°€ ì•„ë‹Œ ë˜ëŠ” ë¡œê·¸ì¸í•˜ì§€ ì•Šì€ ìƒíƒœì—ì„œì˜ ìš”ì²­ì´ë¼ë©´
+				mv.addObject("qna", qna);
+				mv.addObject("currentPage", currentPage);
+				mv.setViewName("qna/qnaDetailView");
+			}
+
+		} else {
+			mv.addObject("message", qna_no + "ë²ˆ ê²Œì‹œê¸€ ì¡°íšŒ ì‹¤íŒ¨");
+			mv.setViewName("common/error");
+		}
+
+		return mv;
+	}
+
+	// ì²¨ë¶€íŒŒì¼ ë‹¤ìš´ë¡œë“œ ìš”ì²­ ì²˜ë¦¬ìš©
+	@RequestMapping("qfdown.do")
+	public ModelAndView fileDownMethod(ModelAndView mv, HttpServletRequest request,
+			@RequestParam("ofile") String originalFileName, @RequestParam("rfile") String renameFileName) {
+		// ê³µì§€ì‚¬í•­ ì²¨ë¶€íŒŒì¼ ì €ì¥í´ë”ì— ëŒ€í•œ ê²½ë¡œ(path) ì§€ì •
+		String savePath = request.getSession().getServletContext().getRealPath("resources/qna_upfiles");
+
+		// ì €ì¥ í´ë”ì—ì„œ ì½ì„ íŒŒì¼ì— ëŒ€í•œ íŒŒì¼ ê°ì²´ ìƒì„±
+		File renameFile = new File(savePath + "\\" + renameFileName);
+		// íŒŒì¼ ë‹¤ìš´ì‹œ ë‚´ë³´ë‚¼ ì›ë˜ ì´ë¦„ì˜ íŒŒì¼ ê°ì²´ ìƒì„±
+		File originFile = new File(originalFileName);
+
+		// íŒŒì¼ ë‹¤ìš´ë¡œë“œ ë·°ë¡œ ì „ë‹¬í•  ì •ë³´ ì €ì¥
+		mv.setViewName("filedown"); // ë“±ë¡ëœ íŒŒì¼ë‹¤ìš´ë¡œë“œ ë·°ì˜ idëª…
+		mv.addObject("renameFile", renameFile);
+		mv.addObject("originFile", originFile);
+
+		return mv;
+	}
+
+	// ì œëª©ìœ¼ë¡œ ê²€ìƒ‰
+	@RequestMapping(value = "qsearchTitle.do", method = RequestMethod.POST)
+	public String qnaSearchTitleMethod(@RequestParam("title") String title, Model model, HttpSession session) {
+
+		ArrayList<Qna> list = qnaservice.selectTitleSearch(title);
+		
+		logger.info(title);
+
+		if (list != null && list.size() > 0) {
+			Users loginUsers = (Users) session.getAttribute("loginUsers");
+			if (loginUsers != null && loginUsers.getAdmin().equals("Y")) {
+				// ë¡œê·¸ì¸í•œ ê´€ë¦¬ìê°€ ìš”ì²­í–ˆë‹¤ë©´
+				model.addAttribute("list", list);
+				return "qna/qnaAdminListView";
+			}else {
+				model.addAttribute("list", list);
+				return "qna/qnaListView";
+			}
+		} else {
+			model.addAttribute("message", title + "ë¡œ ê²€ìƒ‰ëœ ì •ë³´ê°€ ì—†ìŠµë‹ˆë‹¤.");
+			return "common/error";
+		}
+
+	}
+
+	// ì‚¬ìš©ì ì•„ì´ë””ë¡œ ê²€ìƒ‰
+	@RequestMapping(value = "qsearchId.do", method = RequestMethod.POST)
+	public String qnaSearchIdMethod(String user_id, Model model, HttpSession session) {
+
+		ArrayList<Qna> list = qnaservice.selectIdSearch(user_id);
+
+		if (list != null && list.size() > 0) {
+			Users loginUsers = (Users) session.getAttribute("loginUsers");
+			if (loginUsers != null && loginUsers.getAdmin().equals("Y")) {
+				// ë¡œê·¸ì¸í•œ ê´€ë¦¬ìê°€ ìš”ì²­í–ˆë‹¤ë©´
+				model.addAttribute("list", list);
+				return "qna/qnaAdminListView";
+			}else {
+				model.addAttribute("list", list);
+				return "qna/qnaListView";
+			}
+		} else {
+			model.addAttribute("message", "í•´ë‹¹ ë‚ ì§œë¡œ ë“±ë¡ëœ ì •ë³´ê°€ ì—†ìŠµë‹ˆë‹¤.");
+			return "common/error";
+		}
+	}
+
+	// ë‚ ì§œë¡œ ê²€ìƒ‰
+	@RequestMapping(value = "qsearchDate.do", method = RequestMethod.POST)
+	public String qnaSearchDateMethod(SearchDate date, Model model, HttpSession session) {
+
+		ArrayList<Qna> list = qnaservice.selectDateSearch(date);
+
+		if (list != null && list.size() > 0) {
+			Users loginUsers = (Users) session.getAttribute("loginUsers");
+			if (loginUsers != null && loginUsers.getAdmin().equals("Y")) {
+				// ë¡œê·¸ì¸í•œ ê´€ë¦¬ìê°€ ìš”ì²­í–ˆë‹¤ë©´
+				model.addAttribute("list", list);
+				return "qna/qnaAdminListView";
+			}else {
+				model.addAttribute("list", list);
+				return "qna/qnaListView";
+			}
+		} else {
+			model.addAttribute("message", "í•´ë‹¹ ë‚ ì§œë¡œ ë“±ë¡ëœ ì •ë³´ê°€ ì—†ìŠµë‹ˆë‹¤.");
+			return "common/error";
+		}
+	}
+
+	// 1:1ë¬¸ì˜ ë“±ë¡ í˜ì´ì§€ë¡œ ì´ë™
+	@RequestMapping("qwform.do")
+	public String moveQnaWriteForm() {
+		return "qna/qnaWriteForm";
+	}
+
+	// 1:1ë¬¸ì˜ ë“±ë¡
+	@RequestMapping(value = "qinsert.do", method = RequestMethod.POST)
+	public String qnaInsertMethod(Qna qna, Model model, HttpServletRequest request,
+			@RequestParam(name = "upfile", required = false) MultipartFile mfile) {
+		// ì²¨ë¶€íŒŒì¼ ì €ì¥ í´ë” ê²½ë¡œ ì§€ì •
+		String savePath = request.getSession().getServletContext().getRealPath("resources/qna_upfiles");
+
+		// ì²¨ë¶€íŒŒì¼ì´ ìˆì„ ë•Œ
+		if (!mfile.isEmpty()) {
+			// ì „ì†¡ ì˜¨ íŒŒì¼ì´ë¦„ ì¶”ì¶œ
+			String fileName = mfile.getOriginalFilename();
+
+			// ë‹¤ë¥¸ ê³µì§€ê¸€ì˜ ì²¨ë¶€íŒŒì¼ê³¼ íŒŒì¼ëª…ì´ ì¤‘ë³µë˜ì–´ ë®ì–´ì“°ê¸° ë˜ëŠ” ê²ƒì„ ë§‰ê¸° ìœ„í•´
+			// íŒŒì¼ëª…ì„ ë³€ê²½í•´ì„œ í´ë”ì— ì €ì¥í•˜ëŠ” ë°©ì‹ì„ ì‚¬ìš©í•  ìˆ˜ ìˆìŒ
+			// ë³€ê²½ íŒŒì¼ëª… : ë…„ì›”ì¼ì‹œë¶„ì´ˆ.í™•ì¥ì
+			if (fileName != null && fileName.length() > 0) {
+				// ë°”ê¿€ íŒŒì¼ëª…ì— ëŒ€í•œ ë¬¸ìì—´ ë§Œë“¤ê¸°
+
+				String renameFileName = FileNameChange.change(fileName, "yyyyMMddHHmmss");
+
+				logger.info("ì²¨ë¶€ íŒŒì¼ëª… í™•ì¸ : " + fileName + ", " + renameFileName);
+
+				// íŒŒì¼ ê°ì²´ ë§Œë“¤ê¸°
+				File renameFile = new File(savePath + "\\" + renameFileName);
+
+				// í´ë”ì— ì €ì¥ ì²˜ë¦¬
+				try {
+					mfile.transferTo(renameFile);
+				} catch (Exception e) {
+					e.printStackTrace();
+					model.addAttribute("message", "ì²¨ë¶€íŒŒì¼ ì €ì¥ ì‹¤íŒ¨");
+					return "common/error";
+				}
+
+				// ê°ì²´ì— ì²¨ë¶€íŒŒì¼ ì •ë³´ ê¸°ë¡ ì €ì¥
+				qna.setQna_original_filename(fileName);
+				qna.setQna_rename_filename(renameFileName);
+			} // ì´ë¦„ ë°”ê¾¸ê¸°
+		} // ìƒˆë¡œìš´ ì²¨ë¶€íŒŒì¼ì´ ìˆì„ ë•Œ
+
+		if (qnaservice.insertInquiry(qna) > 0) {
+			// ê²Œì‹œê¸€ ë“±ë¡ ì„±ê³µì‹œ ëª©ë¡ ë³´ê¸° í˜ì´ì§€ë¡œ ì´ë™
+			return "redirect:qlist.do";
+		} else {
+			model.addAttribute("message", "ìƒˆ ê²Œì‹œê¸€ ë“±ë¡ ì‹¤íŒ¨");
+			return "common/error";
+		}
+	}
+
+	// 1:1ë¬¸ì˜ ìˆ˜ì • ì´ë™
+	@RequestMapping("qupview.do")
+	public String moveQnaUpdateView(@RequestParam("qna_no") int qna_no, Model model) {
+		// ìˆ˜ì •í˜ì´ì§€ë¡œ ë³´ë‚¼ ê°ì²´ ì •ë³´ ì¡°íšŒ
 		Qna qna = qnaservice.selectQna(qna_no);
 
 		if (qna != null) {
 			model.addAttribute("qna", qna);
 
-			Users loginUsers = (Users) session.getAttribute("loginUsers");
-			if (loginUsers != null && loginUsers.getAdmin().equals("Y")) {
-				// ·Î±×ÀÎÇÑ °ü¸®ÀÚ°¡ ¿äÃ»Çß´Ù¸é
-				return "qna/qnaAdminDetailView";
-			} else {
-				// °ü¸®ÀÚ°¡ ¾Æ´Ñ ¶Ç´Â ·Î±×ÀÎÇÏÁö ¾ÊÀº »óÅÂ¿¡¼­ÀÇ ¿äÃ»ÀÌ¶ó¸é
-				return "qna/qnaDetailView";
-			}
+			return "qna/qnaUpdateForm";
 		} else {
-			model.addAttribute("message", qna_no + "¹ø »ó¼¼º¸±â Á¶È¸ ½ÇÆĞ");
+			model.addAttribute("message", qna_no + "ë²ˆ ê¸€ ìˆ˜ì •í˜ì´ì§€ë¡œ ì´ë™ ì‹¤íŒ¨");
+
 			return "common/error";
 		}
 	}
-	
-	// Á¦¸ñÀ¸·Î °Ë»ö
-	@RequestMapping(value = "qsearchTitle.do", method = RequestMethod.POST)
-	public String qnaSearchTitleMethod(@RequestParam("title") String title, Model model) {
 
-		ArrayList<Qna> list = qnaservice.selectTitleSearch(title);
-
-		if (list != null && list.size() > 0) {
-			model.addAttribute("list", list);
-			return "qna/qnaListView";
-		} else {
-			model.addAttribute("message", title + "·Î °Ë»öµÈ Á¤º¸°¡ ¾ø½À´Ï´Ù.");
-			return "common/error";
-		}
-
-	}
-	
-	// »ç¿ëÀÚ ¾ÆÀÌµğ·Î °Ë»ö
-	@RequestMapping(value = "qsearchId.do", method = RequestMethod.POST)
-	public String qnaSearchIdMethod(String user_id, Model model) {
-
-		ArrayList<Qna> list = qnaservice.selectIdSearch(user_id);
-
-		if (list != null && list.size() > 0) {
-			model.addAttribute("list", list);
-			return "qna/qnaListView";
-		} else {
-			model.addAttribute("message", "ÇØ´ç ³¯Â¥·Î µî·ÏµÈ Á¤º¸°¡ ¾ø½À´Ï´Ù.");
-			return "common/error";
-		}
-	}
-	
-	// ³¯Â¥·Î °Ë»ö
-	@RequestMapping(value = "qsearchDate.do", method = RequestMethod.POST)
-	public String qnaSearchDateMethod(SearchDate date, Model model) {
-
-		ArrayList<Qna> list = qnaservice.selectDateSearch(date);
-
-		if (list != null && list.size() > 0) {
-			model.addAttribute("list", list);
-			return "qna/qnaListView";
-		} else {
-			model.addAttribute("message", "ÇØ´ç ³¯Â¥·Î µî·ÏµÈ Á¤º¸°¡ ¾ø½À´Ï´Ù.");
-			return "common/error";
-		}
-	}
-	
-	// 1:1¹®ÀÇ µî·Ï ÆäÀÌÁö·Î ÀÌµ¿ 
-	@RequestMapping("qwform.do")
-	public String moveQnaWriteForm() {
-		return "qna/qnaWriteForm";
-	}
-	
-	
-	// 1:1¹®ÀÇ µî·Ï
-	@RequestMapping(value = "qinsert.do", method = RequestMethod.POST)
-	public String qnaInsertMethod(Qna qna, Model model, HttpServletRequest request,
+	// 1:1ë¬¸ì˜ ìˆ˜ì • ìš”ì²­ ì²˜ë¦¬ìš© (íŒŒì¼ ì—…ë¡œë“œ ê¸°ëŠ¥ ì‚¬ìš©)
+	@RequestMapping(value = "qoriginup.do", method = RequestMethod.POST)
+	public String qnaUpdateMethod(Qna qna, Model model, HttpServletRequest request, 
+			@RequestParam(name = "page", required = false) String page,
+			@RequestParam(name = "delflag", required = false) String delFlag,
 			@RequestParam(name = "upfile", required = false) MultipartFile mfile) {
-		// Ã·ºÎÆÄÀÏ ÀúÀå Æú´õ °æ·Î ÁöÁ¤
+		// ê³µì§€ì‚¬í•­ ì²¨ë¶€íŒŒì¼ ì €ì¥ í´ë” ê²½ë¡œ ì§€ì •
 		String savePath = request.getSession().getServletContext().getRealPath("resources/qna_upfiles");
 
-		// Ã·ºÎÆÄÀÏÀÌ ÀÖÀ» ¶§
+		// ì²¨ë¶€íŒŒì¼ì´ ìˆ˜ì • ì²˜ë¦¬ëœ ê²½ìš° -------------------------
+		// 1. ì›ë˜ ì²¨ë¶€íŒŒì¼ì´ ìˆëŠ”ë° 'íŒŒì¼ì‚­ì œ'ë¥¼ ì„ íƒí•œ ê²½ìš°
+		if (qna.getQna_original_filename() != null && delFlag != null && delFlag.equals("yes")) {
+			// ì €ì¥ í´ë”ì— ìˆëŠ” íŒŒì¼ì„ ì‚­ì œ
+			new File(savePath + "\\" + qna.getQna_rename_filename()).delete();
+			// notice ì˜ íŒŒì¼ ì •ë³´ë„ ì œê±°
+			qna.setQna_original_filename(null);
+			qna.setQna_rename_filename(null);
+		}
+
+		// 2. ê³µì§€ê¸€ ì²¨ë¶€íŒŒì¼ì€ 1ê°œë§Œ ê°€ëŠ¥í•œ ê²½ìš°
+		// ìƒˆë¡œìš´ ì²¨ë¶€íŒŒì¼ì´ ìˆì„ ë•Œ
 		if (!mfile.isEmpty()) {
-			// Àü¼Û ¿Â ÆÄÀÏÀÌ¸§ ÃßÃâ
+			// 2-1. ì´ì „ ì²¨ë¶€íŒŒì¼ì´ ìˆì„ ë•Œ
+			if (qna.getQna_original_filename() != null) {
+				// ì €ì¥ í´ë”ì— ìˆëŠ” ì´ì „ íŒŒì¼ì„ ì‚­ì œ
+				new File(savePath + "\\" + qna.getQna_rename_filename()).delete();
+				// noticeì˜ ì´ì „ íŒŒì¼ ì •ë³´ ì œê±°
+				qna.setQna_original_filename(null);
+				qna.setQna_rename_filename(null);
+			}
+
+			// 2-2. ì´ì „ ì²¨ë¶€íŒŒì¼ì´ ì—†ì„ ë•Œ
+			// ì „ì†¡ ì˜¨ íŒŒì¼ì´ë¦„ ì¶”ì¶œ
 			String fileName = mfile.getOriginalFilename();
 
-			// ´Ù¸¥ °øÁö±ÛÀÇ Ã·ºÎÆÄÀÏ°ú ÆÄÀÏ¸íÀÌ Áßº¹µÇ¾î µ¤¾î¾²±â µÇ´Â °ÍÀ» ¸·±â À§ÇØ
-			// ÆÄÀÏ¸íÀ» º¯°æÇØ¼­ Æú´õ¿¡ ÀúÀåÇÏ´Â ¹æ½ÄÀ» »ç¿ëÇÒ ¼ö ÀÖÀ½
-			// º¯°æ ÆÄÀÏ¸í : ³â¿ùÀÏ½ÃºĞÃÊ.È®ÀåÀÚ
+			// ë‹¤ë¥¸ ê³µì§€ê¸€ì˜ ì²¨ë¶€íŒŒì¼ê³¼ íŒŒì¼ëª…ì´ ì¤‘ë³µë˜ì–´ ë®ì–´ì“°ê¸° ë˜ëŠ” ê²ƒì„ ë§‰ê¸° ìœ„í•´
+			// íŒŒì¼ëª…ì„ ë³€ê²½í•´ì„œ í´ë”ì— ì €ì¥í•˜ëŠ” ë°©ì‹ì„ ì‚¬ìš©í•  ìˆ˜ ìˆìŒ
+			// ë³€ê²½ íŒŒì¼ëª… : ë…„ì›”ì¼ì‹œë¶„ì´ˆ.í™•ì¥ì
 			if (fileName != null && fileName.length() > 0) {
-				// ¹Ù²Ü ÆÄÀÏ¸í¿¡ ´ëÇÑ ¹®ÀÚ¿­ ¸¸µé±â
-
 				String renameFileName = FileNameChange.change(fileName, "yyyyMMddHHmmss");
 
-				logger.info("Ã·ºÎ ÆÄÀÏ¸í È®ÀÎ : " + fileName + ", " + renameFileName);
+				logger.info("ì²¨ë¶€ íŒŒì¼ëª… í™•ì¸ : " + fileName + ", " + renameFileName);
 
-				// ÆÄÀÏ °´Ã¼ ¸¸µé±â
-				File renameFile = new File(savePath + "\\" + renameFileName);
-
-				// Æú´õ¿¡ ÀúÀå Ã³¸®
+				// í´ë”ì— ì €ì¥ ì²˜ë¦¬
 				try {
-					mfile.transferTo(renameFile);
+					mfile.transferTo(new File(savePath + "/" + renameFileName));
 				} catch (Exception e) {
 					e.printStackTrace();
-					model.addAttribute("message", "Ã·ºÎÆÄÀÏ ÀúÀå ½ÇÆĞ");
+					model.addAttribute("message", "ì²¨ë¶€íŒŒì¼ ì €ì¥ ì‹¤íŒ¨!");
 					return "common/error";
 				}
 
-				// °´Ã¼¿¡ Ã·ºÎÆÄÀÏ Á¤º¸ ±â·Ï ÀúÀå
+				// notice ê°ì²´ì— ì²¨ë¶€íŒŒì¼ ì •ë³´ ê¸°ë¡ ì €ì¥
 				qna.setQna_original_filename(fileName);
 				qna.setQna_rename_filename(renameFileName);
-			} // ÀÌ¸§ ¹Ù²Ù±â
-		} // »õ·Î¿î Ã·ºÎÆÄÀÏÀÌ ÀÖÀ» ¶§
+			} // ì´ë¦„ ë°”ê¾¸ê¸°
+		} // ìƒˆë¡œìš´ ì²¨ë¶€íŒŒì¼ì´ ìˆì„ ë•Œ
+		
+		logger.info("qna : " + qna);
 
-		if (qnaservice.insertInquiry(qna) > 0) {
-			// °Ô½Ã±Û µî·Ï ¼º°ø½Ã ¸ñ·Ï º¸±â ÆäÀÌÁö·Î ÀÌµ¿
-			return "redirect:qalist.do";
+		if (qnaservice.updateInquiry(qna) > 0) {
+			model.addAttribute("page", page);
+			model.addAttribute("qna_no", qna.getQna_no());
+
+			return "redirect:qlist.do";
 		} else {
-			model.addAttribute("message", "»õ °Ô½Ã±Û µî·Ï ½ÇÆĞ");
+			model.addAttribute("message", qna.getQna_no() + "ë²ˆ ê³µì§€ ìˆ˜ì • ì‹¤íŒ¨");
 			return "common/error";
 		}
 	}
-	
-	
-	
-	// 1:1¹®ÀÇ ¼öÁ¤
-	@RequestMapping("qupview.do")
-	public String moveQnaUpdateView(@RequestParam("qnano") int qna_no, @RequestParam("page") int currentPage,
-			Model model) {
-		// ¼öÁ¤ÆäÀÌÁö·Î º¸³¾ °´Ã¼ Á¤º¸ Á¶È¸
+
+	// 1:1ë¬¸ì˜ ì‚­ì œ
+	@RequestMapping("qdel.do")
+	public String qnaDeleteMethod(Qna qna, HttpServletRequest request, Model model) {
+
+		if (qnaservice.deleteInquiry(qna) > 0) {
+			// ê¸€ì‚­ì œê°€ ì„±ê³µí•˜ë©´ ì €ì¥í´ë”ì— ìˆëŠ” ì²¨ë¶€íŒŒì¼ë„ ì‚­ì œ ì²˜ë¦¬
+			if (qna.getQna_rename_filename() != null) {
+				new File(request.getSession().getServletContext().getRealPath("resources/qna_upfiles") + "/"
+						+ qna.getQna_rename_filename()).delete();
+			}
+			return "redirect:qlist.do";
+
+		} else {
+			model.addAttribute("message", qna.getQna_no() + "ë²ˆ ê¸€ ì‚­ì œ ì‹¤íŒ¨");
+			return "common/error";
+		}
+	}
+
+	// ë‹µë³€ ë“±ë¡ í˜ì´ì§€ ì´ë™
+	@RequestMapping("qreplyform.do")
+	public String moveReplyForm(Model model, @RequestParam("qna_no") int origin_num,
+			@RequestParam("page") int currentPage) {
+
+		model.addAttribute("qna_no", origin_num);
+		model.addAttribute("currentPage", currentPage);
+
+		return "qna/qnaReplyForm";
+	}
+
+	// ë‹µë³€ ë“±ë¡
+	@RequestMapping(value = "qreply.do", method = RequestMethod.POST)
+	public String replyInsertMethod(Qna reply, Model model) {
+		// í•´ë‹¹ ëŒ“ê¸€ì— ëŒ€í•œ ì›ê¸€ì„ ì¡°íšŒ
+
+		Qna origin = qnaservice.selectQna(reply.getQna_no());
+
+		// í˜„ì¬ ë“±ë¡í•  ëŒ“ê¸€ì˜ ë ˆë²¨ì„ ì„¤ì •
+		reply.setQna_lev(origin.getQna_lev() + 1);
+		
+		// ëŒ“ê¸€ì¼ ë•ŒëŠ” board_reply_ref(ì°¸ì¡°í•˜ëŠ” ëŒ“ê¸€ë²ˆí˜¸) ê°’ ì§€ì •
+		if (reply.getQna_lev() == 2) {
+		// ì°¸ì¡° ì›ê¸€ë²ˆí˜¸
+		reply.setQna_ref(origin.getQna_ref());
+		// ì°¸ì¡° ëŒ“ê¸€ë²ˆí˜¸
+		reply.setQna_reply_ref(origin.getQna_no());
+		}
+
+		// ëŒ“ê¸€ê³¼ ëŒ€ëŒ“ê¸€ ìµœì‹ ê¸€ì„ board_reply_seq ë¥¼ 1ë¡œ ì§€ì •
+		reply.setQna_reply_seq(1);
+		// ê¸°ì¡´ì˜ ëŒ“ê¸€ ë˜ëŠ” ëŒ€ëŒ“ê¸€ì˜ ìˆœë²ˆì„ ëª¨ë‘ 1 ì¦ê°€ ì²˜ë¦¬
+		qnaservice.updateReplySeq(reply);
+		// ë¬¸ì˜ìƒíƒœ 1ì¦ê°€ì²˜ë¦¬í•´ì„œ ì²˜ë¦¬ì™„ë£Œë¡œ ìƒíƒœ ë³€ê²½
+		qnaservice.updateState(origin);
+
+		if (qnaservice.insertReply(reply) > 0) {
+			return "redirect:qlist.do";
+		} else {
+			model.addAttribute("message", reply.getQna_ref() + "ë²ˆ ê¸€ì— ëŒ€í•œ ëŒ“ê¸€ ë“±ë¡ ì‹¤íŒ¨");
+			return "common/error";
+		}
+	}
+
+	// ë‹µë³€ ìˆ˜ì • ì´ë™
+	@RequestMapping("qreplyupview.do")
+	public String moveReplyUpdateView(@RequestParam("qna_no") int qna_no,
+			@RequestParam("page") int currentPage, Model model) {
+		// ìˆ˜ì •í˜ì´ì§€ë¡œ ë³´ë‚¼ ê°ì²´ ì •ë³´ ì¡°íšŒ
 		Qna qna = qnaservice.selectQna(qna_no);
 
 		if (qna != null) {
 			model.addAttribute("qna", qna);
 			model.addAttribute("currentPage", currentPage);
 
-			return "qna/qnaUpdateForm";
+			return "qna/qnaReplyUpdateForm";
 		} else {
-			model.addAttribute("message", qna_no + "¹ø ±Û ¼öÁ¤ÆäÀÌÁö·Î ÀÌµ¿ ½ÇÆĞ");
+			model.addAttribute("message", qna_no + "ë²ˆ ê¸€ ë‹µë³€ ìˆ˜ì •í˜ì´ì§€ë¡œ ì´ë™ ì‹¤íŒ¨");
 
 			return "common/error";
 		}
 	}
-	
-	
-	// 1:1¹®ÀÇ »èÁ¦
-	@RequestMapping("qdel.do")
-	public String qnaDeleteMethod(Qna qna, HttpServletRequest request, Model model) {
 
-		if (qnaservice.deleteInquiry(qna) > 0) {
-			// ±Û»èÁ¦°¡ ¼º°øÇÏ¸é ÀúÀåÆú´õ¿¡ ÀÖ´Â Ã·ºÎÆÄÀÏµµ »èÁ¦ Ã³¸®
-			if (qna.getQna_rename_filename() != null) {
-				new File(request.getSession().getServletContext().getRealPath("resources/qna_upfiles") + "/"
-						+ qna.getQna_rename_filename()).delete();
-			}
-			return "redirect:qalist.do?page=1";
+	// ë‹µë³€ ìˆ˜ì •
+	@RequestMapping(value = "qreplyup.do", method = RequestMethod.POST)
+	public String replyUpdateMethod(Qna reply, @RequestParam("page") String page, Model model) {
 
+		logger.info("reply : " + reply);
+		
+		if (qnaservice.updateReply(reply) > 0) {
+			// ëŒ“ê¸€, ëŒ€ëŒ“ê¸€ ìˆ˜ì • ì„±ê³µì‹œ ë‹¤ì‹œ ìƒì„¸ë³´ê¸° í˜ì´ì§€ê°€ ë³´ì—¬ì§€ê²Œ í•œë‹¤ë©´
+			model.addAttribute("qna_no", reply.getQna_no());
+			model.addAttribute("page", page);
+
+			return "redirect:qdetail.do";
 		} else {
-			model.addAttribute("message", qna.getQna_no() + "¹ø ±Û »èÁ¦ ½ÇÆĞ");
+			model.addAttribute("message", reply.getQna_no() + "ë²ˆ ê¸€ ìˆ˜ì •ì‹¤íŒ¨");
+
 			return "common/error";
 		}
 	}
-	
-	
-	
-	// ´äº¯ µî·Ï ÆäÀÌÁö ÀÌµ¿ 
-	@RequestMapping("qreplyform.do")
-	public String moveReplyForm(Model model, @RequestParam("qnano") int origin_num,
-			@RequestParam("page") int currentPage) {
 
-		model.addAttribute("qnano", origin_num);
-		model.addAttribute("currentPage", currentPage);
+	// ë‹µë³€ ì‚­ì œ
+	@RequestMapping("qreplydel.do")
+	public String qnaReplyDeleteMethod(Qna qna, HttpServletRequest request, Model model) {
 
-		return "qna/qnaReplyForm";
-	}
-	
-	// ´äº¯ µî·Ï
-	@RequestMapping(value = "qreply.do", method = RequestMethod.POST)
-	public String replyInsertMethod(Qna reply, @RequestParam("page") int page, Model model) {
-		// ÇØ´ç ´ñ±Û¿¡ ´ëÇÑ ¿ø±ÛÀ» Á¶È¸
-		Qna origin = qnaservice.selectQna(reply.getQna_ref());
+		if (qnaservice.deleteReply(qna) > 0) {
+			return "redirect:qlist.do";
 
-		// ÇöÀç µî·ÏÇÒ ´ñ±ÛÀÇ ·¹º§À» ¼³Á¤
-		reply.setQna_lev(origin.getQna_lev() + 1);
-
-		// ´ñ±Û°ú ´ë´ñ±Û ÃÖ½Å±ÛÀ» board_reply_seq ¸¦ 1·Î ÁöÁ¤
-		reply.setQna_reply_seq(1);
-		// ±âÁ¸ÀÇ ´ñ±Û ¶Ç´Â ´ë´ñ±ÛÀÇ ¼ø¹øÀ» ¸ğµÎ 1 Áõ°¡ Ã³¸®
-		qnaservice.updateReplySeq(reply);
-
-		if (qnaservice.insertReply(reply) > 0) {
-			return "redirect:qalist.do?page=" + page;
 		} else {
-			model.addAttribute("message", reply.getQna_ref() + "¹ø ±Û¿¡ ´ëÇÑ ´ñ±Û µî·Ï ½ÇÆĞ");
+			model.addAttribute("message", qna.getQna_no() + "ë²ˆ ê¸€ ì‚­ì œ ì‹¤íŒ¨");
 			return "common/error";
 		}
 	}
-	
-	
-	// ´äº¯ ¼öÁ¤
-	
-	
-	// ´äº¯ »èÁ¦
-	
-	
 
-	// »ç¿ëÀÚ
-//	public String insertInquiryMethod(Inquiry inquiry, Model model, HttpServletRequest request) {}
-//	
-//	public String deleteInquiryMethod(Inquiry inquiry, Model model, HttpServletRequest request) {}
-//	
-//	public String myInquiryListMethod(String page, ModelAndView mv, Model model, HttpSession session) {}
-//	
-//	public String moveInquiryViewMethod(Model model, int inquiry_no, int answer_no, HttpSession session) {}
-//	
-//	public String moveMyInquiryListPage(String page, ModelAndView mv, Model model, HttpSession session) {}
-//	
-//	public String moveWriteFormPage() {}
+	// ì‚¬ìš©ì
 //	
 //	public String moveNoticePage() {}
 //	
 //	public String moveFaqPage() {}
-//	
-//	
-//	//°ü¸®ÀÚ
-//	public String getInquiryAllListMethod(String page, ModelAndView mv, Model model, HttpSession session) {}
-//	
-//	public String moveInquiryDetailMethod(Model model, int inquiry_no, String title, HttpSession session) {}
-//	
-//	public String searchInquiryMethod(String title, String content, String inquiry_type, String inquiry_state, Model model) {}
-//				
-//	public String moveInquiryListPage(String page, ModelAndView mv, Model model, HttpSession session) {}
-//	
-//	public String insertAnswerMethod(Answer answer, Model model, HttpServletRequest request) {}
-//
-//	public String deleteAnswerMethod(Answer answer, Model model, HttpServletRequest request) {}
-//			
-//	public String updateAnswerMethod(Answer answer, Model model, HttpServletRequest request) {}
-//	
-//	//¾µÁö¸»Áö?
-//	public String moveAnswerDetailPage(Model model, int answer_no, int inquiry_no, HttpSession session) {}
 
 }

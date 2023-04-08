@@ -13,7 +13,7 @@ public class RouletteController {
 //	+makeRouletteResult()
 //	+resetRoulette()
 	
-	//miniGameView 이동처리용
+	//miniGameView 
 	@RequestMapping(value="moveRouletteGame.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String moveRouletteGameView() {  
 		return "minigame/rouletteGameView";

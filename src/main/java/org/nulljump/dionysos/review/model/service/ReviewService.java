@@ -6,11 +6,12 @@ import org.nulljump.dionysos.common.Paging;
 import org.nulljump.dionysos.review.model.vo.Review;
 
 public interface ReviewService { 
-	ArrayList<Review> selectReviewList(Paging page);     //¸®ºä ¸ñ·Ï Á¶È¸
-	Review selectReview(int review_id);      //¸®ºä Á¶È¸
-	int insertReview(Review review);   		 //¸®ºä Ãß°¡
-	int updateReview(Review review);         //¸®ºä ¼öÁ¤
-	int deleteReview(Review review);    	//¸®ºä »èÁ¦  
-	int getListCount();                     //¸®ºä ¸ñ·ÏÀÇ ÃÑ °¹¼ö¸¦ Á¶È¸
-	int updateReviewReadcount(int review_id); //»ó¼¼º¸±â½Ã Á¶È¸¼ö 1Áõ°¡ Ã³¸®¿ë
+
+	ArrayList<Review> selectReviewList(Paging page);     //ë¦¬ë·° ëª©ë¡ í˜ì´ì§€ ì¡°íšŒ
+	Review selectReview(int review_id);      //ë¦¬ë·° ì¡°íšŒ
+	int insertReview(Review review);   		 //ë¦¬ë·° ì¶”ê°€
+	int updateReview(Review review);         //ë¦¬ë·° ìˆ˜ì •
+	int deleteReview(Review review);    	//ë¦¬ë·° ì‚­ì œ  
+	int getListCount(int product_id);                     //ë¦¬ë·° ëª©ë¡ì˜ ì´ ê°¯ìˆ˜ë¥¼ ì¡°íšŒ
+	int updateReviewReadcount(int review_id); //ìƒì„¸ë³´ê¸°ì‹œ ì¡°íšŒìˆ˜ 1ì¦ê°€ ì²˜ë¦¬ìš©
 }

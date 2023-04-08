@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-
 import javax.servlet.http.HttpSession;
 
 import org.nulljump.dionysos.product.model.service.ProductService;
@@ -27,12 +26,10 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class HomeController {
 
-
 	@Autowired
 	private ProductService productService;
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-
 
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -51,8 +48,8 @@ public class HomeController {
 		return "home";
 	}
 
-	//index.jsp 가 웰컴될 때 포워딩된 요청을 받아서 main.jsp
-	//common/main.jsp 를 내보내기 위해 리턴하는 메소드
+	// index.jsp 가 웰컴될 때 포워딩된 요청을 받아서 main.jsp
+	// common/main.jsp 를 내보내기 위해 리턴하는 메소드
 	@RequestMapping(value = "main.do")
 	public ModelAndView forwardMainView(ModelAndView mv) {
 		ArrayList<Product> list1 = productService.selectNew4();
@@ -61,7 +58,6 @@ public class HomeController {
 		mv.addObject("list2", list2);
 
 		mv.setViewName("common/main");
-
 
 		return mv;
 	}

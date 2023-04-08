@@ -41,7 +41,7 @@
 	<tr><th>제 목</th>
 			<td><input type="text" name="review_title"></td>
 	</tr>
-	<tr><th>별 점</th>
+	<!-- <tr><th>별 점</th>
 		<td>
 			<form class="mb-3" name="myform" id="myform" method="post">
 				<fieldset>
@@ -59,14 +59,24 @@
 				</fieldset>
 			</form>		
 		</td>
-	</tr>
+	</tr> -->
 	<tr>
 		<th>작성자</th>
-			<td><input type="text" name="user_id" readonly value="${ sessionScope.loginMember.userid }"></td>
+			<td><input type="text" name="user_id" value="${ sessionScope.loginUsers.user_id }" readonly></td>
+	</tr>
+	<tr>
+		<th>상품명</th>
+			<td>
+				${product.product_name}
+			</td>
 	</tr>
 	<tr>
 		<th>첨부파일</th>
 			<td><input type="file" name="upfile"></td>
+	</tr>
+	<tr>
+		<th>평 점</th>
+			<td><input type="text" name="review_score"></td>
 	</tr>
 	<tr>
 		<th>내 용</th>

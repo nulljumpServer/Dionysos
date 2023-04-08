@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 (function ($) {
  "use strict";
  
@@ -7,14 +6,4 @@
 		});
 
  
-=======
-(function ($) {
- "use strict";
- 
-	$('.dual_select').bootstrapDualListbox({
-			selectorMinimalHeight: 160
-		});
-
- 
->>>>>>> Stashed changes
 })(jQuery); 

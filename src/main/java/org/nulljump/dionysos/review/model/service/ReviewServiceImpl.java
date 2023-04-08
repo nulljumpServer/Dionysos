@@ -13,7 +13,7 @@ public class ReviewServiceImpl implements ReviewService{
 
 	@Autowired
 	ReviewDao reviewDao;
-
+	
 	@Override
 	public ArrayList<Review> selectReviewList(Paging page) {
 		return reviewDao.selectReviewList(page);
@@ -40,14 +40,15 @@ public class ReviewServiceImpl implements ReviewService{
 	}
 
 	@Override
-	public int getListCount() {
-		return reviewDao.getListCount();
+	public int getListCount(int product_id) {
+		return reviewDao.getListCount(product_id);
 	}
 
 	@Override
 	public int updateReviewReadcount(int review_id) {
 	return reviewDao.updateReviewReadcount(review_id);
 	}
+
 
 
 }

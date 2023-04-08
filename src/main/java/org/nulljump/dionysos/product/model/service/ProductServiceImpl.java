@@ -2,10 +2,6 @@ package org.nulljump.dionysos.product.model.service;
 
 import java.util.ArrayList;
 import java.util.List;
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 
 import org.nulljump.dionysos.common.Paging;
 import org.nulljump.dionysos.product.model.dao.ProductDao;
@@ -100,10 +96,6 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 	public ArrayList<Product> selectSearchWineOrigin(String keyword) {
 		return productDao.selectSearchWineOrigin(keyword);
 	}
@@ -116,10 +108,6 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public ArrayList<Product> selectSearchGrapeType(String keyword) {
 		return productDao.selectSearchGrapeType(keyword);
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 	}
 	
 	@Override
@@ -147,12 +135,6 @@ public class ProductServiceImpl implements ProductService {
 	public ArrayList<Product> selectFilter(List<String> wine_type, List<String> wine_origin,
 			int product_price, int sweetness, int acidity, int body, int tannin) {
 		return productDao.selectFilter(wine_type, wine_origin, product_price, sweetness, acidity, body, tannin);
-<<<<<<< Updated upstream
-
-	}
-
-
-=======
 	}
 
 	@Override
@@ -163,7 +145,6 @@ public class ProductServiceImpl implements ProductService {
 
 
 
->>>>>>> Stashed changes
 	
 
 	
