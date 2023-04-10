@@ -65,14 +65,24 @@ public class NoticeServiceImpl implements NoticeService {
 
 	@Override
 	public int deleteNotice(int notice_no) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return noticeDao.deleteNotice(notice_no);
 	}
 
 	@Override
 	public int getListCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return noticeDao.getListCount();
+	}
+
+	@Override
+	public ArrayList<Notice> selectSearchNotice(String action, String keyword, Paging page) {
+		return noticeDao.selectSearchNotice(action, keyword, page);
+	}
+
+	@Override
+	public int selectSearchNoticeCount(String action, String keyword) {
+		return noticeDao.selectSearchNoticeCount(action, keyword);
 	}
 
 	

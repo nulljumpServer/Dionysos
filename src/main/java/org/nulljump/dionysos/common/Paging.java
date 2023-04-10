@@ -10,8 +10,27 @@ public class Paging {
 	private int maxPage; // 총 페이지 수
 	private int startPage; //페이지그룹의 시작값
 	private int endPage;  //페이지그룹의 끝값
+	private int product_id;
 	private String url; // 페이지 view url
 	//기본생성자 없음
+	public Paging() {
+		super();
+	}
+
+	
+
+	public Paging(int listCount, int currentPage, int limit) {
+	this.listCount = listCount;
+	this.currentPage = currentPage;
+	this.limit = limit;
+}
+	
+	public Paging(int listCount, int currentPage, int limit, int product_id) {
+		this.listCount = listCount;
+		this.currentPage = currentPage;
+		this.limit = limit;
+		this.product_id = product_id;
+	}	
 	
 	//매개변수 있는 생성자
 	public Paging(int listCount, int currentPage, int limit, String url) {

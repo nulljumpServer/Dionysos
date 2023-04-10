@@ -40,7 +40,6 @@
 					<input name='wine_type' id="white" type='checkbox' value='화이트'><label for="white"> 화이트 &nbsp; &nbsp;</label> 
 					<input name='wine_type' id="sparkling" type='checkbox'	value='스파클링'><label for="sparkling"> 스파클링 &nbsp; &nbsp; </label>
 					<input name='wine_type' id="rose" type='checkbox' value='로제'><label for="rose">로제 &nbsp; &nbsp; </label>
-					<input name='wine_type' id="wineup" type='checkbox' value='주정강화'><label for="wineup">주정강화 &nbsp; &nbsp;</label>
 				</fieldset>
 				
 				<fieldset>
@@ -68,8 +67,7 @@
 					<input name='product_price' id="100000" type='radio' value="100000"><label for="100000"> 10만원 이하&nbsp;&nbsp;</label>  
 					<input name='product_price' id="200000" type='radio' value="200000"><label for="200000"> 20만원 이하&nbsp;&nbsp; </label> 
 					<input name='product_price' id="500000" type='radio' value="500000"><label for="500000"> 50만원 이하&nbsp;&nbsp;</label> 
-					<input name='product_price' id="1000000" type='radio' value="1000000"><label for="1000000"> 100만원 이하&nbsp;&nbsp;</label> 
-					<input name='product_price' id="9999999" type='radio' value="9999999"><label for="9999999"> 100만원 이상&nbsp;&nbsp;</label> 
+					<input name='product_price' id="1000000" type='radio' value="1000000"><label for="1000000"> 100만원 이하&nbsp;&nbsp;</label>
 				</fieldset>
 				
 				<fieldset>

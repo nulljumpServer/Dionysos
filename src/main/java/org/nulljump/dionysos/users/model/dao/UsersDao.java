@@ -22,7 +22,7 @@ public class UsersDao {
 	public Users selectLogin(Users users) {
 		Users loginUser = session.selectOne("usersMapper.selectLogin", users);
 		if (loginUser != null && loginUser.getEmail() == null) {
-			// ì˜ˆì™¸ ì²˜ë¦¬
+			// ¿¹¿Ü Ã³¸®
 			loginUser = null;
 		}
 		return loginUser;
@@ -66,19 +66,19 @@ public class UsersDao {
 		
 	}
 
-	// ë¹„ë°€ë²ˆí˜¸ ì°¾ê¸°ìš©
+	// ºñ¹Ğ¹øÈ£ Ã£±â¿ë
 	public int find_pwd(Users user) {
 		return session.selectOne("usersMapper.pwdsearch", user);
 	}
 
-	// ë¹„ë°€ë²ˆí˜¸ ë³€ê²½
+	// ºñ¹Ğ¹øÈ£ º¯°æ
 	@Transactional
 	public int update_pw(Users users) {
 		return session.update("usersMapper.update_pw", users);
 
 	}
 
-	// ì•„ì´ë”” ì°¾ê¸°
+	// ¾ÆÀÌµğ Ã£±â
 	public String find_id(String email){
 		return session.selectOne("usersMapper.find_id", email);
 	}

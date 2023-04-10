@@ -1,7 +1,9 @@
 package org.nulljump.dionysos.notice.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.nulljump.dionysos.common.Paging;
@@ -16,15 +18,15 @@ public class NoticeDao {
 	@Autowired
 	private SqlSessionTemplate session;
 	
-	//»ç¿ëÀÚ
-	//°øÁö»çÇ× ÀüÃ¼ ¸ñ·Ï Ãâ·Â
+	//ì‚¬ìš©ì
+	//ê³µì§€ì‚¬í•­ ì „ì²´ ëª©ë¡ ì¶œë ¥
 	public ArrayList<Notice> selectAllList(){
 		List<Notice> list = session.selectList("noticeMapper.selectAllList");
 		
 		return (ArrayList<Notice>)list;
 	}
 	
-	//ÆäÀÌÂ¡Ã³¸® Ãß°¡
+	//í˜ì´ì§•ì²˜ë¦¬ ì¶”ê°€
 	public ArrayList<Notice> selectList(Paging page) {
 		
 		List<Notice> list = session.selectList("noticeMapper.selectList", page);
@@ -32,13 +34,13 @@ public class NoticeDao {
 		return (ArrayList<Notice>)list;
 	}
 
-	//°øÁö»çÇ× ¹øÈ£·Î Á¶È¸ÇÏ±â
+	//ê³µì§€ì‚¬í•­ ë²ˆí˜¸ë¡œ ì¡°íšŒí•˜ê¸°
 	public Notice selectNotice(int notice_no) {
 		
 		return session.selectOne("noticeMapper.selectNotice", notice_no);
 	}
 
-	//Á¦¸ñÀ¸·Î °Ë»ö
+	//ì œëª©ìœ¼ë¡œ ê²€ìƒ‰
 	public ArrayList<Notice> selectSearchTitle(String title) {
 		
 		List<Notice> list = session.selectList("noticeMapper.selectSearchTitle", title);
@@ -46,7 +48,7 @@ public class NoticeDao {
 		return (ArrayList<Notice>)list;
 	}
 	
-	//³¯Â¥·Î °Ë»ö
+	//ë‚ ì§œë¡œ ê²€ìƒ‰
 	public ArrayList<Notice> selectSearchDate(SearchDate date) {
 		
 		List<Notice> list = session.selectList("noticeMapper.selectSearchDate", date);
@@ -54,37 +56,55 @@ public class NoticeDao {
 		return (ArrayList<Notice>)list;
 	}
 
-	//Á¶È¸¼ö 1Áõ°¡ Ã³¸®¿ë
+	//ì¡°íšŒìˆ˜ 1ì¦ê°€ ì²˜ë¦¬ìš©
 	public int addReadCount(int notice_no) {
 		
 		return session.update("noticeMapper.addReadCount", notice_no);
 	}
 	
 
-	//°ü¸®ÀÚ
-	//°øÁö»çÇ× µî·Ï
+	//ê´€ë¦¬ì
+	//ê³µì§€ì‚¬í•­ ë“±ë¡
 	public int insertNotice(Notice notice) {
 		
 		return session.insert("noticeMapper.insertNotice", notice);
 	}
 	
-	//°øÁö»çÇ× ¼öÁ¤
+	//ê³µì§€ì‚¬í•­ ìˆ˜ì •
 	public int updateNotice(Notice notice) {
 		
 		return session.update("noticeMapper.updateNotice", notice);
 	}
 	
-	//°øÁö»çÇ× »èÁ¦
+	//ê³µì§€ì‚¬í•­ ì‚­ì œ
 	public int deleteNotice(int notice_no) {
 
 		return session.delete("noticeMapper.deleteNotice", notice_no);
 	}
 	
 		
-	//ÀüÃ¼ °Ô½Ã±Û ¸ñ·Ï °¹¼ö °¡Á®¿À±â ()
+	//ì „ì²´ ê²Œì‹œê¸€ ëª©ë¡ ê°¯ìˆ˜ ê°€ì ¸ì˜¤ê¸° ()
 	public int getListCount() {
 
 		return session.selectOne("noticeMapper.getListCount");
+	}
+	
+	// ê²€ìƒ‰ê²°ê³¼ í˜ì´ì§•
+	public ArrayList<Notice> selectSearchNotice(String action, String keyword, Paging page) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("action", action);
+		paramMap.put("keyword", keyword);
+		paramMap.put("page", page);
+		List<Notice> list = session.selectList("noticeMapper.selectSearchNotice", paramMap);
+		return (ArrayList<Notice>) list;
+	}
+
+	public int selectSearchNoticeCount(String action, String keyword) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("action", action);
+		paramMap.put("keyword", keyword);
+		List<Notice> list = session.selectList("noticeMapper.selectSearchNoticeCount", paramMap);
+		return list.size();
 	}
 	
 	

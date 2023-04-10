@@ -4,13 +4,13 @@ import java.sql.Date;
 
 public class Users implements java.io.Serializable {
 	private static final long serialVersionUID = 404901630073494581L;
-	private String user_id; // ì•„ì´ë””
-	private String password; // íŒ¨ìŠ¤ì›Œë“œ
-	private String name; // ì´ë¦„
-	private java.sql.Date birthday; // ìƒë…„ì›”ì¼
-	private String phone; // ì „í™”ë²ˆí˜¸
-	private String email; // ì´ë©”ì¼
-	private String admin; // ê´€ë¦¬ìì—¬ë¶€
+	private String user_id; // ¾ÆÀÌµğ
+	private String password; // ÆĞ½º¿öµå
+	private String name; // ÀÌ¸§
+	private java.sql.Date birthday; // »ı³â¿ùÀÏ
+	private String phone; // ÀüÈ­¹øÈ£
+	private String email; // ÀÌ¸ŞÀÏ
+	private String admin; // °ü¸®ÀÚ¿©ºÎ
 
 	public Users() {
 		super();

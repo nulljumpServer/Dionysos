@@ -95,32 +95,25 @@
                         <li>
                             <a class="has-arrow" href="mailbox.html" aria-expanded="false"><i class="icon nalika-diamond icon-wrap"></i> <span class="mini-click-non">회 원 관 리</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Google Map" href="google-map.html"><span class="mini-sub-pro">Google Map</span></a></li>
-                                <li><a title="Data Maps" href="data-maps.html"><span class="mini-sub-pro">Data Maps</span></a></li>
-                                <li><a title="Pdf Viewer" href="pdf-viewer.html"><span class="mini-sub-pro">Pdf Viewer</span></a></li>
-                                <li><a title="X-Editable" href="x-editable.html"><span class="mini-sub-pro">X-Editable</span></a></li>
-                                <li><a title="Code Editor" href="code-editor.html"><span class="mini-sub-pro">Code Editor</span></a></li>
-                                <li><a title="Tree View" href="tree-view.html"><span class="mini-sub-pro">Tree View</span></a></li>
-                                <li><a title="Preloader" href="preloader.html"><span class="mini-sub-pro">Preloader</span></a></li>
-                                <li><a title="Images Cropper" href="images-cropper.html"><span class="mini-sub-pro">Images Cropper</span></a></li>
+                            	<li><a title="Stock" href="adminUserListView.do"><span class="mini-sub-pro">사용자 관리</span></a></li>
+                                <li><a title="Store" href="adminStoreListView.do"><span class="mini-sub-pro">매장관리</span></a></li>
+                                
                             </ul>
                         </li>
                         <li>
                             <a class="has-arrow" href="mailbox.html" aria-expanded="false"><i class="icon nalika-diamond icon-wrap"></i> <span class="mini-click-non">상 품 관 리</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Inbox" href="adminplistView.do"><span class="mini-sub-pro">상품통합관리</span></a></li>
-                                <li><a title="View Mail" href="mailbox-view.html"><span class="mini-sub-pro">리뷰관리</span></a></li>
+                                <li><a title="Product" href="adminplistView.do"><span class="mini-sub-pro">상품통합관리</span></a></li>
+                                <li><a title="Review" href="mailbox-view.html"><span class="mini-sub-pro">리뷰관리</span></a></li>
                             </ul>
                         </li>
                         
                         <li>
-                            <a class="has-arrow" href="mailbox.html" aria-expanded="false"><i class="icon nalika-pie-chart icon-wrap"></i> <span class="mini-click-non">Miscellaneous</span></a>
+                            <a class="has-arrow" href="mailbox.html" aria-expanded="false"><i class="icon nalika-diamond icon-wrap"></i> <span class="mini-click-non">고 객 센 터</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="File Manager" href="file-manager.html"><span class="mini-sub-pro">File Manager</span></a></li>
-                                <li><a title="Blog" href="blog.html"><span class="mini-sub-pro">Blog</span></a></li>
-                                <li><a title="Blog Details" href="blog-details.html"><span class="mini-sub-pro">Blog Details</span></a></li>
-                                <li><a title="404 Page" href="404.html"><span class="mini-sub-pro">404 Page</span></a></li>
-                                <li><a title="500 Page" href="500.html"><span class="mini-sub-pro">500 Page</span></a></li>
+                                <li><a title="notice" href="${pageContext.servletContext.contextPath}/nplist.do"><span class="mini-sub-pro">공지사항</span></a></li>
+                                <li><a title="faq" href="${pageContext.servletContext.contextPath}/flist.do"><span class="mini-sub-pro">자주하는 질문</span></a></li>
+                                <li><a title="qna" href="${pageContext.servletContext.contextPath}/qlist.do"><span class="mini-sub-pro">1:1 문의</span></a></li>
                             </ul>
                         </li>
                         <li>

@@ -53,70 +53,70 @@ public class ProductDao {
 	}
 
 	
-	public ArrayList<Product> selectFilterProductList() {
-		List<Product> list = session.selectList("productMapper.selectFilterProductList");
-		return (ArrayList<Product>) list;
-	}
-
-	
-	public ArrayList<Product> selectSearchProductId(int keyword) {
-		List<Product> list = session.selectList("productMapper.selectSearchProduct", keyword);
-		return (ArrayList<Product>)list;
-	}
-
-	public ArrayList<Product> selectSearchProductName(String keyword) {
-		List<Product> list = session.selectList("productMapper.selectSearchProductName", keyword);
-		return (ArrayList<Product>)list;
-	}
-
-	public ArrayList<Product> selectSearchProductEname(String keyword) {
-		List<Product> list = session.selectList("productMapper.selectSearchProductEname", keyword);
-		return (ArrayList<Product>)list;
-	}
-
-	public ArrayList<Product> selectSearchProductPrice(int keyword) {
-		List<Product> list = session.selectList("productMapper.selectSearchProductPrice", keyword);
-		return (ArrayList<Product>)list;
-	}
-
-	public ArrayList<Product> selectSearchProductAlcohol(float keyword) {
-		List<Product> list = session.selectList("productMapper.selectSearchProductAlcohol", keyword);
-		return (ArrayList<Product>)list;
-	}
-	
-	public ArrayList<Product> selectSearchProductAcidity(int keyword) {
-		List<Product> list = session.selectList("productMapper.selectSearchProductAcidity", keyword);
-		return (ArrayList<Product>)list;
-	}
-
-	public ArrayList<Product> selectSearchProductSweetness(int keyword) {
-		List<Product> list = session.selectList("productMapper.selectSearchProduct", keyword);
-		return (ArrayList<Product>)list;
-	}
-
-	public ArrayList<Product> selectSearchProductBody(int keyword) {
-		List<Product> list = session.selectList("productMapper.selectSearchProduct", keyword);
-		return (ArrayList<Product>)list;
-	}
-
-	public ArrayList<Product> selectSearchProductTannin(int keyword) {
-		List<Product> list = session.selectList("productMapper.selectSearchProduct", keyword);
-		return (ArrayList<Product>)list;
-	}
-
-	public ArrayList<Product> selectSearchWineOrigin(String keyword) {
-		List<Product> list = session.selectList("productMapper.selectSearchWineOrigin", keyword);
-		return (ArrayList<Product>)list;
-	}
-
-	public ArrayList<Product> selectSearchWineType(String keyword) {
-		List<Product> list = session.selectList("productMapper.selectSearchWineType", keyword);
-		return (ArrayList<Product>)list;
-	}
-	public ArrayList<Product> selectSearchGrapeType(String keyword) {
-		List<Product> list = session.selectList("productMapper.selectSearchGrapeType", keyword);
-		return (ArrayList<Product>)list;
-	}
+//	public ArrayList<Product> selectFilterProductList() {
+//		List<Product> list = session.selectList("productMapper.selectFilterProductList");
+//		return (ArrayList<Product>) list;
+//	}
+//
+//	
+//	public ArrayList<Product> selectSearchProductId(int keyword) {
+//		List<Product> list = session.selectList("productMapper.selectSearchProduct", keyword);
+//		return (ArrayList<Product>)list;
+//	}
+//
+//	public ArrayList<Product> selectSearchProductName(String keyword) {
+//		List<Product> list = session.selectList("productMapper.selectSearchProductName", keyword);
+//		return (ArrayList<Product>)list;
+//	}
+//
+//	public ArrayList<Product> selectSearchProductEname(String keyword) {
+//		List<Product> list = session.selectList("productMapper.selectSearchProductEname", keyword);
+//		return (ArrayList<Product>)list;
+//	}
+//
+//	public ArrayList<Product> selectSearchProductPrice(int keyword) {
+//		List<Product> list = session.selectList("productMapper.selectSearchProductPrice", keyword);
+//		return (ArrayList<Product>)list;
+//	}
+//
+//	public ArrayList<Product> selectSearchProductAlcohol(float keyword) {
+//		List<Product> list = session.selectList("productMapper.selectSearchProductAlcohol", keyword);
+//		return (ArrayList<Product>)list;
+//	}
+//	
+//	public ArrayList<Product> selectSearchProductAcidity(int keyword) {
+//		List<Product> list = session.selectList("productMapper.selectSearchProductAcidity", keyword);
+//		return (ArrayList<Product>)list;
+//	}
+//
+//	public ArrayList<Product> selectSearchProductSweetness(int keyword) {
+//		List<Product> list = session.selectList("productMapper.selectSearchProduct", keyword);
+//		return (ArrayList<Product>)list;
+//	}
+//
+//	public ArrayList<Product> selectSearchProductBody(int keyword) {
+//		List<Product> list = session.selectList("productMapper.selectSearchProduct", keyword);
+//		return (ArrayList<Product>)list;
+//	}
+//
+//	public ArrayList<Product> selectSearchProductTannin(int keyword) {
+//		List<Product> list = session.selectList("productMapper.selectSearchProduct", keyword);
+//		return (ArrayList<Product>)list;
+//	}
+//
+//	public ArrayList<Product> selectSearchWineOrigin(String keyword) {
+//		List<Product> list = session.selectList("productMapper.selectSearchWineOrigin", keyword);
+//		return (ArrayList<Product>)list;
+//	}
+//
+//	public ArrayList<Product> selectSearchWineType(String keyword) {
+//		List<Product> list = session.selectList("productMapper.selectSearchWineType", keyword);
+//		return (ArrayList<Product>)list;
+//	}
+//	public ArrayList<Product> selectSearchGrapeType(String keyword) {
+//		List<Product> list = session.selectList("productMapper.selectSearchGrapeType", keyword);
+//		return (ArrayList<Product>)list;
+//	}
 
 	//관리자 기능 (추가, 수정, 삭제)
 	public int insertProduct(Product product) {
@@ -156,7 +156,7 @@ public class ProductDao {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("action", action);
 		paramMap.put("keyword", keyword);
-		List<Product> list = session.selectList("selectSearchProductCount", paramMap);
+		List<Product> list = session.selectList("productMapper.selectSearchProductCount", paramMap);
 		return list.size();
 	}
 

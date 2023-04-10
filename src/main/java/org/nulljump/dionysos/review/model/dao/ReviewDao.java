@@ -1,22 +1,28 @@
 package org.nulljump.dionysos.review.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.nulljump.dionysos.common.Paging;
+import org.nulljump.dionysos.notice.model.vo.Notice;
 import org.nulljump.dionysos.review.model.vo.Review;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-@Repository("reviewDao")   //xml¿¡ ÀÚµ¿ µî·ÏµÊ
+@Repository("reviewDao")   //xmlì— ìë™ ë“±ë¡ë¨
 public class ReviewDao {
 
 	@Autowired
-	private SqlSessionTemplate session;   //ÀÇÁ¸¼º ÁÖÀÔ
+	private SqlSessionTemplate session;   //ì˜ì¡´ì„± ì£¼ì…
+	
+
 	
 	public ArrayList<Review> selectReviewList(Paging page) {
-		List<Review> list = session.selectList("reviewMapper.selectReviewList", page);
+
+		List<Review> list = session.selectList("reviewMapper.selectReviewList",page);
 		return (ArrayList<Review>)list;
 	}
 
@@ -29,20 +35,26 @@ public class ReviewDao {
 	}
 
 	public int updateReview(Review review) {
-		return session.insert("reviewMapper.updateReview", review);
+		return session.update("reviewMapper.updateReview", review);
 	}
 
 	public int deleteReview(Review review) {
-		return session.insert("reviewMapper.deleteReview", review);
+		return session.delete("reviewMapper.deleteReview", review);
 	}
 
-	//¸®ºä ¸ñ·ÏÀÇ ÃÑ °¹¼ö¸¦ Á¶È¸
-	public int getListCount() {
-		return session.selectOne("reviewMapper.getListCount");
+	//ë¦¬ë·° ëª©ë¡ì˜ ì´ ê°¯ìˆ˜ë¥¼ ì¡°íšŒ
+	public int getListCount(int product_id) {
+		return session.selectOne("reviewMapper.getListCount",product_id);
 	}
 
 	public int updateReviewReadcount(int review_id) {
-		return session.selectOne("reviewMapper.updateReviewReadcount", review_id);
+		return session.update("reviewMapper.updateReviewReadcount", review_id);
 	}
+
+	public int reviewScoreAVG(int product_id) {
+		return session.selectOne("reviewMapper.reviewScoreAVG", product_id);
+	}
+
+	
 
 }

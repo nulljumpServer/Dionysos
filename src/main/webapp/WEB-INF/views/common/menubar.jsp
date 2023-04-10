@@ -135,9 +135,7 @@
 							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">상품</a>
 							<div class="dropdown-menu" aria-labelledby="dropdown04">
 								<a class="dropdown-item" href="plistView.do">전체상품 목록</a> <a
-									class="dropdown-item" href="product-single.html">원산지</a> <a
-									class="dropdown-item" href="cart.html">가격대</a> <a
-									class="dropdown-item" href="checkout.html">특성</a>
+									class="dropdown-item" href="advsearch.do">상품 필터링 검색</a>
 							</div></li>
 						<li class="nav-item"><a href="blog.html" class="nav-link">미니게임</a></li>
 						<li class="nav-item dropdown"><a
@@ -182,9 +180,7 @@
 							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">상품</a>
 							<div class="dropdown-menu" aria-labelledby="dropdown04">
 								<a class="dropdown-item" href="plistView.do">전체상품 목록</a> <a
-									class="dropdown-item" href="product-single.html">원산지</a> <a
-									class="dropdown-item" href="cart.html">가격대</a> <a
-									class="dropdown-item" href="checkout.html">특성</a>
+									class="dropdown-item" href="advsearch.do">상품 필터링 검색</a>
 							</div></li>
 						<li class="nav-item"><a href="blog.html" class="nav-link">미니게임</a></li>
 						<li class="nav-item dropdown"><a

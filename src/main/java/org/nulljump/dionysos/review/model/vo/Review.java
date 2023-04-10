@@ -6,16 +6,14 @@ public class Review implements java.io.Serializable{
 
 	private static final long serialVersionUID = -791391879282332652L;
 
-	private int review_id;        	//¸®ºä ¹øÈ£
-	private String user_id;       	//¸®ºä ÀÛ¼ºÀÚ ¾ÆÀÌµğ
-	private int product_id;       	//»óÇ° ¹øÈ£
-	private String review_title;  	//¸®ºä Á¦¸ñ
-	private String review_content;	//¸®ºä ³»¿ë
-	private String review_image;    //Ã·ºÎÆÄÀÏ ÀÌ¹ÌÁö
-	private String review_score;  	//¸®ºä Á¡¼ö
-	private Date created_at;    	//¸®ºä µî·ÏÀÏÀÚ
-	private Date modified_at;     	//¸®ºä ¼öÁ¤ÀÏÀÚ
-	private int read_count;         //Á¶È¸¼ö
+	private int review_id;        	//ë¦¬ë·° ë²ˆí˜¸
+	private String user_id;       	//ë¦¬ë·° ì‘ì„±ì ì•„ì´ë””
+	private int product_id;       	//ìƒí’ˆ ë²ˆí˜¸
+	private String review_title;  	//ë¦¬ë·° ì œëª©
+	private String review_content;	//ë¦¬ë·° ë‚´ìš©
+	private String review_score;  	//ë¦¬ë·° ì ìˆ˜
+	private Date created_at;    	//ë¦¬ë·° ë“±ë¡ì¼ì
+	private int read_count;         //ì¡°íšŒìˆ˜
 	
 	public Review() {
 		super();
@@ -23,17 +21,15 @@ public class Review implements java.io.Serializable{
 	}
 
 	public Review(int review_id, String user_id, int product_id, String review_title, String review_content,
-			String review_image, String review_score, Date created_at, Date modified_at, int read_count) {
+			String review_image, String review_score, Date created_at, int read_count) {
 		super();
 		this.review_id = review_id;
 		this.user_id = user_id;
 		this.product_id = product_id;
 		this.review_title = review_title;
 		this.review_content = review_content;
-		this.review_image = review_image;
 		this.review_score = review_score;
 		this.created_at = created_at;
-		this.modified_at = modified_at;
 		this.read_count = read_count;
 	}
 
@@ -77,14 +73,6 @@ public class Review implements java.io.Serializable{
 		this.review_content = review_content;
 	}
 
-	public String getReview_image() {
-		return review_image;
-	}
-
-	public void setReview_image(String review_image) {
-		this.review_image = review_image;
-	}
-
 	public String getReview_score() {
 		return review_score;
 	}
@@ -99,14 +87,6 @@ public class Review implements java.io.Serializable{
 
 	public void setCreated_at(Date created_at) {
 		this.created_at = created_at;
-	}
-
-	public Date getModified_at() {
-		return modified_at;
-	}
-
-	public void setModified_at(Date modified_at) {
-		this.modified_at = modified_at;
 	}
 
 	public int getRead_count() {
@@ -124,9 +104,9 @@ public class Review implements java.io.Serializable{
 	@Override
 	public String toString() {
 		return "Review [review_id=" + review_id + ", user_id=" + user_id + ", product_id=" + product_id
-				+ ", review_title=" + review_title + ", review_content=" + review_content + ", review_image="
-				+ review_image + ", review_score=" + review_score + ", created_at=" + created_at + ", modified_at="
-				+ modified_at + ", read_count=" + read_count + "]";
+				+ ", review_title=" + review_title + ", review_content=" + review_content + ", review_score="
+				+ review_score + ", created_at=" + created_at + ", read_count=" + read_count + "]";
 	}
 
+	
 }

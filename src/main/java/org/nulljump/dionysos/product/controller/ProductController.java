@@ -12,6 +12,9 @@ import org.nulljump.dionysos.common.Paging;
 import org.nulljump.dionysos.product.model.service.ProductService;
 import org.nulljump.dionysos.product.model.vo.Product;
 import org.nulljump.dionysos.review.model.service.ReviewService;
+import org.nulljump.dionysos.review.model.vo.Review;
+import org.nulljump.dionysos.store.model.service.StoreService;
+import org.nulljump.dionysos.store.model.vo.Store;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,20 +37,16 @@ public class ProductController {
 	@Autowired
 	private ReviewService reviewService;
 
-//	@Autowired
-//	private StoreService storeService;
+	@Autowired
+	private StoreService storeService;
 
-//	// 페이지 카운트
-//	@RequestMapping("pcount.do")
-//	public int getProductListCountMethod(@RequestParam(required = false) Integer product_id) {
-//		int count;
-//		if (product_id != null) {
-//			count = productService.selectListCount();
-//		} else {
-//			count = productService.selectListCount(); // get count of all products
-//		}
-//		return count;
-//	}
+	@Autowired
+	private ProductController(ProductService productService, ReviewService reviewService, StoreService storeService) {
+		this.productService = productService;
+		this.reviewService = reviewService;
+		this.storeService = storeService;
+	}
+
 
 	// 목록 페이지 단위로 목록보기 요청 처리용 메소드
 	@RequestMapping("plistView.do")
@@ -71,6 +70,7 @@ public class ProductController {
 
 		if (list != null && list.size() > 0) {
 			mv.addObject("list", list);
+			mv.addObject("listCount", listCount);
 			mv.addObject("paging", paging);
 
 			mv.setViewName("product/productListView");
@@ -85,13 +85,37 @@ public class ProductController {
 	
 
 	
-	// 상품 상세목록페이지 이동 메소드
 	@RequestMapping("pdetail.do")
-	public String productDetailMethod(HttpSession session, @RequestParam("product_id") int product_id, Model model) {
+	public String productDetailMethod(
+			@RequestParam("product_id") int product_id, @RequestParam(name = "page", required = false) String page,
+			Model model, HttpSession session)  {
+		
 		Product product = productService.selectProduct(product_id);
+		int review = reviewService.reviewScoreAVG(product_id);
+		
+		logger.info("product_id :" + product_id);
+		
+		int currentPage = 1;
+		if (page != null) {
+			currentPage = Integer.parseInt(page);
+		}
 
+		
+		// 페이징 계산 처리 - 별도의 클래스로 작성해서 이용해도 됨
+		int limit = 10; // 한 페이지에 출력할 목록 갯수
+		// 총 페이지 수 계산을 위해 게시글 총 갯수 조회해 옴
+		int listcount = reviewService.getListCount(product_id);
+				
+		Paging paging = new Paging(listcount, currentPage, limit, product_id);
+		paging.calculator();
+		
+		ArrayList<Review> rlist = reviewService.selectReviewList(paging);
+		
+		ArrayList<Store> slist = storeService.selectStoreList(product_id);
+		
 		// HttpSession에 최근 본 상품 정보를 저장(최근 본 상품 노출용)
 		List<Product> recentProducts = (List<Product>) session.getAttribute("recentProducts");
+		logger.info("recentProducts2 : " + recentProducts);
 		if (recentProducts == null) {
 			recentProducts = new ArrayList<Product>();
 		}
@@ -106,14 +130,21 @@ public class ProductController {
 		if (recentProducts.size() > 3) {
 			recentProducts.remove(3);
 		}
-		if (product != null) {
+		logger.info("recentProducts : " + recentProducts);
+		if(product != null) {
 			model.addAttribute("product", product);
+			model.addAttribute("review", review);
+			model.addAttribute("rlist", rlist);
+			model.addAttribute("slist", slist);
 			session.setAttribute("recentProducts", recentProducts);
+			model.addAttribute("paging", paging);
 			return "product/productDetailView";
-		} else {
-			model.addAttribute("message", product + " ��ǰ�� ǰ�� Ȥ�� �������� �ʽ��ϴ�.");
+		}else {
+			model.addAttribute("message", product + " 상품이 품절 혹은 존재하지 않습니다.");
 			return "common/error";
 		}
+		
+		
 	}
 
 	// 사용자 상품검색기능 메소드 (페이징 적용)
@@ -146,6 +177,7 @@ public class ProductController {
 		if (list != null && list.size() > 0) {
 			mv.addObject("list", list);
 			mv.addObject("action", action);
+			mv.addObject("listCount", listCount);
 			mv.addObject("keyword", keyword);
 			mv.addObject("paging", paging);
 			mv.setViewName("product/productListView");
@@ -207,8 +239,9 @@ public class ProductController {
 
 		if (list != null && list.size() > 0) {
 			model.addAttribute("list", list);
+			model.addAttribute("listCount", listCount);
 			model.addAttribute("paging", paging);
-			return "product/productListView";
+			return "product/productListFilterView";
 		} else {
 			model.addAttribute("message", "검색 결과가 없거나 실패");
 			return "common/error";
@@ -254,7 +287,7 @@ public class ProductController {
 				mv.addObject("action", action);
 				mv.addObject("keyword", keyword);
 				mv.addObject("paging", paging);
-				mv.setViewName("admin/productListView");
+				mv.setViewName("product/AdminProductListView");
 				
 			} else {
 				mv.addObject("message", action + " 검색 결과가 없습니다.");
@@ -290,7 +323,7 @@ public class ProductController {
 				mv.addObject("list", list);
 				mv.addObject("paging", paging);
 
-				mv.setViewName("admin/productListView");
+				mv.setViewName("product/AdminProductListView");
 			} else {
 				mv.addObject("message", currentPage + " 출력 실패");
 				mv.setViewName("common/error");

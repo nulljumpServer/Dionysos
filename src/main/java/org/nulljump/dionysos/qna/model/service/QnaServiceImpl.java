@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.nulljump.dionysos.common.Paging;
 import org.nulljump.dionysos.common.SearchDate;
+import org.nulljump.dionysos.notice.model.vo.Notice;
 import org.nulljump.dionysos.qna.model.dao.QnaDao;
 import org.nulljump.dionysos.qna.model.vo.Qna;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,6 +100,24 @@ public class QnaServiceImpl implements QnaService {
 		return qnaDao.updateReplySeq(reply);
 
 	}
+
+	@Override
+	public int updateState(Qna qna) {
+		
+		return qnaDao.updateState(qna);
+	}
+
+	@Override
+	public int selectSearchQnaCount(String action, String keyword) {
+		return qnaDao.selectSearchQnaCount(action, keyword);
+	}
+
+	@Override
+	public ArrayList<Qna> selectSearchQna(String action, String keyword, Paging paging) {
+		return qnaDao.selectSearchQna(action, keyword, paging);
+	}
+
+
 
 
 	

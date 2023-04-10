@@ -18,12 +18,12 @@ public interface UsersService {
 	int updateUsers(Users users);
 	int evictionUsers(String user_id);
 	int deleteUsers(String user_id);
-	String find_id(String email);// ì•„ì´ë”” ì°¾ê¸°
-	int update_pw(Users users);// ë¹„ë°€ë²ˆí˜¸ ì°¾ê¸° 2
-	int pwdsearch(Users user); // ë¹„ë°€ë²ˆí˜¸ ì°¾ê¸°
-	// ê²€ìƒ‰
-	ArrayList<Users> selectSearchUserid(Searchs searchs); // ì•„ì´ë””ë¡œ
-	ArrayList<Users> selectSearchEmail(Searchs searchs); // ì´ë©”ì¼ë¡œ
-	ArrayList<Users> selectSearchBirthday(SearchDate searchDate); // ìƒë…„ì›”ì¼ë¡œ
+	String find_id(String email);// ¾ÆÀÌµğ Ã£±â
+	int update_pw(Users users);// ºñ¹Ğ¹øÈ£ Ã£±â 2
+	int pwdsearch(Users user); // ºñ¹Ğ¹øÈ£ Ã£±â
+	// °Ë»ö
+	ArrayList<Users> selectSearchUserid(Searchs searchs); // ¾ÆÀÌµğ·Î
+	ArrayList<Users> selectSearchEmail(Searchs searchs); // ÀÌ¸ŞÀÏ·Î
+	ArrayList<Users> selectSearchBirthday(SearchDate searchDate); // »ı³â¿ùÀÏ·Î
 	
 }

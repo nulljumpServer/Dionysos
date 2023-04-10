@@ -9,7 +9,7 @@
 </head>
 <body>
 	<!-- 관리자 아닌 경우 -->
-	<c:if test="${empty loginMember}">
+	<c:if test="${empty loginUsers}">
 
 		<footer class="ftco-footer">
 
@@ -44,7 +44,7 @@
 			</div>
 		</footer>
 	</c:if>
-	<c:if test="${!empty loginMember and loginMember.admin ne 'Y'}">
+	<c:if test="${!empty loginUsers and loginUsers.admin ne 'Y'}">
 
 		<footer class="ftco-footer">
 
@@ -80,7 +80,7 @@
 		</footer>
 	</c:if>
 	<!-- 관리자용 -->
-	<c:if test="${!empty loginMember and loginMember.admin ne 'Y'}">
+	<c:if test="${!empty loginUsers and loginUsers.admin ne 'Y'}">
 
 		<footer>
 			<div class="footer-copyright-area">

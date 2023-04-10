@@ -10,8 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.mail.HtmlEmail;
+import org.nulljump.dionysos.common.Paging;
 import org.nulljump.dionysos.common.SearchDate;
 import org.nulljump.dionysos.common.Searchs;
+import org.nulljump.dionysos.orders.model.service.OrdersService;
+import org.nulljump.dionysos.orders.model.vo.Orders;
 import org.nulljump.dionysos.users.model.service.UsersService;
 import org.nulljump.dionysos.users.model.vo.Users;
 import org.slf4j.Logger;
@@ -33,6 +36,9 @@ public class UsersController {
 
 	@Autowired
 	private UsersService usersService;
+	
+	@Autowired
+	private OrdersService ordersService;
 
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
@@ -99,7 +105,7 @@ public class UsersController {
 
 		if (session != null) {
 			session.invalidate();
-			return "redirect:main.do";
+			return "common/main";
 		} else {
 			model.addAttribute("message", "로그인 세션이 존재하지 않습니다");
 			return "common/error";
@@ -174,10 +180,10 @@ public class UsersController {
 		}
 	}
 
-	// 회원 탈퇴(삭제) 요청
+	// 회원 강제 탈퇴
 	@RequestMapping("eviction.do")
 	public String EvictionMethod(@RequestParam("user_id") String user_id, Model model) {
-		if (usersService.evictionUsers(user_id) > 0) {
+		if (usersService.evictionUsers(user_id)>0) {
 			return "redirect:mlist.do";
 		} else {
 			model.addAttribute("message", user_id + " : 회원 삭제 실패!");
@@ -203,7 +209,7 @@ public class UsersController {
 
 			return "redirect:myinfo.do?user_id=" + users.getUser_id();
 		} else {
-			model.addAttribute("message", users.getUser_id() + " : 유저 정보 수정 실패!");
+			model.addAttribute("message", users.getUser_id() + " : 회원 정보 수정 실패!");
 			return "common/error";
 		}
 	}
@@ -215,9 +221,9 @@ public class UsersController {
 
 		if (list != null && list.size() > 0) {
 			model.addAttribute("list", list);
-			return "users/userListView";
+			return "users/adminUserListView";
 		} else {
-			model.addAttribute("message", "회원 전체 목록 조회 실패.");
+			model.addAttribute("message", "회원 정보가 존재하지 않습니다.");
 			return "common/error";
 		}
 	}
@@ -257,7 +263,7 @@ public class UsersController {
 			model.addAttribute("list", list);
 			return "users/userListView";
 		} else {
-			model.addAttribute("message", action + " �˻��� ���� ����� �������� �ʽ��ϴ�.");
+			model.addAttribute("message", action + " 검색에 대한 결과가 존재하지 않습니다.");
 			return "common/error";
 		}
 	}
@@ -274,7 +280,7 @@ public class UsersController {
 		String user_id = usersService.find_id(email);
 
 		if (user_id == null) {
-			model.addAttribute("message", "�̸����� ��ġ���� �ʽ��ϴ�");
+			model.addAttribute("message", "이메일이 일치하지 않습니다");
 			return "common/error";
 		} else {
 			model.addAttribute("user_id", user_id);
@@ -337,22 +343,42 @@ public class UsersController {
 			user.setPassword(bcryptPasswordEncoder.encode(pw));
 			usersService.update_pw(user);
 
-			return "redirect:main.do";
+			return "common/main";
 		} else {
-			model.addAttribute("message", "비밀번호 전송 실패");
+			model.addAttribute("message", "아이디와 이메일을 잘 못 입력하셨습니다");
 			return "common/error";
 		}
 
 	}
-
+	
 	@RequestMapping(value = "admin.do", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView moveAdmin(Users users, ModelAndView mv, HttpSession session) {
-		Users loginUsers = (Users) session.getAttribute("loginUsers");
-		if (loginUsers == null || loginUsers.getAdmin().equals("N")) {
+	public ModelAndView moveAdmin(@RequestParam(name = "page", required = false) String page,
+									ModelAndView mv, HttpSession session) {
+		
+		int currentPage = 1;
+		if (page != null) {
+			currentPage = Integer.parseInt(page);
+		}
+
+		
+		// 페이징 계산 처리 - 별도의 클래스로 작성해서 이용해도 됨
+		int limit = 10; // 한 페이지에 출력할 목록 갯수
+		// 총 페이지 수 계산을 위해 게시글 총 갯수 조회해 옴
+		int listCount = ordersService.selectListCount();
+		String url = "admin.do";
+		Paging paging = new Paging(listCount, currentPage, limit, url);
+		paging.calculator();
+		
+		Users loginUsers = (Users)session.getAttribute("loginUsers");
+		ArrayList<Orders> list = ordersService.selectOrdersList(paging);
+		if(loginUsers == null || loginUsers.getAdmin().equals("N")) {
 			String message = "관리자만 접근 가능한 페이지입니다. 메인 화면으로 이동합니다.";
 			mv.addObject("alertMessage", message);
 			mv.setViewName("common/main");
 		} else {
+			mv.addObject("list", list);
+			mv.addObject("listCount", listCount);
+			mv.addObject("paging", paging);
 			mv.setViewName("admin/admin");
 		}
 		return mv;

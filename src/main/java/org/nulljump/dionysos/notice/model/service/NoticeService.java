@@ -5,37 +5,44 @@ import java.util.ArrayList;
 import org.nulljump.dionysos.common.Paging;
 import org.nulljump.dionysos.common.SearchDate;
 import org.nulljump.dionysos.notice.model.vo.Notice;
+import org.nulljump.dionysos.product.model.vo.Product;
 
 public interface NoticeService {
 	
-	//°øÁö»çÇ× ÀüÃ¼ ¸ñ·Ï Ãâ·Â
+	//ê³µì§€ì‚¬í•­ ì „ì²´ ëª©ë¡ ì¶œë ¥
 	ArrayList<Notice> selectAllList();
 	
-	//ÆäÀÌÂ¡Ã³¸® Ãß°¡
+	//í˜ì´ì§•ì²˜ë¦¬ ì¶”ê°€
 	ArrayList<Notice> selectList(Paging page);
 	
-	//°øÁö»çÇ× ¹øÈ£·Î Á¶È¸ÇÏ±â
+	//ê³µì§€ì‚¬í•­ ë²ˆí˜¸ë¡œ ì¡°íšŒí•˜ê¸°
 	Notice selectNotice(int notice_no);
 	
-	//Á¦¸ñÀ¸·Î °Ë»ö
+	//ê²€ìƒ‰ í˜ì´ì§•
+	ArrayList<Notice> selectSearchNotice(String action, String keyword, Paging page);
+	
+	// ê²€ìƒ‰ê²°ê³¼ ê°¯ìˆ˜ ì¡°íšŒ (í˜ì´ì§•)
+	int selectSearchNoticeCount(String action, String keyword);
+	
+	//ì œëª©ìœ¼ë¡œ ê²€ìƒ‰
 	ArrayList<Notice> selectSearchTitle(String title);
 	
-	//³¯Â¥·Î °Ë»ö
+	//ë‚ ì§œë¡œ ê²€ìƒ‰
 	ArrayList<Notice> selectSearchDate(SearchDate date);
 	
-	//Á¶È¸¼ö 1Áõ°¡ Ã³¸®¿ë
+	//ì¡°íšŒìˆ˜ 1ì¦ê°€ ì²˜ë¦¬ìš©
 	int addReadCount(int notice_no);
 	
-	//°øÁö»çÇ× µî·Ï
+	//ê³µì§€ì‚¬í•­ ë“±ë¡
 	int insertNotice(Notice notice);
 	
-	//°øÁö»çÇ× ¼öÁ¤
+	//ê³µì§€ì‚¬í•­ ìˆ˜ì •
 	int updateNotice(Notice notice);
 	
-	//°øÁö»çÇ× »èÁ¦
+	//ê³µì§€ì‚¬í•­ ì‚­ì œ
 	int deleteNotice(int notice_no);
 	
-	//ÀüÃ¼ °Ô½Ã±Û ¸ñ·Ï °¹¼ö °¡Á®¿À±â
+	//ì „ì²´ ê²Œì‹œê¸€ ëª©ë¡ ê°¯ìˆ˜ ê°€ì ¸ì˜¤ê¸°
 	int getListCount();
 	
 
